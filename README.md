@@ -1,16 +1,15 @@
-# U-M Carpentries R Curriculum
+# U-M Carpentries Python Curriculum
 
-[![website](https://github.com/UMCarpentries/intro-curriculum-r/actions/workflows/website.yml/badge.svg)](https://github.com/UMCarpentries/intro-curriculum-r/actions/workflows/website.yml)
-[![check-links](https://github.com/UMCarpentries/intro-curriculum-r/actions/workflows/check-links.yml/badge.svg)](https://github.com/UMCarpentries/intro-curriculum-r/actions/workflows/check-links.yml)
+[![website](https://github.com/UMCarpentries/intro-curriculum-python/actions/workflows/website.yml/badge.svg)](https://github.com/UMCarpentries/intro-curriculum-python/actions/workflows/website.yml)
+[![check-links](https://github.com/UMCarpentries/intro-curriculum-python/actions/workflows/check-links.yml/badge.svg)](https://github.com/UMCarpentries/intro-curriculum-python/actions/workflows/check-links.yml)
 [![License](https://img.shields.io/badge/License-MIT%2BCC--BY-blue)](LICENSE.md)
-[![DOI](https://jose.theoj.org/papers/10.21105/jose.00144/status.svg)](https://doi.org/10.21105/jose.00144)
 
 This is the custom curriculum developed by the University of Michigan Software
 Carpentry instance.
 It is in the `beta` stage of development; we are continuing to host workshops to
 gather feedback and polish the curriculum.
 
-The rendered website can be found [here](https://umcarpentries.github.io/intro-curriculum-r).
+The rendered website can be found [here](https://umcarpentries.github.io/intro-curriculum-python).
 
 ## Repo Layout
 
@@ -91,30 +90,3 @@ For a typical 2-day workshop. Can be modified for different workshop formats.
 - Already-established SWC curricula: https://github.com/swcarpentry/swcarpentry#lesson-repositories
 - Lesson style guide: https://carpentries.github.io/lesson-example/06-style-guide/index.html
 - Guide to contributing with git and GitHub: https://github.com/dmgt/swc_github_flow/blob/master/for_novice_contributors.md#
-
-## Citation
-
-If you would like to cite our work, please use:
-
-```
-Lapp et al., (2022). Developing and deploying an integrated workshop 
-curriculum teaching computational skills for reproducible research. 
-Journal of Open Source Education, 5(47), 144, https://doi.org/10.21105/jose.00144
-```
-
-Here's a bibtex entry for LaTeX users:
-
-```bib
-@article{lapp_developing_2022,
-  doi = {10.21105/jose.00144},
-  url = {https://doi.org/10.21105/jose.00144},
-  year = {2022},
-  publisher = {The Open Journal},
-  volume = {5},
-  number = {47},
-  pages = {144},
-  author = {Zena Lapp and Kelly Sovacool and Nick Lesniak and Dana King and Catherine Barnier and Matthew Flickinger and Jule Krüger and Courtney Armour and Maya Lapp and Jason Tallant and Rucheng Diao and Morgan Oneka and Sarah Tomkovich and Jacqueline Anderson and Sarah Lucas and Patrick Schloss},
-  title = {Developing and deploying an integrated workshop curriculum teaching computational skills for reproducible research},
-  journal = {Journal of Open Source Education}
-}
-```
