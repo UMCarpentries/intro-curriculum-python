@@ -1170,7 +1170,7 @@ repository (`git commit`):
 > ## `workshop` Repository
 >
 > * Create a new Git repository on your computer called `workshop`.
-> * Write a three lines about what you have learned about R and bash a file called `notes.txt`,
+> * Write three lines about what you have learned about Python and bash a file called `notes.txt`,
 > commit your changes
 > * Modify one line, add a fourth line
 > * Display the differences
@@ -2151,7 +2151,7 @@ _[Back to top](#contents)_
 > ```
 > $ echo "Here are my notes from the workshop." > notes.txt
 > $ git add notes.txt
-> $ echo "I learned the unix shell, git & github, and the R programming language." >> notes.txt
+> $ echo "I learned the unix shell, git & github, and the Python programming language." >> notes.txt
 > $ git commit -m "Create workshop notes"
 > $ git checkout HEAD notes.txt
 > $ cat notes.txt #this will print the contents of notes.txt to the screen
@@ -2159,7 +2159,7 @@ _[Back to top](#contents)_
 > {: .language-bash}
 >
 > 1. ```
->    I learned the unix shell, git & github, and the R programming language.
+>    I learned the unix shell, git & github, and the Python programming language.
 >    ```
 >    {: .output}
 > 2. ```
@@ -2168,7 +2168,7 @@ _[Back to top](#contents)_
 >    {: .output}
 > 3. ```
 >    Here are my notes from the workshop.
->    I learned the unix shell, git & github, and the R programming language.
+>    I learned the unix shell, git & github, and the Python programming language.
 >    ```
 >    {: .output}
 > 4. ```
