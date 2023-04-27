@@ -187,6 +187,17 @@ For these lessons, we will be interacting with [GitHub](https://github.com/) and
 >
 {: .callout}
 
+
+
+
+## Editing Files
+_[Back to top](#contents)_
+
+TODO: Merge in this content from the shell lesson
+
+Beyond viewing the content of files, we may want to be able to edit or write files on the command line. There are many different text editors you can use to edit files on the command line, but we will talk about `nano` since it is a bit easier to learn. To edit a file with nano type `nano file.txt`. If the file exists, it will open the file in a nano window, if the file does not exist it will be created. One nice feature of nano is that it has a cheat sheet along the bottom with some common commands you’ll need. When you are ready to save (write) your file, you type <kbd>Ctrl</kbd>+<kbd>O</kbd>. Along the bottom will appear a prompt for the file name to write to. The current name of the file will appear here, to keep the name as it is hit `enter` otherwise you can change the name of the file then hit `enter`. To exit nano, press <kbd>Ctrl</kbd>+<kbd>X</kbd>. If you forget to save before exiting, no worries, nano will prompt you to first save the file.
+
+
 Riley also has to set their favorite text editor, nano.
 
 ```
