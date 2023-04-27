@@ -78,7 +78,7 @@ Since then, I’ve learned that it’s just another way to navigate your compute
 For instance, you can use it to combine existing tools into a pipeline to automate analyses, you can write a script to do things for you and improve reproducibility, you can interact with remote machines and supercomputers that are far away from you, and sometimes it’s the only option for the program you want to run.
 
 We’re going to use it to:
-1. Organize our R code and plots from the [R plotting lesson]({{ page.root }}/01-r-plotting/).
+1. Organize our Python code and plots from the [Python plotting lesson]({{ page.root }}/01-python-plotting/).
 1. Perform version control using git during the rest of the workshop.
 
 ## What the Shell looks like
@@ -184,7 +184,7 @@ man ls
 ```
 {: .language-bash}
 
-On the manual page for `ls`, we see a section titled **options**. These options, also called **flags**, are similar to arguments in R functions, and allow us to customize how `ls` runs.
+On the manual page for `ls`, we see a section titled **options**. These options, also called **flags**, are like arguments in Python functions, and allow us to customize how `ls` runs.
 
 To get out of the man page, click `q`.
 
@@ -258,7 +258,7 @@ Untitled.png
 ```
 {: .output}
 
-Your Desktop will likely look different, but the important thing is that you see the folder we worked in for the R plotting lesson.
+Your Desktop will likely look different, but the important thing is that you see the folder we worked in for the Python plotting lesson.
 Is the `un-report` directory listed on your Desktop?
 
 How can we get into the `un-report` directory?
@@ -281,11 +281,11 @@ awesome_plot.jpg
 awesome_violin_plot.jpg
 gapminder_1997.csv
 gapminder_data.csv
-gdp_population.R
+gdp_population.ipynb
 ```
 {: .output}
 
-Is it what you expect? Are the files you made in the R plotting lesson there?
+Is it what you expect? Are the files you made in the Python plotting lesson there?
 
 Now let's move back _up_ the directory tree. First, let's try this command:
 
@@ -325,7 +325,7 @@ awesome_plot.jpg
 awesome_violin_plot.jpg
 gapminder_1997.csv
 gapminder_data.csv
-gdp_population.R
+gdp_population.ipynb
 ```
 {: .output}
 
@@ -419,7 +419,7 @@ pwd
 # Working with files and directories
 _[Back to top](#contents)_
 
-Now that we know how to move around your computer using the command line, our next step is to organize the project that we started in the [R plotting lesson]({{ page.root }}/01-r-plotting/)
+Now that we know how to move around your computer using the command line, our next step is to organize the project that we started in the [Python plotting lesson]({{ page.root }}/01-python-plotting/)
 You might ask: why would I use the command line when I could just use the GUI?
 My best response is that if you ever need to use a high-performance computing cluster (such as Great Lakes at the University of Michigan), you’ll have no other option.
 You might also come to like it more than clicking around to get places once you get comfortable, because it’s a lot faster!
@@ -449,9 +449,11 @@ awesome_plot.jpg
 awesome_violin_plot.jpg
 gapminder_1997.csv
 gapminder_data.csv
-gdp_population.R
+gdp_population.ipynb
 ```
 {: .output}
+
+TODO: update listing output
 
 You can see that right now all of our files are in our main directory.
 However, it can start to get crazy if you have too many different files of different types all in one place!
@@ -464,7 +466,7 @@ One way is the following:
 ```
 .
 ├── code
-│   └── gdp_population.R
+│   └── gdp_population.ipynb
 ├── data
 │   ├── gapminder_1997.csv
     └── gapminder_data.csv
@@ -474,7 +476,7 @@ One way is the following:
 ```
 {: .language-bash}
 
-The R script goes in the code directory, the gapminder datasets go in the data directory, and the figures go in the figures directory.
+The IPython notebook goes in the code directory, the gapminder datasets go in the data directory, and the figures go in the figures directory.
 This way, all of the files are organized into a clearer overall structure.
 
 A few notes about naming files and directories:
@@ -506,7 +508,6 @@ awesome_violin_plot.jpg
 code
 gapminder_1997.csv
 gapminder_data.csv
-gdp_population.R
 ```
 {: .output}
 
@@ -524,10 +525,10 @@ ls code
 
 Nothing in there yet, which is expected since we just made the directory.
 
-The next step is to move the `.R` file into the code directory. To do this, we use the `mv` command. The first argument after `mv` is the file you want to move, and the second argument is the place you want to move it:
+The next step is to move the `.ipynb` file into the code directory. To do this, we use the `mv` command. The first argument after `mv` is the file you want to move, and the second argument is the place you want to move it:
 
 ```
-mv gdp_population.R code
+mv gdp_population.ipynb code
 ```
 {: .language-bash}
 
@@ -546,14 +547,14 @@ gapminder_data.csv
 ```
 {: .output}
 
-`gdp_population.R` is no longer there! Where did it go? Let’s check the code directory, where we moved it to:
+`gdp_population.ipynb` is no longer there! Where did it go? Let’s check the code directory, where we moved it to:
 
 ```
 ls code
 ```
 {: .language-bash}
 ```
-gdp_population.R
+gdp_population.ipynb
 ```
 {: .output}
 
@@ -612,7 +613,7 @@ ls *
 {: .language-bash}
 ```
 code:
-gdp_population.R
+gdp_population.ipynb
 
 data:
 gapminder_1997.csv  gapminder_data.csv
@@ -699,7 +700,7 @@ Beyond viewing the content of files, we may want to be able to edit or write fil
 Since we moved around files when we organized our project directory we will have to update our R script. The path we use to read in our dataset is no longer correct. We will use nano to update the path to our new directory structure.
 
 ```
-nano code/gdp_population.R
+nano code/gdp_population.ipynb
 ```
 {: .language-bash}
 
