@@ -11,13 +11,13 @@
 {% endif %}
 {% endblock input %}
 
-{%- block traceback_line -%}
+{%- block error -%}
 ~~~
-{{ line.rstrip() | strip_ansi }}
+{{ super() }}
 ~~~
-{: .output}
-  
-{%- endblock traceback_line -%}
+{: .language-{{nb.metadata.language_info.name}}}
+
+{% endblock error %}
 
 
 {%- block stream -%}
