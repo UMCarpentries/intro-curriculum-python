@@ -6,22 +6,22 @@ title: "Python for Plotting"
 teaching: 120
 exercises: 30
 questions:
-- "What are Python and R Studio?"
+- "What are Python and JupyterLab?"
 - "How do I read data into Python?"
 - "What are geometries and aesthetics?"
 - "How can I use Python to create and save professional data visualizations?"
 objectives:
-- "To become oriented with Python and R Studio."
+- "To become oriented with Python and JupyterLab."
 - "To be able to read in data from csv files."
 - "To create plots with both discrete and continuous variables."
-- "To understand mapping and layering using `ggplot2`."
+- "To understand mapping and layering using `seaborn`."
 - "To be able to modify a plot's color, theme, and axis labels."
 - "To be able to save plots to a local directory."
 keypoints:
 - "Python is a free programming language used by many for reproducible data analysis."
-- "Use `read_csv` to read tabular data in Python."
+- "Use `pd.read_csv` to read tabular data in Python."
 - "Geometries are the visual elements drawn on data visualizations (lines, points, etc.), and aesthetics are the visual properties of those geometries (color, position, etc.)."
-- "Use `ggplot()` and geoms to create data visualizations, and save them using `ggsave()`."
+- "Use `seaborn` and geoms to create data visualizations, and save them using `ggsave()`."
 
 ---
 
