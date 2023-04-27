@@ -187,6 +187,45 @@ For these lessons, we will be interacting with [GitHub](https://github.com/) and
 >
 {: .callout}
 
+
+TODO: Merge in this content from the shell lesson
+## Editing Files
+_[Back to top](#contents)_
+
+Beyond viewing the content of files, we may want to be able to edit or write files on the command line. There are many different text editors you can use to edit files on the command line, but we will talk about `nano` since it is a bit easier to learn. To edit a file with nano type `nano file.txt`. If the file exists, it will open the file in a nano window, if the file does not exist it will be created. One nice feature of nano is that it has a cheat sheet along the bottom with some common commands you’ll need. When you are ready to save (write) your file, you type <kbd>Ctrl</kbd>+<kbd>O</kbd>. Along the bottom will appear a prompt for the file name to write to. The current name of the file will appear here, to keep the name as it is hit `enter` otherwise you can change the name of the file then hit `enter`. To exit nano, press <kbd>Ctrl</kbd>+<kbd>X</kbd>. If you forget to save before exiting, no worries nano will prompt you to first save the file.
+
+Since we moved around files when we organized our project directory we will have to update our R script. The path we use to read in our dataset is no longer correct. We will use nano to update the path to our new directory structure.
+
+```
+nano code/gdp_population.ipynb
+```
+{: .language-bash}
+
+```
+gapminder_data <- read_csv("data/gapminder_data.csv")
+```
+{: .output}
+
+Great! Now as an exercise we can change the paths to write out figures.
+
+> ## Editing file paths with nano
+>
+> Use nano to edit the file paths of the figures saved in `code/gdp_population.R` to match our new directory structure.
+> > ## Solution
+> > ```
+> > nano code/gdp_population.R
+> > ```
+> > {: .language-bash}
+> > Edit the lines in `code/gdp_population.R` where plots are saved:
+> >  ```
+> > ggsave("figures/awesome_plot.jpg", width=6, height=4)
+> > ggsave("figures/awesome_histogram.jpg", width=6, height=4)
+> > ```
+> > {: .output}
+> {: .solution}
+{: .challenge}
+
+
 Riley also has to set their favorite text editor, nano.
 
 ```
