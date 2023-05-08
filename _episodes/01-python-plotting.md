@@ -565,7 +565,7 @@ so.Plot(data=gapminder_1997)
 <img src="../fig/01-plotting-blank.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
 
 
-TO BE ADDED
+ADD X-AXIS ONLY
 
 ~~~
 so.Plot(data=gapminder_1997, x="gdpPercap")
@@ -575,7 +575,7 @@ so.Plot(data=gapminder_1997, x="gdpPercap")
 <img src="../fig/01-plotting-x-only.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
 
 
-TO BE ADDED
+ADD Y-AXIS
 
 ~~~
 so.Plot(gapminder_1997, x="gdpPercap", y="lifeExp")
@@ -585,7 +585,7 @@ so.Plot(gapminder_1997, x="gdpPercap", y="lifeExp")
 <img src="../fig/01-plotting-x-y.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
 
 
-TO BE ADDED
+ADD DOT
 
 ~~~
 (so.Plot(gapminder_1997, x="gdpPercap", y="lifeExp")
@@ -597,7 +597,7 @@ TO BE ADDED
 <img src="../fig/01-plotting-x-y-dot.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
 
 
-TO BE ADDED
+ADD AXIS LABELS
 
 ~~~
 (so.Plot(gapminder_1997, x="gdpPercap", y="lifeExp")
@@ -611,14 +611,14 @@ TO BE ADDED
 <img src="../fig/01-plotting-x-y-dot-xylabels.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
 
 
-TO BE ADDED
+ADD TITLE
 
 ~~~
 (so.Plot(gapminder_1997, x="gdpPercap", y="lifeExp")
  .add(so.Dot())
  .label(x="GDP Per Capita", 
-         y="Life Expectancy", 
-         title = "Do people in wealthy countries live longer?")
+        y="Life Expectancy", 
+        title = "Do people in wealthy countries live longer?")
 )
 ~~~
 {: .language-python}
@@ -626,31 +626,17 @@ TO BE ADDED
 <img src="../fig/01-plotting-x-y-dot-xylabels-title.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
 
 
-TO BE ADDED
-
-~~~
-(so.Plot(gapminder_1997, x="gdpPercap", y="lifeExp")
- .add(so.Dot(edgecolor="white"))
- .label(x="GDP Per Capita", 
-         y="Life Expectancy", 
-         title = "Do people in wealthy countries live longer?")
-)
-~~~
-{: .language-python}
-
-<img src="../fig/01-plotting-x-y-dot-xylabels-title-edgecolor.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
-
-TO BE ADDED
+ADD COLOR
 
 ~~~
 (so.Plot(gapminder_1997, 
          x="gdpPercap", 
          y="lifeExp", 
          color="continent")
- .add(so.Dot(edgecolor="white"))
+ .add(so.Dot())
  .label(x="GDP Per Capita", 
-         y="Life Expectancy", 
-         title = "Do people in wealthy countries live longer?")
+        y="Life Expectancy", 
+        title = "Do people in wealthy countries live longer?")
 )
 ~~~
 {: .language-python}
@@ -658,7 +644,7 @@ TO BE ADDED
 <img src="../fig/01-plotting-x-y-color-dot.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
 
 
-TO BE ADDED
+COLOR PALETTE
 
 ~~~
 import seaborn as sns
@@ -671,17 +657,17 @@ sns.color_palette("Set1")
 
 
 
-TO BE ADDED
+CHANGE COLOR PALETTE
 
 ~~~
 (so.Plot(gapminder_1997, 
          x="gdpPercap", 
          y="lifeExp", 
          color="continent")
- .add(so.Dot(edgecolor="white"))
+ .add(so.Dot())
  .label(x="GDP Per Capita", 
-         y="Life Expectancy", 
-         title = "Do people in wealthy countries live longer?")
+        y="Life Expectancy", 
+        title = "Do people in wealthy countries live longer?")
  .scale(color="Set1")
 )
 ~~~
@@ -690,7 +676,7 @@ TO BE ADDED
 <img src="../fig/01-plotting-x-y-color-dot-colorpalette.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
 
 
-TO BE ADDED
+ADD POINT SIZE
 
 ~~~
 (so.Plot(gapminder_1997, 
@@ -698,16 +684,39 @@ TO BE ADDED
          y="lifeExp", 
          color="continent",
          pointsize="pop")
- .add(so.Dot(edgecolor="white"))
+ .add(so.Dot())
  .label(x="GDP Per Capita", 
-         y="Life Expectancy", 
-         title = "Do people in wealthy countries live longer?")
+        y="Life Expectancy", 
+        title = "Do people in wealthy countries live longer?")
  .scale(color="Set1")
 )
 ~~~
 {: .language-python}
 
 <img src="../fig/01-plotting-x-y-color-size-dot.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
+
+
+
+CHANGING SHAPE
+
+~~~
+(so.Plot(gapminder_1997, 
+         x="gdpPercap", 
+         y="lifeExp", 
+         color="continent",
+         pointsize="pop",
+         marker="continent")
+ .add(so.Dot())
+ .label(x="GDP Per Capita", 
+        y="Life Expectancy", 
+        title = "Do people in wealthy countries live longer?")
+ .scale(color="Set1")
+)
+~~~
+{: .language-python}
+
+<img src="../fig/01-plotting-x-y-color-size-dot-shape.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
+
 
 To run code that you've typed in a cell, you have a few options. Remember
 that the quickest way to run the code in the selected cell is by pressing
@@ -1076,48 +1085,23 @@ we will now use the full dataset, which is stored in a file called
 
 To start, we will read in the data without using the interactive RStudio file navigation.
 
-
-~~~
-Rows: 1704 Columns: 6
-~~~
-{: .output}
-
-
-
-~~~
-── Column specification ─────────────────────────────────────────────────────────────────────────────────
-Delimiter: ","
-chr (2): country, continent
-dbl (4): year, pop, lifeExp, gdpPercap
-~~~
-{: .output}
-
-
-
-~~~
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-~~~
-{: .output}
-
 > ## Read in your own data
 >
 > What argument should be provided in the below code to read in the full dataset?
 >
 > 
 > ~~~
-> gapminder_data <- read_csv()
+gapminder_data = pd.read_csv()
 > ~~~
-> {: .language-r}
+> {: .language-python}
 >
 > > ## Solution
 > >
 > > 
 > > ~~~
-> > gapminder_data <- read_csv("gapminder_data.csv")
+> > gapminder_data = pd.read_csv("gapminder_data.csv")
 > > ~~~
-> > {: .language-r}
+> > {: .language-python}
 > {: .solution}
 {: .challenge}
 
@@ -1125,26 +1109,33 @@ Let's take a look at the full dataset. We could use `View()`, the way we did for
 
 
 ~~~
-dim(gapminder_data)
-head(gapminder_data)
+gapminder_data.shape
 ~~~
-{: .language-r}
+{: .language-python}
+
+~~~
+gapminder_data.head()
+~~~
+{: .language-python}
 
 Notice that this dataset has an additional column `year` compared to the smaller dataset we started with.
 
-> ## Predicting `ggplot` outputs
+> ## Predicting `seaborn` outputs
 > Now that we have the full dataset read into our R session, let's plot the data placing our new `year` variable on the x axis and life expectancy on the y axis. We've provided the code below. Notice that we've collapsed the plotting function options and left off some of the labels so there's not as much code to work with.
 > Before running the code, read through it and see if you can predict what the plot output will look like. Then run the code and check to see if you were right!
 >
 > 
 > ~~~
->  ggplot(data = gapminder_data) +
->  aes(x=year, y=lifeExp, color=continent) +
->  geom_point()
+> (so.Plot(data=gapminder_data, 
+>          x="year", 
+>          y="lifeExp",
+>          color="continent")
+>  .add(so.Dot())
+> )
 > ~~~
-> {: .language-r}
+> {: .language-python}
 > 
-> <img src="../fig/rmd-01-PlotFullGapminder-1.png" title="plot of chunk PlotFullGapminder" alt="plot of chunk PlotFullGapminder" width="612" style="display: block; margin: auto;" />
+> <img src="../fig/01-plotting-PlotFullGapminder-1.png" title="plot of chunk PlotFullGapminder" alt="plot of chunk PlotFullGapminder" width="612" style="display: block; margin: auto;" />
 >
 {: .challenge}
 
@@ -1153,17 +1144,17 @@ Hmm, the plot we created in the last exercise isn't very clear. What's going on?
 Let's review the columns and the types of data stored in our dataset to decide how we should group things together. To get an overview of our data object, we can look at the structure of `gapminder_data` using the `str()` function.
 
 ~~~
-str(gapminder_data)
+gapminder_data.info()
 ~~~
-{: .language-r}
+{: .language-python}
 (You can also review the structure of your data in the **Environment** tab by clicking on the blue circle with the arrow in it next to your data object name.)
 
 So, what do we see? The column names are listed after a `$` symbol, and then we have a `:` followed by a text label. These labels correspond to the type of data stored in each column.
 
 What kind of data do we see?
-* "int"= Integer (or whole number)
-* "num" = Numeric (or non-whole number)
-* "chr" = Character (categorical data)
+* "int64"= Integer (or whole number)
+* "float64" = Numeric (or non-whole number)
+* "object" = Character (categorical data)
 
 **Note** In anything before R 4.0, categorical variables used to be read in as factors, which are a [special data object](https://www.tutorialspoint.com/r/r_factors.htm) that are used to store categorical data and have limited numbers of unique values. The unique values of a factor are tracked via the "levels" of a factor. A factor will always remember all of its levels even if the values don't actually appear in your data. The factor will also remember the order of the levels and will always print values out in the same order (by default this order is alphabetical).
 
@@ -1173,25 +1164,32 @@ Our plot has a lot of points in columns which makes it hard to see trends over t
 
 
 ~~~
-  ggplot(data = gapminder_data) +
-  aes(x = year, y = lifeExp, color = continent) +
-    geom_line()
+(so.Plot(data=gapminder_data, 
+         x="year", 
+         y="lifeExp",
+         color="continent")
+ .add(so.Lines())
+)
 ~~~
-{: .language-r}
+{: .language-python}
 
-<img src="../fig/rmd-01-GapMinderLinePlotBad-1.png" title="plot of chunk GapMinderLinePlotBad" alt="plot of chunk GapMinderLinePlotBad" width="612" style="display: block; margin: auto;" />
+<img src="../fig/01-plotting-GapMinderLinePlotBad-1.png" title="plot of chunk GapMinderLinePlotBad" alt="plot of chunk GapMinderLinePlotBad" width="612" style="display: block; margin: auto;" />
 
 Hmm. This doesn't look right. By setting the color value, we got a line for each continent, but we really wanted a line for each country. We need to tell ggplot that we want to connect the values for each `country` value instead. To do this, we need to use the `group=` aesthetic.
 
 
 ~~~
-  ggplot(data = gapminder_data) +
-  aes(x = year, y = lifeExp, group = country, color = continent) +
-    geom_line()
+(so.Plot(data=gapminder_data, 
+         x="year", 
+         y="lifeExp",
+         group="country",
+         color="continent")
+ .add(so.Line())
+)
 ~~~
-{: .language-r}
+{: .language-python}
 
-<img src="../fig/rmd-01-GapMinderLinePlot-1.png" title="plot of chunk GapMinderLinePlot" alt="plot of chunk GapMinderLinePlot" width="612" style="display: block; margin: auto;" />
+<img src="../fig/01-plotting-GapMinderLinePlot-1.png" title="plot of chunk GapMinderLinePlot" alt="plot of chunk GapMinderLinePlot" width="612" style="display: block; margin: auto;" />
 
 Sometimes plots like this are called "spaghetti plots" because all the lines look like a bunch of wet noodles.
 
@@ -1201,13 +1199,17 @@ Sometimes plots like this are called "spaghetti plots" because all the lines loo
 > > ## Solution
 > > 
 > > ~~~
-> > ggplot(data = gapminder_data) +
-> >  aes(x = pop, y = lifeExp, group = country, color = continent) +
-> >  geom_line()
+> > (so.Plot(data=gapminder_data, 
+> >          x="pop", 
+> >          y="lifeExp",
+> >          group="country",
+> >          color="continent")
+> >  .add(so.Line())
+> > )
 > > ~~~
-> > {: .language-r}
+> > {: .language-python}
 > > 
-> > <img src="../fig/rmd-01-gapminderMoreLines-1.png" title="plot of chunk gapminderMoreLines" alt="plot of chunk gapminderMoreLines" width="612" style="display: block; margin: auto;" />
+> > <img src="../fig/01-plotting-gapminderMoreLines-1.png" title="plot of chunk gapminderMoreLines" alt="plot of chunk gapminderMoreLines" width="612" style="display: block; margin: auto;" />
 > > (China and India are the two Asian countries that have experienced massive population growth from 1952-2007.)
 > {: .solution}
 {: .challenge}
@@ -1448,38 +1450,62 @@ So "darkolivegreen" maybe wasn't the prettiest color. R knows lots of color name
 ## Univariate Plots
 _[Back to top](#contents)_
 
-We jumped right into make plots with multiple columns. But what if we wanted to take a look at just one column? In that case, we only need to specify a mapping for `x` and choose an appropriate geom. Let's start with a [histogram](https://www.thoughtco.com/what-is-a-histogram-3126359) to see the range and spread of the life expectancy values
+We jumped right into make plots with multiple columns. But what if we wanted to take a look at just one column? In that case, we only need to specify a mapping for `x` and choose an appropriate geom. Let's start with a [histogram](https://www.thoughtco.com/what-is-a-histogram-3126359) to see the range and spread of the life expectancy values.
 
 
 ~~~
-ggplot(gapminder_1997) +
-  aes(x = lifeExp) +
-  geom_histogram()
+(so.Plot(data=gapminder_1997, x="lifeExp")
+ .add(so.Bars(), so.Hist())
+)
 ~~~
-{: .language-r}
+{: .language-python}
 
-
-
-~~~
-`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
-~~~
-{: .output}
-
-<img src="../fig/rmd-01-GapLifeHist-1.png" title="plot of chunk GapLifeHist" alt="plot of chunk GapLifeHist" width="612" style="display: block; margin: auto;" />
+<img src="../fig/01-plotting-GapLifeHist-1.png" title="plot of chunk GapLifeHist" alt="plot of chunk GapLifeHist" width="612" style="display: block; margin: auto;" />
 
 You should not only see the plot in the plot window, but also a message telling you to choose a better bin value. Histograms can look very different depending on the number of bars you decide to draw. The default is 30. Let's try setting a different value by explicitly passing a `bin=` argument to the `geom_histogram` later.
 
 
 ~~~
-ggplot(gapminder_1997) +
-  aes(x = lifeExp) +
-  geom_histogram(bins=20)
+(so.Plot(data=gapminder_1997, x="lifeExp")
+ .add(so.Bars(), so.Hist(bins=20))
+)
 ~~~
-{: .language-r}
+{: .language-python}
 
-<img src="../fig/rmd-01-GapLifeHistBins-1.png" title="plot of chunk GapLifeHistBins" alt="plot of chunk GapLifeHistBins" width="612" style="display: block; margin: auto;" />
+<img src="../fig/01-plotting-GapLifeHistBins-1.png" title="plot of chunk GapLifeHistBins" alt="plot of chunk GapLifeHistBins" width="612" style="display: block; margin: auto;" />
 
 Try different values like 5 or 50 to see how the plot changes.
+
+
+
+SET BIN END POINTS
+
+
+~~~
+(so.Plot(data=gapminder_1997, x="lifeExp")
+ .add(so.Bars(), 
+      so.Hist(bins=20, binwidth=2, binrange=(0, 100)))
+)
+~~~
+{: .language-python}
+
+<img src="../fig/01-plotting-GapLifeHistBins-2.png" title="plot of chunk GapLifeHistBins" alt="plot of chunk GapLifeHistBins" width="612" style="display: block; margin: auto;" />
+
+
+SET LAYOUT
+
+
+~~~
+(so.Plot(data=gapminder_1997, x="lifeExp")
+ .add(so.Bars(), 
+      so.Hist(bins=20, binwidth=2, binrange=(0, 100)))
+ .layout(size=(10,5))
+)
+~~~
+{: .language-python}
+
+<img src="../fig/01-plotting-GapLifeHistBins-3.png" title="plot of chunk GapLifeHistBins" alt="plot of chunk GapLifeHistBins" width="612" style="display: block; margin: auto;" />
+
 
 > ## Bonus Exercise: One variable plots
 > Rather than a histogram, choose one of the other geometries listed under "One Variable" plots on the ggplot [cheat sheet](https://ggplot2.tidyverse.org/). Note that we used `lifeExp` here which has continuous values. If you want to try the discrete options, try mapping `continent` to x instead.
@@ -1487,13 +1513,13 @@ Try different values like 5 or 50 to see how the plot changes.
 > > ## Example solution
 > > 
 > > ~~~
-> > ggplot(gapminder_1997) +
-> >   aes(x = lifeExp) +
-> >   geom_density()
+> > (so.Plot(data=gapminder_1997, x="lifeExp")
+> >  .add(so.Line(), so.KDE())
+> > )
 > > ~~~
-> > {: .language-r}
+> > {: .language-python}
 > > 
-> > <img src="../fig/rmd-01-GapLifeDens1-1.png" title="plot of chunk GapLifeDens1" alt="plot of chunk GapLifeDens1" width="612" style="display: block; margin: auto;" />
+> > <img src="../fig/01-plotting-GapLifeDens1-1.png" title="plot of chunk GapLifeDens1" alt="plot of chunk GapLifeDens1" width="612" style="display: block; margin: auto;" />
 > {: .solution}
 {: .challenge}
 
@@ -1503,16 +1529,54 @@ _[Back to top](#contents)_
 
 Our plots are looking pretty nice, but what's with that grey background? While you can change various elements of a `ggplot` object manually (background color, grid lines, etc.) the `ggplot` package also has a bunch of nice built-in themes to change the look of your graph. For example, let's try adding `theme_classic()` to our histogram:
 
+~~~
+from matplotlib import style
+style.available
+~~~
+{: .language-python}
+
 
 ~~~
-ggplot(gapminder_1997) +
-  aes(x = lifeExp) +
-  geom_histogram(bins = 20) +
-  theme_classic()
+['Solarize_Light2',
+ '_classic_test_patch',
+ '_mpl-gallery',
+ '_mpl-gallery-nogrid',
+ 'bmh',
+ 'classic',
+ 'dark_background',
+ 'fast',
+ 'fivethirtyeight',
+ 'ggplot',
+ 'grayscale',
+ 'seaborn-v0_8',
+ 'seaborn-v0_8-bright',
+ 'seaborn-v0_8-colorblind',
+ 'seaborn-v0_8-dark',
+ 'seaborn-v0_8-dark-palette',
+ 'seaborn-v0_8-darkgrid',
+ 'seaborn-v0_8-deep',
+ 'seaborn-v0_8-muted',
+ 'seaborn-v0_8-notebook',
+ 'seaborn-v0_8-paper',
+ 'seaborn-v0_8-pastel',
+ 'seaborn-v0_8-poster',
+ 'seaborn-v0_8-talk',
+ 'seaborn-v0_8-ticks',
+ 'seaborn-v0_8-white',
+ 'seaborn-v0_8-whitegrid',
+ 'tableau-colorblind10']
 ~~~
-{: .language-r}
+{: .output}
 
-<img src="../fig/rmd-01-GapLifeHistBinsClassicTheme-1.png" title="plot of chunk GapLifeHistBinsClassicTheme" alt="plot of chunk GapLifeHistBinsClassicTheme" width="612" style="display: block; margin: auto;" />
+~~~
+(so.Plot(data=gapminder_1997, x="lifeExp")
+ .add(so.Bars(), so.Hist(bins=20))
+ .theme({**style.library["classic"]})
+)
+~~~
+{: .language-python}
+
+<img src="../fig/01-plotting-GapLifeHistBinsClassicTheme-1.png" title="plot of chunk GapLifeHistBinsClassicTheme" alt="plot of chunk GapLifeHistBinsClassicTheme" width="612" style="display: block; margin: auto;" />
 
 Try out a few other themes, to see which you like: `theme_bw()`, `theme_linedraw()`, `theme_minimal()`.
 
@@ -1539,40 +1603,89 @@ _[Back to top](#contents)_
 If you have a lot of different columns to try to plot or have distinguishable subgroups in your data, a powerful plotting technique called faceting might come in handy. When you facet your plot, you basically make a bunch of smaller plots and combine them together into a single image. Luckily, `ggplot` makes this very easy. Let's start with a simplified version of our first plot
 
 
-~~~
-ggplot(gapminder_1997) +
-  aes(x = gdpPercap, y = lifeExp) +
-  geom_point()
-~~~
-{: .language-r}
 
-<img src="../fig/rmd-01-GapNoFacet-1.png" title="plot of chunk GapNoFacet" alt="plot of chunk GapNoFacet" width="612" style="display: block; margin: auto;" />
+
+
+
+
+~~~
+(so.Plot(data=gapminder_data, 
+         x="year", 
+         y="lifeExp",
+         group="country",
+         color="continent")
+ .add(so.Line())
+)
+~~~
+{: .language-python}
+
+<img src="../fig/01-plotting-GapNoFacet-1.png" title="plot of chunk GapNoFacet" alt="plot of chunk GapNoFacet" width="612" style="display: block; margin: auto;" />
 
 The first time we made this plot, we colored the points differently for each of the continents. This time let's actually draw a separate box for each continent. We can do this with `facet_wrap()`
 
 
 ~~~
-ggplot(gapminder_1997) +
-  aes(x = gdpPercap, y = lifeExp) +
-  geom_point() +
-  facet_wrap(vars(continent))
+(so.Plot(data=gapminder_data, 
+         x="year", 
+         y="lifeExp",
+         group="country",
+         color="continent")
+ .facet("continent")
+ .add(so.Line())
+)
 ~~~
-{: .language-r}
+{: .language-python}
 
-<img src="../fig/rmd-01-GapFacetWrap-1.png" title="plot of chunk GapFacetWrap" alt="plot of chunk GapFacetWrap" width="612" style="display: block; margin: auto;" />
+<img src="../fig/01-plotting-GapFacetWrap-1.png" title="plot of chunk GapFacetWrap" alt="plot of chunk GapFacetWrap" width="612" style="display: block; margin: auto;" />
 Note that `facet_wrap` requires this extra helper function called `vars()` in order to pass in the column names. It's a lot like the `aes()` function, but it doesn't require an aesthetic name. We can see in this output that we get a separate box with a label for each continent so that only the points for that continent are in that box.
 
 The other faceting function ggplot provides is `facet_grid()`. The main difference is that `facet_grid()` will make sure all of your smaller boxes share a common axis. In this example, we will stack all the boxes on top of each other into rows so that their x axes all line up.
 
-~~~
-ggplot(gapminder_1997) +
-  aes(x = gdpPercap, y = lifeExp) +
-  geom_point() +
-  facet_grid(rows = vars(continent))
-~~~
-{: .language-r}
 
-<img src="../fig/rmd-01-GapFacetGrid-1.png" title="plot of chunk GapFacetGrid" alt="plot of chunk GapFacetGrid" width="612" style="display: block; margin: auto;" />
+~~~
+(so.Plot(data=gapminder_data, 
+         x="year", 
+         y="lifeExp",
+         group="country",
+         color="continent")
+ .facet("continent", wrap=3)
+ .add(so.Line())
+)
+~~~
+{: .language-python}
+
+<img src="../fig/01-plotting-GapFacetWrap-2.png" title="plot of chunk GapFacetWrap" alt="plot of chunk GapFacetWrap" width="612" style="display: block; margin: auto;" />
+
+
+~~~
+(so.Plot(data=gapminder_data, 
+         x="year", 
+         y="lifeExp",
+         color="continent")
+ .facet("continent", wrap=3)
+ .add(so.Line(), so.Agg())
+)
+~~~
+{: .language-python}
+
+<img src="../fig/01-plotting-GapFacetWrap-3.png" title="plot of chunk GapFacetWrap" alt="plot of chunk GapFacetWrap" width="612" style="display: block; margin: auto;" />
+
+
+~~~
+(so.Plot(data=gapminder_data, 
+         x="year", 
+         y="lifeExp",
+         color="continent")
+ .facet("continent", wrap=3)
+ .add(so.Line(linewidth=3), so.Agg())
+ .add(so.Line(alpha=.3), so.Agg(), col=None)
+)
+~~~
+{: .language-python}
+
+<img src="../fig/01-plotting-GapFacetWrap-4.png" title="plot of chunk GapFacetWrap" alt="plot of chunk GapFacetWrap" width="612" style="display: block; margin: auto;" />
+
+
 
 Unlike the `facet_wrap` output where each box got its own x and y axis, with `facet_grid()`, there is only one x axis along the bottom.
 
@@ -1587,30 +1700,35 @@ A better option if you will be running your code as a script from the command li
 
 
 ~~~
-ggsave("awesome_plot.jpg", width=6, height=4)
+(so.Plot(data=gapminder_data, 
+         x="year", 
+         y="lifeExp",
+         color="continent")
+ .facet("continent", wrap=3)
+ .add(so.Line(linewidth=3), so.Agg())
+ .add(so.Line(alpha=.3), so.Agg(), col=None)
+ .save("awesome_plot.png", bbox_inches='tight', dpi=200)
+)
 ~~~
-{: .language-r}
+{: .language-python}
 
 > ## Saving a plot
 >
-> Try rerunning one of your plots and then saving it using `ggsave()`. Find and open the plot to see if it worked!
+> Try rerunning one of your plots and then saving it using `save()`. Find and open the plot to see if it worked!
 >
 > > ## Example solution
 > > 
 > > ~~~
-> > ggplot(gapminder_1997) +
-> >   aes(x = lifeExp) +
-> >   geom_histogram(bins = 20)+
-> >   theme_classic()
+> > (so.Plot(data=gapminder_1997, x="lifeExp")
+> >  .add(so.Bars(), 
+> >       so.Hist(bins=20, binwidth=2, binrange=(0, 100)))
+> >  .save("awesome_histogram.png")
+> > )
 > > ~~~
-> > {: .language-r}
+> > {: .language-python}
 > > 
-> > <img src="../fig/rmd-01-savingPlotExercise-1.png" title="plot of chunk savingPlotExercise" alt="plot of chunk savingPlotExercise" width="612" style="display: block; margin: auto;" />
+> > <img src="../fig/01-plotting-savingPlotExercise-1.png" title="plot of chunk savingPlotExercise" alt="plot of chunk savingPlotExercise" width="612" style="display: block; margin: auto;" />
 > > 
-> > ~~~
-> > ggsave("awesome_histogram.jpg", width=6, height=4)
-> > ~~~
-> > {: .language-r}
 > >
 > > Check your current working directory to find the plot!
 > {: .solution}
@@ -1770,102 +1888,24 @@ animated here on the website.) <!-- TODO: see if it works or not. -->
 
 
 ~~~
-animatedHansPlot <- staticHansPlot +
-  transition_states(year,  transition_length = 1, state_length = 1)+
-  ggtitle("{closest_state}")
+import plotly.express as px
 
-animatedHansPlot
+px.scatter(data_frame=gapminder_data, 
+           x="gdpPercap", 
+           y="lifeExp", 
+           size="pop", 
+           animation_frame="year", 
+           hover_name="country", 
+           color="continent", 
+           height=600, 
+           size_max=80
+           )
 ~~~
-{: .language-r}
+{: .language-python}
 
 
 
-~~~
-Rendering [--------------------------------------------] at 1.2 fps ~ eta: 1m
-Rendering [>-------------------------------------------] at 1.1 fps ~ eta: 1m
-Rendering [=>------------------------------------------] at 1.1 fps ~ eta: 1m
-Rendering [==>-----------------------------------------] at 1.1 fps ~ eta: 1m
-Rendering [===>----------------------------------------] at 1.1 fps ~ eta: 1m
-Rendering [====>-----------------------------------------] at 1 fps ~ eta: 1m
-Rendering [====>--------------------------------------] at 0.98 fps ~ eta: 2m
-Rendering [====>--------------------------------------] at 0.98 fps ~ eta: 1m
-Rendering [=====>-------------------------------------] at 0.97 fps ~ eta: 2m
-Rendering [=====>-------------------------------------] at 0.93 fps ~ eta: 2m
-Rendering [=====>-------------------------------------] at 0.94 fps ~ eta: 2m
-Rendering [======>------------------------------------] at 0.89 fps ~ eta: 2m
-Rendering [======>------------------------------------] at 0.85 fps ~ eta: 2m
-Rendering [=======>-----------------------------------] at 0.82 fps ~ eta: 2m
-Rendering [========>----------------------------------] at 0.82 fps ~ eta: 2m
-Rendering [=========>---------------------------------] at 0.82 fps ~ eta: 2m
-Rendering [=========>---------------------------------] at 0.83 fps ~ eta: 2m
-Rendering [==========>--------------------------------] at 0.83 fps ~ eta: 2m
-Rendering [==========>--------------------------------] at 0.84 fps ~ eta: 1m
-Rendering [===========>-------------------------------] at 0.84 fps ~ eta: 1m
-Rendering [===========>-------------------------------] at 0.85 fps ~ eta: 1m
-Rendering [============>------------------------------] at 0.86 fps ~ eta: 1m
-Rendering [=============>-----------------------------] at 0.86 fps ~ eta: 1m
-Rendering [==============>----------------------------] at 0.87 fps ~ eta: 1m
-Rendering [==============>----------------------------] at 0.86 fps ~ eta: 1m
-Rendering [===============>---------------------------] at 0.85 fps ~ eta: 1m
-Rendering [================>--------------------------] at 0.86 fps ~ eta: 1m
-Rendering [=================>-------------------------] at 0.86 fps ~ eta: 1m
-Rendering [==================>------------------------] at 0.84 fps ~ eta: 1m
-Rendering [==================>------------------------] at 0.85 fps ~ eta: 1m
-Rendering [===================>-----------------------] at 0.85 fps ~ eta: 1m
-Rendering [====================>----------------------] at 0.85 fps ~ eta: 1m
-Rendering [=====================>---------------------] at 0.85 fps ~ eta: 1m
-Rendering [=====================>---------------------] at 0.86 fps ~ eta: 1m
-Rendering [======================>--------------------] at 0.85 fps ~ eta: 1m
-Rendering [======================>--------------------] at 0.84 fps ~ eta: 1m
-Rendering [=======================>-------------------] at 0.84 fps ~ eta: 1m
-Rendering [========================>------------------] at 0.83 fps ~ eta: 1m
-Rendering [========================>------------------] at 0.82 fps ~ eta: 1m
-Rendering [========================>------------------] at 0.82 fps ~ eta: 50s
-Rendering [=========================>-----------------] at 0.82 fps ~ eta: 49s
-Rendering [=========================>-----------------] at 0.82 fps ~ eta: 47s
-Rendering [==========================>----------------] at 0.82 fps ~ eta: 46s
-Rendering [==========================>----------------] at 0.82 fps ~ eta: 45s
-Rendering [===========================>---------------] at 0.82 fps ~ eta: 44s
-Rendering [===========================>---------------] at 0.82 fps ~ eta: 43s
-Rendering [===========================>---------------] at 0.82 fps ~ eta: 42s
-Rendering [============================>--------------] at 0.82 fps ~ eta: 40s
-Rendering [============================>--------------] at 0.82 fps ~ eta: 39s
-Rendering [=============================>-------------] at 0.83 fps ~ eta: 38s
-Rendering [=============================>-------------] at 0.82 fps ~ eta: 37s
-Rendering [==============================>------------] at 0.82 fps ~ eta: 35s
-Rendering [==============================>------------] at 0.82 fps ~ eta: 34s
-Rendering [==============================>------------] at 0.82 fps ~ eta: 33s
-Rendering [===============================>-----------] at 0.82 fps ~ eta: 32s
-Rendering [===============================>-----------] at 0.82 fps ~ eta: 30s
-Rendering [================================>----------] at 0.82 fps ~ eta: 29s
-Rendering [================================>----------] at 0.82 fps ~ eta: 28s
-Rendering [=================================>---------] at 0.81 fps ~ eta: 27s
-Rendering [=================================>---------] at 0.81 fps ~ eta: 26s
-Rendering [==================================>---------] at 0.8 fps ~ eta: 25s
-Rendering [===================================>--------] at 0.8 fps ~ eta: 24s
-Rendering [==================================>--------] at 0.81 fps ~ eta: 22s
-Rendering [====================================>-------] at 0.8 fps ~ eta: 21s
-Rendering [===================================>-------] at 0.81 fps ~ eta: 20s
-Rendering [====================================>------] at 0.81 fps ~ eta: 19s
-Rendering [====================================>------] at 0.81 fps ~ eta: 17s
-Rendering [====================================>------] at 0.81 fps ~ eta: 16s
-Rendering [=====================================>-----] at 0.81 fps ~ eta: 15s
-Rendering [=====================================>-----] at 0.81 fps ~ eta: 14s
-Rendering [======================================>----] at 0.81 fps ~ eta: 12s
-Rendering [======================================>----] at 0.81 fps ~ eta: 11s
-Rendering [=======================================>---] at 0.82 fps ~ eta: 10s
-Rendering [=======================================>---] at 0.82 fps ~ eta: 9s
-Rendering [=======================================>---] at 0.81 fps ~ eta: 7s
-Rendering [=========================================>--] at 0.8 fps ~ eta: 6s
-Rendering [=========================================>--] at 0.8 fps ~ eta: 5s
-Rendering [==========================================>-] at 0.8 fps ~ eta: 4s
-Rendering [==========================================>-] at 0.8 fps ~ eta: 2s
-Rendering [===========================================>] at 0.8 fps ~ eta: 1s
-Rendering [============================================] at 0.8 fps ~ eta: 0s
-~~~
-{: .output}
-
-<img src="fig/rmd-01-hansGraphAnimated-1.gif" title="plot of chunk hansGraphAnimated" alt="plot of chunk hansGraphAnimated" style="display: block; margin: auto;" />
+<img src="../fig/01-plotting-hansGraphAnimated-1.png" title="plot of chunk hansGraphAnimated" alt="plot of chunk hansGraphAnimated" width="612" style="display: block; margin: auto;" />
 
 Awesome! This is looking sweet! Let's make sure we understand the code above:
 
@@ -1888,11 +1928,20 @@ but for animated objects.
 <!-- TODO: mention renderer / save_animation options -->
 
 ~~~
-anim_save("hansAnimatedPlot.gif", 
-          plot = animatedHansPlot,
-          renderer = gifski_renderer())
+fig = px.scatter(data_frame=gapminder_data, 
+           x="gdpPercap", 
+           y="lifeExp", 
+           size="pop", 
+           animation_frame="year", 
+           hover_name="country", 
+           color="continent", 
+           height=600, 
+           size_max=80
+           )
+
+fig.write_html("hansAnimatedPlot.html")
 ~~~
-{: .language-r}
+{: .language-python}
 
 ### Map plots
 _[Back to bonus](#bonus)_
