@@ -48,7 +48,14 @@ Visualizing data using plots is a very powerful skill in Python, but what if we 
 Or clean up messy data, calculate summary statistics, create a new variable, or join two datasets together? 
 There are several different methods for doing this in Python, and we will touch on a few today using the fast and powerful pandas library.
 
-- First, navigate to the `un-reports` directory in your Command Line Interface (i.e., Anaconda Prompt for Windows and Terminal for MacOS and Linux) and launch JupyterLab.
+- First, navigate to the `un-reports` directory in your Command Line Interface (i.e., Anaconda Prompt for Windows and Terminal for MacOS and Linux)
+- Launch JupyterLab.
+
+    ``` 
+jupyter lab
+    ```
+    {: .language-bash}
+
 - Once JupyterLab is opened in your web browser, you can check you are at the correct directory by seeing if the JupyterLab File Browser (located on the left side panel) shows the folders and files inside the `un-reports` directory. 
 - Create a new Jupyter notebook file for our work. 
     - Make sure you are at the `un-reports` home directory.
@@ -104,7 +111,7 @@ gapminder     # this line is just to show the data in the Jupyter notebook outpu
 The output above gives us an overview of the data with its first and last few rows, the names of the columns, and the numbers of rows and columns.
 
 
-If we want more information, we can apply the `info` method to a DataFrame to print some basic information about the DataFrame.
+If we want more information, we can apply the `info` method to a data frame to print some basic information about it.
 In Python we use the dot notation to apply a method to an object.
 
 > **Note:** When applying a method, we always need to follow the method name by a pair of parenthesis, even if we are not passing any arguments to the method. 
@@ -155,7 +162,7 @@ pandas.core.frame.DataFrame
 The object is a pandas DataFrame, a two-dimensional tabular data with rows and columns.
 It is the main data structure that we will be dealing with when working with pandas. -->
 
-Sometimes (especially when our data has many rows) we just want to take a look at the first few rows of the data. We can apply the `head()` method to select the first few rows of a DataFrame. 
+Sometimes (especially when our data has many rows) we just want to take a look at the first few rows of the data. We can apply the `head()` method to select the first few rows of a data frame. 
 
 
 ~~~
@@ -173,7 +180,7 @@ gapminder.head()
 ~~~
 {: .output}
 
-By default, the `head` method selects the first 5 rows of the DataFrame. You can change the number of rows by passing a number as an argument to the method. 
+By default, the `head` method selects the first 5 rows of the data frame. You can change the number of rows by passing a number as an argument to the method. 
 For example, we can use the code below to select the first 3 rows.
 
 ~~~
@@ -189,7 +196,7 @@ gapminder.head(3)
 ~~~
 {: .output}
 
-Similarly, we can apply the `tail` method to select the *last* few rows of a DataFrame. 
+Similarly, we can apply the `tail` method to select the *last* few rows of a data frame. 
 
 ~~~
 gapminder.tail()
@@ -417,13 +424,14 @@ To do that, we will apply the `query` method to only use the rows for that year 
 ~~~
 {: .output}
 
-> ## Filtering the dataset
+> ## Querying the dataset
 >
-> What is the mean GDP per capita for the first year in the dataset? *Hint: the column headers identified by `read_csv()` showed us there was a column called gdpPercap in the dataset*
+> What is the mean GDP per capita for the first year in the dataset? 
+> **Hint**: The data frame has a column called "gdpPercap".
 >
 > > ## Solution
 > >
-> > Identify the earliest year in our dataset using `min()` and `summarize()`
+> > Identify the earliest year in our dataset by applying the `min` method.
 > >
 > > 
 > > ~~~
@@ -441,7 +449,7 @@ To do that, we will apply the `query` method to only use the rows for that year 
 > > ~~~
 > > {: .output}
 > >
-> > We see here that the first year in the dataset is 1952. Filter to only 1952, and determine the mean GDP per capita.
+> > We see here that the first year in the dataset is 1952. Query the data to only include year 1952, and determine the mean GDP per capita.
 > >
 > > 
 > > ~~~
@@ -748,7 +756,7 @@ Oceania    74.326208  69.120
 [*Back to top*](#contents)
 
 Sometimes we want to create a new column in our data.
-We can use the pandas `assign` method to assign new columns to a DataFrame.
+We can use the pandas `assign` method to assign new columns to a data frame.
 
 We have a column for the population and the GDP per capita. 
 If we wanted to get the total GDP, we could multiply the per capita GDP values by the total population. 
@@ -787,7 +795,7 @@ This will add a new column called "gdp" to our data.
 We use the column names as if they were regular values that we want to perform mathematical operations on and provide the name in front of an equals sign.
 
 > ## Assigning multiple columns
-> We can also assign multiple columns by separating them with a comma inside `assign()`. Try making a new column for this DataFrame called popInMillions that is the population in million. 
+> We can also assign multiple columns by separating them with a comma inside `assign()`. Try making a new column for this data frame called popInMillions that is the population in million. 
 > 
 > > ## Solution: 
 > > 
@@ -861,7 +869,7 @@ For example, if we only wanted to see the population ("pop") and year values, we
 ~~~
 {: .output}
 
-> **Note:** There are two nested pairs of square bracket in the code above. The outer square brackets is the notation for selecting columns from a DataFrame by name. The inner square brackets define a Python list that contains the column names. Try removing one pair of bracket and see what happens. 
+> **Note:** There are two nested pairs of square bracket in the code above. The outer square brackets is the notation for selecting columns from a data frame by name. The inner square brackets define a Python list that contains the column names. Try removing one pair of bracket and see what happens. 
 
 
 We can also apply the `drop` method to drop/remove particular columns. 
@@ -897,7 +905,7 @@ For example, if we want everything but the continent and population columns, we 
 {: .output}
 
 > ## selecting columns 
-> Create a dataframe with only the `country`, `continent`, `year`, and `lifeExp` columns. 
+> Create a data frame with only the `country`, `continent`, `year`, and `lifeExp` columns. 
 > 
 > > ## Solution: 
 > > There are multiple ways to do this exercise. Here are two different possibilities. 
@@ -1164,10 +1172,13 @@ The code below convert our wide table back to the long format.
 ~~~
 {: .output}
 
-Before we move on to more data cleaning, let's create the final gapminder dataframe we will be working with for the rest of the lesson! 
+Before we move on to more data cleaning, let's create the final gapminder data frame we will be working with for the rest of the lesson! 
 
 > ## Final Americas 2007 gapminder dataset
-> Read in the `gapminder_data.csv` file, filter out the year 2007 and the continent "Americas." Then drop the `year` and `continent` columns from the dataframe. Then save the new dataframe into a variable called `gapminder_2007`. 
+> - Read in the `gapminder_data.csv` file.
+> - Filter out the year 2007 and the continent "Americas". 
+> - Drop the `year` and `continent` columns from the data frame.
+> - Save the new data frame into a variable called `gapminder_2007`. 
 > 
 > > ## Solution: 
 > > 
@@ -1215,7 +1226,7 @@ Before we move on to more data cleaning, let's create the final gapminder datafr
 > {: .solution}
 {: .challenge}
 
-Awesome! This is the dataframe we will be using later on in this lesson. 
+Awesome! This is the data frame we will be using later on in this lesson. 
 
 
 ## Reviewing Git and GitHub
@@ -1319,7 +1330,7 @@ pd.read_csv("./data/co2-un-data.csv")
 
 Looking at the table that is outputted above we can see that there appear to be two rows at the top of the file that contain information about the data in the table. 
 The first is a header that tells us the table number and its name. 
-Ideally, we'd skip that. We can do this using the `skiprows` argument in `read_csv`` by giving it a number of rows to skip.
+Ideally, we'd skip that. We can do this using the `skiprows` argument in `read_csv` by giving it a number of rows to skip.
 
 ~~~
 pd.read_csv("./data/co2-un-data.csv", skiprows=1)
@@ -1367,7 +1378,7 @@ Now the outputted table looks better.
 
 Another thing we can do is to tell the `read_csv` function what the column names should be with the `names` argument where we give it the column names we want as a Python list.
 If we do this, then we need to skip 2 rows including the original column headings. 
-Let's also save this dataframe to `co2_emissions_dirty` so that we don't have to read it in every time we want to clean it even more.
+Let's also save this data frame to `co2_emissions_dirty` so that we don't have to read it in every time we want to clean it even more.
 
 
 ~~~
@@ -1469,7 +1480,7 @@ co2_emissions_dirty
 > 
 {: .solution}
 
-We previously saw how we can subset columns from a DataFrame using the select function. 
+We previously saw how we can subset columns from a data frame using the select function. 
 There are a lot of columns with extraneous information in this dataset, let's subset out the columns we are interested in. 
 
 > ## Reviewing selecting columns
@@ -1586,7 +1597,7 @@ For the sake of time, we'll just tell you that we want data from 2005.
 
 > ## Bonus: How did we determine that 2005 is the closest year to 2007? 
 > 
-> We want to make sure we pick a year that is close to 2005, but also a year that has a decent amount of data to work with. One useful tool is the `value_counts` method, which will tell us how many times a value is repeated in a column of a DataFrame. Let's use this function on the year column to see which years we have data for and to tell us whether we have a good number of countries represented in that year.
+> We want to make sure we pick a year that is close to 2005, but also a year that has a decent amount of data to work with. One useful tool is the `value_counts` method, which will tell us how many times a value is repeated in a column of a data frame. Let's use this function on the year column to see which years we have data for and to tell us whether we have a good number of countries represented in that year.
 > 
 > 
 > ~~~
@@ -1665,7 +1676,7 @@ For the sake of time, we'll just tell you that we want data from 2005.
 > {: .solution}
 {: .challenge}
 
-Finally, let's go ahead and assign the output of this code chunk, which is the cleaned dataframe, to a variable name:
+Finally, let's go ahead and assign the output of this code chunk, which is the cleaned data frame, to a variable name:
 
 ~~~
 co2_emissions = (
@@ -1690,7 +1701,7 @@ co2_emissions = (
 
 
 Now we're ready to join our CO2 emissions data to the gapminder data. 
-Previously we saw that we could read in and query the gapminder data like this to get the data from the Americas for 2007 so we can create a new DataFrame with our filtered data:
+Previously we saw that we could read in and query the gapminder data like this to get the data from the Americas for 2007 so we can create a new data frame with our filtered data:
 
 ~~~
 gapminder_2007 = (
@@ -1724,9 +1735,9 @@ This is a very commonly used join.
 > ## Bonus: Other pandas join methods 
 >
 > There are other types of join too. 
-> For a *left* join, if the key is present in the left hand DataFrame, it will appear in the output, even if it is not found in the the right hand DataFrame. 
+> For a *left* join, if the key is present in the left hand data frame, it will appear in the output, even if it is not found in the the right hand data frame. 
 > For a *right* join, the opposite is true.
-> For a *outer* (or full) join, all possible keys are included in the output DataFrame.
+> For a *outer* (or full) join, all possible keys are included in the output data frame.
 > 
 > ![]({{ page.root }}/fig/r-data-analysis/join-outer.png)
 {: .solution}
@@ -1768,7 +1779,7 @@ Let's give the `merge` method a try.
 ~~~
 {: .output}
 
-Do you see that we now have data from both DataFrames joined together? 
+Do you see that we now have data from both data frames joined together? 
 
 
 One thing to notice is that gapminder data had 25 rows, but the output of our join only had 21. 
@@ -2007,9 +2018,9 @@ Index: []
 ~~~
 {: .output}
 
-Now the output above returns an empty DataFrame, which tells us that we have reconciled all of the keys from the gapminder data with the data in the CO2 emission data.
+Now the output above returns an empty data frame, which tells us that we have reconciled all of the keys from the gapminder data with the data in the CO2 emission data.
 
-Finally, let's merge the data with inner join to create a new DataFrame.
+Finally, let's merge the data with inner join to create a new data frame.
 
 
 ~~~
@@ -2081,7 +2092,7 @@ With good documentation of data cleaning and analysis steps, we could easily sha
 However, it's also nice to have a saved `csv` copy of our clean data. 
 That way we can access it later without needing to redo our data cleaning, 
 and we can also share the cleaned data with collaborators. 
-We can apply the `to_csv` method to a DataFrame to save it to a CSV file. 
+We can apply the `to_csv` method to a data frame to save it to a CSV file. 
 
 
 ~~~
