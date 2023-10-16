@@ -11,14 +11,14 @@ questions:
 - "How can I combine two datasets from different sources?"
 - "How can data tidying facilitate answering analysis questions?"
 objectives:
-- "To become familiar with the functions of the `dplyr` and `tidyr` packages."
-- "To be able to use `dplyr` and `tidyr` to prepare data for analysis."
+- "To become familiar with the common methods of the Python pandas library."
+- "To be able to use pandas to prepare data for analysis."
 - "To be able to combine two different data sources using joins."
 - "To be able to create plots and summary tables to answer analysis questions."
 keypoints:
-- "Package loading is an important first step in preparing an R environment."
+- "Library importing is an important first step in preparing a Python environment."
 - "Data analysis in Python facilitates reproducible research."
-- "There are many useful functions in the `tidyverse` packages that can aid in data analysis."
+- "There are many useful methods in the pandas library that can aid in data analysis."
 - "Assessing data source and structure is an important first step in analysis."
 - "Preparing data for analysis can take significant effort and planning."
 ---
@@ -28,143 +28,261 @@ keypoints:
 ### Contents
 
 1.  [Getting started](#getting-started)
-    -   [Loading in the data](#loading-in-the-data)
-2.  [An introduction to data analysis in R using `dplyr`](#intro-data-analysis)
-    -   [Get stats fast with `summarize()`](#get-stats-fast-with-summarize)
-    -   [Narrow down rows with `filter()`](#narrow-down-rows-with-filter)
-    -   [Grouping rows using `group_by()`](#grouping-rows-using-group_by)
-    -   [Make new variables with `mutate()`](#make-new-variables-with-mutate)
-    -   [Subset columns using `select()`](#subset-columns-using-select)
+    -   [Reading in the data](#reading-in-the-data)
+2.  [An introduction to data analysis with pandas](#intro-data-analysis)
+    -   [Get stats fast with `describe`](#get-stats-fast-with-describe)
+    -   [Narrow down rows with `query`](#narrow-down-rows-with-query)
+    -   [Grouping rows using `groupby`](#grouping-rows-using-groupby)
+    -   [Make new variables with `assign`](#make-new-variables-with-assign)
+    -   [Subset columns](#subset-columns)
     -   [Changing the shape of the data](#changing-the-shape-of-the-data)
 3.  [Cleaning up data](#cleaning-up-data)
 4.  [Joining data frames](#joining-data-frames)
 5.  [Analyzing combined data](#analyzing-combined-data)
-6.  [Finishing with Git and GitHub](#Finishing-with-Git-and-GitHub)
+6.  [Finishing with Git and GitHub](#finishing-with-git-and-github)
 
 # Getting Started
 
-First, navigate to the un-reports directory however you'd like and open `un-report.Rproj`.
-This should open the un-report R project in JupyterLab.
-You can check this by seeing if the Files in the bottom right of JupyterLab are the ones in your `un-report` directory.
+Yesterday we spent a lot of time making plots in Python using the seaborn library. 
+Visualizing data using plots is a very powerful skill in Python, but what if we would like to work with only a subset of our data? 
+Or clean up messy data, calculate summary statistics, create a new variable, or join two datasets together? 
+There are several different methods for doing this in Python, and we will touch on a few today using the fast and powerful pandas library.
 
-Yesterday we spent a lot of time making plots in R using the ggplot2 package. Visualizing data using plots is a very powerful skill in R, but what if we would like to work with only a subset of our data? Or clean up messy data, calculate summary statistics, create a new variable, or join two datasets together? There are several different methods for doing this in R, and we will touch on a few today using functions the `dplyr` package.
+- First, navigate to the `un-reports` directory in your Command Line Interface (i.e., Anaconda Prompt for Windows and Terminal for MacOS and Linux) and launch JupyterLab.
+- Once JupyterLab is opened in your web browser, you can check you are at the correct directory by seeing if the JupyterLab File Browser (located on the left side panel) shows the folders and files inside the `un-reports` directory. 
+- Create a new Jupyter notebook file for our work. 
+    - Make sure you are at the `un-reports` home directory.
+    - On the Launcher tab (the main window on the right) click "Python 3" under the Notebook category. 
+- Then you should see a new file named `Untitled.ipynb` been created on the File Browser. Left-click the file on the File Browser and rename it to `un_data_analysis.ipynb`.
 
-First, we will create a new RScript file for our work. Open JupyterLab. Choose "File" \> "New File" \> "RScript". We will save this file as `un_data_analysis.R`
+### Reading in the data
 
-### Loading in the data
-
-We will start by importing the complete gapminder dataset that we used yesterday into our fresh new R session. Yesterday we did this using a "point-and-click" commands. Today let's type them into the console ourselves: `gapminder_data <- read_csv("data/gapminder_data.csv")`
+We will start by reading in the complete gapminder dataset that we used yesterday into our fresh new Jupyter notebook. 
+Let's type the code into a cell: `gapminder = pd.read_csv("./data/gapminder_data.csv")`
 
 > ## Exercise
 >
-> If we look in the console now, we'll see we've received an error message saying that R "could not find the function `read_csv()`". *Hint: Packages...*
+> If we look in the console now, we'll see we've received an error message saying that "name 'pd' is not defined". *Hint: Libraries...*
 >
 > > ## Solution
 > >
-> > What this means is that R cannot find the function we are trying to call. The reason for this usually is that we are trying to run a function from a package that we have not yet loaded. This is a very common error message that you will probably see a lot when using R. It's important to remember that you will need to load any packages you want to use into R each time you start a new session. The `read_csv` function comes from the `readr` package which is included in the `tidyverse` package so we will just load the `tidyverse` package and run the import code again.
+> > What this means is that Python did not recognize the `pd` part of the code and thus cannot find the `read_csv` function we are trying to call. The reason for this usually is that we are trying to run a function from a library that we have not yet imported. This is a very common error message that you will probably see again when using Python. It's important to remember that you will need to import any libraries you want to use into Python each time you start a new notebook. The `read_csv` function comes from the pandas library so we will just import the pandas library and run the code again.
 > {: .solution}
 {: .challenge}
 
-Now that we know what's wrong, We will use the `read_csv()` function from the Tidyverse `readr` package. Load the `tidyverse` package and gapminder dataset using the code below.
+Now that we know what's wrong, We will use the `read_csv` function from the pandas library. 
+Import the pandas library (along with another common library numpy) and read in the gapminder dataset using the code below.
 
 
 ~~~
-library(tidyverse)
+import numpy as np
+import pandas as pd
+
+gapminder = pd.read_csv("./data/gapminder_data.csv")
+gapminder     # this line is just to show the data in the Jupyter notebook output
 ~~~
-{: .language-r}
-
-
-
-~~~
-── Attaching packages ──────────────────────────────────────────────────────────────── tidyverse 1.3.1 ──
-~~~
-{: .output}
-
-
+{: .language-python}
 
 ~~~
-✔ ggplot2 3.3.5     ✔ purrr   0.3.4
-✔ tibble  3.1.6     ✔ dplyr   1.0.7
-✔ tidyr   1.1.4     ✔ stringr 1.4.0
-✔ readr   2.1.1     ✔ forcats 0.5.1
-~~~
-{: .output}
+          country  year         pop continent  lifeExp   gdpPercap
+0     Afghanistan  1952   8425333.0      Asia   28.801  779.445314
+1     Afghanistan  1957   9240934.0      Asia   30.332  820.853030
+2     Afghanistan  1962  10267083.0      Asia   31.997  853.100710
+3     Afghanistan  1967  11537966.0      Asia   34.020  836.197138
+4     Afghanistan  1972  13079460.0      Asia   36.088  739.981106
+...           ...   ...         ...       ...      ...         ...
+1699     Zimbabwe  1987   9216418.0    Africa   62.351  706.157306
+1700     Zimbabwe  1992  10704340.0    Africa   60.377  693.420786
+1701     Zimbabwe  1997  11404948.0    Africa   46.809  792.449960
+1702     Zimbabwe  2002  11926563.0    Africa   39.989  672.038623
+1703     Zimbabwe  2007  12311143.0    Africa   43.487  469.709298
 
-
-
-~~~
-── Conflicts ─────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
+[1704 rows x 6 columns]
 ~~~
 {: .output}
 
-The output in your console shows that by doing this, we attach several useful packages for data wrangling, including `readr`. Check out these packages and their documentation at [tidyverse.org](https://www.tidyverse.org)
-
-> **Reminder:** Many of these packages, including `dplyr` , come with "Cheatsheets" found under the **Help** JupyterLab menu tab.
-
-Reload your data:
+The output above gives us an overview of the data with its first and last few rows, the names of the columns, and the numbers of rows and columns.
 
 
-~~~
-gapminder_data <- read_csv("data/gapminder_data.csv")
-~~~
-{: .language-r}
+If we want more information, we can apply the `info` method to a DataFrame to print some basic information about the DataFrame.
+In Python we use the dot notation to apply a method to an object.
 
-
+> **Note:** When applying a method, we always need to follow the method name by a pair of parenthesis, even if we are not passing any arguments to the method. 
 
 ~~~
-Rows: 1704 Columns: 6
+gapminder.info()
 ~~~
-{: .output}
-
-
+{: .language-python}
 
 ~~~
-── Column specification ─────────────────────────────────────────────────────────────────────────────────
-Delimiter: ","
-chr (2): country, continent
-dbl (4): year, pop, lifeExp, gdpPercap
-~~~
-{: .output}
-
-
-
-~~~
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 1704 entries, 0 to 1703
+Data columns (total 6 columns):
+ #   Column     Non-Null Count  Dtype  
+---  ------     --------------  -----  
+ 0   country    1704 non-null   object 
+ 1   year       1704 non-null   int64  
+ 2   pop        1704 non-null   float64
+ 3   continent  1704 non-null   object 
+ 4   lifeExp    1704 non-null   float64
+ 5   gdpPercap  1704 non-null   float64
+dtypes: float64(3), int64(1), object(2)
+memory usage: 80.0+ KB
 ~~~
 {: .output}
 
-Notice that the output of the `read_csv()` function is pretty informative. It tells us the name of all of our column headers as well as how it interpreted the data type. This birds-eye-view can help you take a quick look that everything is how we expect it to be.
+- The first line in the output indicates `gapminder`, the output from the `pd.read_csv()` function that we called earlier, is a pandas DataFrame.
+A pandas DataFrame is a two-dimensional rectangular table of data with rows and columns.
+It is the main data structure that we will be dealing with when working with pandas.
+- The information also shows the data type ("Dtype") of each columns. 
+  - Not surprisingly, the `year` column has an integer data type ("int64").
+  - A few other columns have the data type of floating number ("float64"). 
+  - The `country` column has a data type of "object", indicating the data is a string or mixed type.
+
+<!-- 
+We can use the Python built-in function `type()`to see the type of the output of the `pd.read_csv()` function, an object now called `gapminder`, with the code below. 
+
+~~~
+type(gapminder)
+~~~
+{: .language-python}
+
+~~~
+pandas.core.frame.DataFrame
+~~~
+{: .output}
+
+The object is a pandas DataFrame, a two-dimensional tabular data with rows and columns.
+It is the main data structure that we will be dealing with when working with pandas. -->
+
+Sometimes (especially when our data has many rows) we just want to take a look at the first few rows of the data. We can apply the `head()` method to select the first few rows of a DataFrame. 
+
+
+~~~
+gapminder.head()
+~~~
+{: .language-python}
+
+~~~
+       country  year         pop continent  lifeExp   gdpPercap
+0  Afghanistan  1952   8425333.0      Asia   28.801  779.445314
+1  Afghanistan  1957   9240934.0      Asia   30.332  820.853030
+2  Afghanistan  1962  10267083.0      Asia   31.997  853.100710
+3  Afghanistan  1967  11537966.0      Asia   34.020  836.197138
+4  Afghanistan  1972  13079460.0      Asia   36.088  739.981106
+~~~
+{: .output}
+
+By default, the `head` method selects the first 5 rows of the DataFrame. You can change the number of rows by passing a number as an argument to the method. 
+For example, we can use the code below to select the first 3 rows.
+
+~~~
+gapminder.head(3)
+~~~
+{: .language-python}
+
+~~~
+       country  year         pop continent  lifeExp   gdpPercap
+0  Afghanistan  1952   8425333.0      Asia   28.801  779.445314
+1  Afghanistan  1957   9240934.0      Asia   30.332  820.853030
+2  Afghanistan  1962  10267083.0      Asia   31.997  853.100710
+~~~
+{: .output}
+
+Similarly, we can apply the `tail` method to select the *last* few rows of a DataFrame. 
+
+~~~
+gapminder.tail()
+~~~
+{: .language-python}
+
+~~~
+       country  year         pop continent  lifeExp   gdpPercap
+1699  Zimbabwe  1987   9216418.0    Africa   62.351  706.157306
+1700  Zimbabwe  1992  10704340.0    Africa   60.377  693.420786
+1701  Zimbabwe  1997  11404948.0    Africa   46.809  792.449960
+1702  Zimbabwe  2002  11926563.0    Africa   39.989  672.038623
+1703  Zimbabwe  2007  12311143.0    Africa   43.487  469.709298
+~~~
+{: .output}
+
+<!-- In Python we can also use the dot notation to access an attributes of an object.
+Unlike methods, attributes do not take any arguments thus are not followed by a pair of braces.
+
+For example, a pandas DataFrame has an attribute `shape` that stores the information of the dimensionality of the DataFrame (in terms of the number of rows and columns). -->
+
+
 
 Now we have the tools necessary to work through this lesson.
 
-# An introduction to data analysis in R using `dplyr` {#intro-data-analysis}
+# An introduction to data analysis with pandas {#intro-data-analysis}
 
-## Get stats fast with `summarize()` {#get-stats-fast-with-summarize}
+## Get stats fast with `describe` {#get-stats-fast-with-describe}
 
 [*Back to top*](#contents)
 
-Let's say we would like to know what is the mean (average) life expecteny in the dataset. R has a built in function function called `mean()` that will calculate this value for us. We can apply that function to our lifeExp column using the `summarize()` function. Here's what that looks like:
+
+Pandas has a handy method `describe` that will generate the summary statistics of the data.
+<!-- We can apply that function to our lifeExp column using the `summarize()` function. Here's what that looks like: -->
 
 ~~~
-summarize(gapminder_data, averageLifeExp=mean(lifeExp))
+gapminder.describe()
 ~~~
-{: .language-r}
-
-
+{: .language-python}
 
 ~~~
-# A tibble: 1 × 1
-  averageLifeExp
-           <dbl>
-1           59.5
+             year           pop      lifeExp      gdpPercap
+count  1704.00000  1.704000e+03  1704.000000    1704.000000
+mean   1979.50000  2.960121e+07    59.474439    7215.327081
+std      17.26533  1.061579e+08    12.917107    9857.454543
+min    1952.00000  6.001100e+04    23.599000     241.165876
+25%    1965.75000  2.793664e+06    48.198000    1202.060309
+50%    1979.50000  7.023596e+06    60.712500    3531.846988
+75%    1993.25000  1.958522e+07    70.845500    9325.462346
+max    2007.00000  1.318683e+09    82.603000  113523.132900
 ~~~
 {: .output}
 
-When we call `summarize()`, we can use any of the column names of our data object as values to pass to other functions. `summarize()` will return a new data object and our value will be returned as a column.
+The output above shows the summary (or descriptive) statistics for the four numerical columns in our data.
+
+If we are interested in specific columns with specific statistics, we can also select the columns of interest and apply specific methods for statistics.
+
+Let's say we would like to know what is the mean life expectancy in the dataset. 
+
+~~~
+(
+    gapminder['lifeExp']
+    .mean()
+)
+~~~
+{: .language-python}
+
+~~~
+59.474439366197174
+~~~
+{: .output}
+
+We can also get the 5th and 95% percentile of the life expectancy by applying the `quantile` method. 
+
+~~~
+(
+    gapminder['lifeExp']
+    .quantile([0.05, 0.95])
+)
+~~~
+{: .language-python}
+
+~~~
+0.05    38.4924
+0.95    77.4370
+Name: lifeExp, dtype: float64
+~~~
+{: .output}
+
+Other methods for common descriptive statistics include `median`, `min`, `max`, `std` (for standard deviation), and `var` (for variance). 
+
+
+<!-- When we call `summarize()`, we can use any of the column names of our data object as values to pass to other functions. `summarize()` will return a new data object and our value will be returned as a column.
 
 > **Note:** The `summarize()` and `summarise()` perform identical functions.
 
@@ -240,67 +358,68 @@ Since we use the pipe operator so often, there is a keyboard shortcut for it in 
 > 
 > For now, we will not be saving dataframes, since we are just experimenting with `dyplr` functions, but it will be useful later on in this lesson. 
 > 
-{: .callout}
+{: .callout} -->
 
-## Narrow down rows with `filter()` {#narrow-down-rows-with-filter}
+## Narrow down rows with `query` {#narrow-down-rows-with-query}
 
 [*Back to top*](#contents)
 
-Let's take a look at the value we just calculated, which tells us the average life expectancy for all rows in the data was 59.5. That seems a bit low, doesn't it? What's going on?
+Let's take a look at the value we just calculated, which tells us the mean life expectancy for all rows in the data was 59.47. That seems a bit low, doesn't it? What's going on?
 
 Well, remember the dataset contains rows from many different years and many different countries. It's likely that life expectancy has increased overtime, so it may not make sense to average over all the years at the same time.
 
-Use `summarize()` to find the most recent year in the data set. We can use the `max()` function to return the maximum value.
+Use the `max` method to find the most recent year in the data set.
 
-> ## Practice using the `%>%` to summarize data
+> ## Practice getting descriptive statistics
 >
-> Find the mean population using the piping function.
+> Find the most recent year in the dataset. 
 >
 > > ## Solution:
 > >
 > > 
 > > ~~~
-> > gapminder_data %>%  
-> >  summarize(recent_year = max(year))
+> > (
+> >     gapminder['year']
+> >     .max()
+> > )
 > > ~~~
-> > {: .language-r}
+> > {: .language-python}
 > > 
 > > 
 > > 
 > > ~~~
-> > # A tibble: 1 × 1
-> >   recent_year
-> >         <dbl>
-> > 1        2007
+> > 2007
 > > ~~~
 > > {: .output}
 > > 
 > {: .solution}
 {: .challenge}
 
-So we see that the most recent year in the dataset is 2007. Let's calculate the life expectancy for all countries for only that year. To do that, we will use the `filter()` function to only use rows for that year before calculating the mean value.
+So we see that the most recent year in the dataset is 2007. 
+Let's calculate the life expectancy for all countries for only that year. 
+To do that, we will apply the `query` method to only use the rows for that year before calculating the mean life expectancy.
 
 
 ~~~
-gapminder_data %>%
-  filter(year == 2007) %>%
-  summarize(average=mean(lifeExp))
+(
+    gapminder
+    .query("year == 2007")
+    ['lifeExp']
+    .mean()
+)
 ~~~
-{: .language-r}
+{: .language-python}
 
 
 
 ~~~
-# A tibble: 1 × 1
-  average
-    <dbl>
-1    67.0
+67.00742253521126
 ~~~
 {: .output}
 
 > ## Filtering the dataset
 >
-> What is the average GDP per capita for the first year in the dataset? *Hint: the column headers identified by `read_csv()` showed us there was a column called gdpPercap in the dataset*
+> What is the mean GDP per capita for the first year in the dataset? *Hint: the column headers identified by `read_csv()` showed us there was a column called gdpPercap in the dataset*
 >
 > > ## Solution
 > >
@@ -308,274 +427,472 @@ gapminder_data %>%
 > >
 > > 
 > > ~~~
-> > gapminder_data %>%
-> > summarize(first_year=min(year))
+> > (
+> >     gapminder['year']
+> >     .min()
+> > )
 > > ~~~
-> > {: .language-r}
+> > {: .language-python}
 > > 
 > > 
 > > 
 > > ~~~
-> > # A tibble: 1 × 1
-> >   first_year
-> >        <dbl>
-> > 1       1952
+> > 1952
 > > ~~~
 > > {: .output}
 > >
-> > We see here that the first year in the dataset is 1952. Filter to only 1952, and determin the average GDP per capita.
+> > We see here that the first year in the dataset is 1952. Filter to only 1952, and determine the mean GDP per capita.
 > >
 > > 
 > > ~~~
-> > gapminder_data %>%
-> > filter(year == 1952) %>%
-> > summarize(average_gdp=mean(gdpPercap))
+> > (
+> >     gapminder
+> >     .query("year == 1952")
+> >     ['gdpPercap']
+> >     .mean()
+> > )
 > > ~~~
-> > {: .language-r}
+> > {: .language-python}
 > > 
 > > 
 > > 
 > > ~~~
-> > # A tibble: 1 × 1
-> >   average_gdp
-> >         <dbl>
-> > 1       3725.
+> > 3725.2760457992963
 > > ~~~
 > > {: .output}
 > > {: .source}
-> > By combining `filter()` and `summarize()` we were able to calculate the mean GDP per capita in the year 1952.
+> > By chaining the two methods `query` and `mean` we were able to calculate the mean GDP per capita in the year 1952.
 > {: .solution}
 {: .challenge}
 
-Notice how the pipe operator (`%>%`) allows us to combine these two simple steps into a more complicated data extraction?. We took the data, filtered out the rows, then took the mean value. The argument we pass to `filter()` needs to be some expression that will return TRUE or FALSE. We can use comparisons like `>` (greater than) and `<` (less than) for example. Here we tested for equality using a double equals sign `==`. You use `==` (double equals) when testing if two values are equal, and you use `=` (single equals) when naming arguments that you are passing to functions. Try changing it to use `filter(year = 2007)` and see what happens.
+Notice how the method chaining allows us to combine these two simple steps into a more complicated data extraction?
+We took the data, queried the `year` column, selected the `gdpPercap` columns, then took its mean value. 
+The string argument we passed to `query` needs to be an expression that will return TRUE or FALSE for each row. 
+We use `==` (double equals) when evaluating if two values are equal, and we use `=` (single equal) when assigning values. 
+Try changing the code above to use `query("year = 2007")` and see what happens.
 
-## Grouping rows using `group_by()` {#grouping-rows-using-group_by}
+Other common Python comparison operators 
+- `>` greater than
+- `<` less than
+- `>=` greater than or equal to 
+- `<=` less than or equal to
+- `==` equal
+- `!=` not equal
 
-[*Back to top*](#contents)
+We can also use the operator `==` to evaluate if two strings are the same. 
+For example, the code below returns all the rows from the United States.
 
-We see that the life expectancy in 2007 is much larger than the value we got using all of the rows. It seems life expectancy is increasing which is good news. But now we might be interested in calculating the average for each year. Rather that doing a bunch of different `filter()` statements, we can instead use the `group_by()` function. The function allows us to tell the code to treat the rows in logical groups, so rather than summarizing over all the rows, we will get one summary value for each group. Here's what that will look like:
 
 
 ~~~
-gapminder_data %>%
-  group_by(year) %>%
-  summarize(average=mean(lifeExp))
+(
+    gapminder
+    .query("country == 'United States'")
+)
 ~~~
-{: .language-r}
-
-
+{: .language-python}
 
 ~~~
-# A tibble: 12 × 2
-    year average
-   <dbl>   <dbl>
- 1  1952    49.1
- 2  1957    51.5
- 3  1962    53.6
- 4  1967    55.7
- 5  1972    57.6
- 6  1977    59.6
- 7  1982    61.5
- 8  1987    63.2
- 9  1992    64.2
-10  1997    65.0
-11  2002    65.7
-12  2007    67.0
+            country  year          pop continent  lifeExp    gdpPercap
+1608  United States  1952  157553000.0  Americas   68.440  13990.48208
+1609  United States  1957  171984000.0  Americas   69.490  14847.12712
+1610  United States  1962  186538000.0  Americas   70.210  16173.14586
+1611  United States  1967  198712000.0  Americas   70.760  19530.36557
+1612  United States  1972  209896000.0  Americas   71.340  21806.03594
+1613  United States  1977  220239000.0  Americas   73.380  24072.63213
+1614  United States  1982  232187835.0  Americas   74.650  25009.55914
+1615  United States  1987  242803533.0  Americas   75.020  29884.35041
+1616  United States  1992  256894189.0  Americas   76.090  32003.93224
+1617  United States  1997  272911760.0  Americas   76.810  35767.43303
+1618  United States  2002  287675526.0  Americas   77.310  39097.09955
+1619  United States  2007  301139947.0  Americas   78.242  42951.65309
 ~~~
 {: .output}
 
-The `group_by()` function expects you to pass in the name of a column (or multiple columns separated by comma) in your data. 
 
-Note that you might get a message about the summarize function regrouping the output by 'year'. This simply indicates what the function is grouping by. 
+> **Note:** In a `query` expression, any string values (e.g., *United States* in the code above) need to be wrapped with quotation marks.
+
+> **Note:** In a `query` expression, any column names that does not include any special characters (e.g., a white space) do not need to be wrapped with anything. However, if a column name does include special characters, the name needs be wrapped with a pair of backticks (the key above the <kdb>Tab</kdb> key on your keyboard).
+
+
+<!-- Similarly, we can use the operator `not in` to evaluate if a value is *not* in a list.  -->
+
+Often times we may wish to query the data based on more than a single criterion. 
+In a `query` expression we can combine multiple criteria with Python logical operators `and` or `or`. 
+For example, the code below returns all the rows that from the United States *and* after year 2000.
+
+~~~
+(
+    gapminder
+    .query("country == 'United States' and year > 2000")
+)
+~~~
+{: .language-python}
+
+~~~
+            country  year          pop continent  lifeExp    gdpPercap
+1618  United States  2002  287675526.0  Americas   77.310  39097.09955
+1619  United States  2007  301139947.0  Americas   78.242  42951.65309
+~~~
+{: .output}
+
+Note the if the logical operators are all `and`, we can also separate them by chaining multiple `query` methods. 
+The code below generates the same results as above. 
+
+~~~
+(
+    gapminder
+    .query("country == 'United States'")
+    .query("year > 2000")
+)
+~~~
+{: .language-python}
+
+Sometimes we may wish to query the data based on whether a value is from a list or not. 
+In a `query` expression we can use the Python membership operator `in` to achieve that. 
+For example, the code below returns all the rows from a list of countries (the United States and Canada).
+
+~~~
+(
+    gapminder
+    .query("country in ['United States', 'Canada']")
+)
+~~~
+{: .language-python}
+
+~~~
+            country  year          pop continent  lifeExp    gdpPercap
+240          Canada  1952   14785584.0  Americas   68.750  11367.16112
+241          Canada  1957   17010154.0  Americas   69.960  12489.95006
+242          Canada  1962   18985849.0  Americas   71.300  13462.48555
+243          Canada  1967   20819767.0  Americas   72.130  16076.58803
+244          Canada  1972   22284500.0  Americas   72.880  18970.57086
+245          Canada  1977   23796400.0  Americas   74.210  22090.88306
+246          Canada  1982   25201900.0  Americas   75.760  22898.79214
+247          Canada  1987   26549700.0  Americas   76.860  26626.51503
+248          Canada  1992   28523502.0  Americas   77.950  26342.88426
+249          Canada  1997   30305843.0  Americas   78.610  28954.92589
+250          Canada  2002   31902268.0  Americas   79.770  33328.96507
+251          Canada  2007   33390141.0  Americas   80.653  36319.23501
+1608  United States  1952  157553000.0  Americas   68.440  13990.48208
+1609  United States  1957  171984000.0  Americas   69.490  14847.12712
+1610  United States  1962  186538000.0  Americas   70.210  16173.14586
+1611  United States  1967  198712000.0  Americas   70.760  19530.36557
+1612  United States  1972  209896000.0  Americas   71.340  21806.03594
+1613  United States  1977  220239000.0  Americas   73.380  24072.63213
+1614  United States  1982  232187835.0  Americas   74.650  25009.55914
+1615  United States  1987  242803533.0  Americas   75.020  29884.35041
+1616  United States  1992  256894189.0  Americas   76.090  32003.93224
+1617  United States  1997  272911760.0  Americas   76.810  35767.43303
+1618  United States  2002  287675526.0  Americas   77.310  39097.09955
+1619  United States  2007  301139947.0  Americas   78.242  42951.65309
+~~~
+{: .output}
+ 
+In a `query` expression we can refer to variables in the environment by prefixing them with an ‘@’ character. For example, the code below generates the same results as above.
+
+~~~
+country_list = ['United States', 'Canada']
+
+(
+    gapminder
+    .query("country in @country_list")
+)
+~~~
+{: .language-python}
+
+Lastly, we can use the `not in` operator to evaluate if a value is *not* in a list. 
+For example, the code below returns all the rows for 2007 in Americas except for the United States and Canada. 
+
+~~~
+(
+    gapminder
+    .query("year == 2007")
+    .query("continent == 'Americas'")
+    .query("country not in ['United States', 'Canada']")
+)
+~~~
+{: .language-python}
+
+~~~
+                  country  year          pop continent  lifeExp     gdpPercap
+59              Argentina  2007   40301927.0  Americas   75.320  12779.379640
+143               Bolivia  2007    9119152.0  Americas   65.554   3822.137084
+179                Brazil  2007  190010647.0  Americas   72.390   9065.800825
+287                 Chile  2007   16284741.0  Americas   78.553  13171.638850
+311              Colombia  2007   44227550.0  Americas   72.889   7006.580419
+359            Costa Rica  2007    4133884.0  Americas   78.782   9645.061420
+395                  Cuba  2007   11416987.0  Americas   78.273   8948.102923
+443    Dominican Republic  2007    9319622.0  Americas   72.235   6025.374752
+455               Ecuador  2007   13755680.0  Americas   74.994   6873.262326
+479           El Salvador  2007    6939688.0  Americas   71.878   5728.353514
+611             Guatemala  2007   12572928.0  Americas   70.259   5186.050003
+647                 Haiti  2007    8502814.0  Americas   60.916   1201.637154
+659              Honduras  2007    7483763.0  Americas   70.198   3548.330846
+791               Jamaica  2007    2780132.0  Americas   72.567   7320.880262
+995                Mexico  2007  108700891.0  Americas   76.195  11977.574960
+1115            Nicaragua  2007    5675356.0  Americas   72.899   2749.320965
+1187               Panama  2007    3242173.0  Americas   75.537   9809.185636
+1199             Paraguay  2007    6667147.0  Americas   71.752   4172.838464
+1211                 Peru  2007   28674757.0  Americas   71.421   7408.905561
+1259          Puerto Rico  2007    3942491.0  Americas   78.746  19328.709010
+1559  Trinidad and Tobago  2007    1056608.0  Americas   69.819  18008.509240
+1631              Uruguay  2007    3447496.0  Americas   76.384  10611.462990
+1643            Venezuela  2007   26084662.0  Americas   73.747  11415.805690
+~~~
+{: .output}
+
+
+## Grouping rows using `groupby` {#grouping-rows-using-groupby}
+
+[*Back to top*](#contents)
+
+We see that the life expectancy in 2007 is much larger than the value we got using all of the rows. 
+It seems life expectancy is increasing which is good news. 
+But now we might be interested in calculating the mean for each year. 
+Rather than doing a bunch of different `query`'s for each year, we can instead use the `groupby` method. 
+This method allows us to tell the code to treat the rows in logical groups, so rather than aggregating over all the rows, we will get one summary value for each group. Here's what that will look like:
+
+~~~
+(
+    gapminder
+    .groupby('year')['lifeExp']
+    .mean()
+)
+~~~
+{: .language-python}
+
+~~~
+year
+1952    49.057620
+1957    51.507401
+1962    53.609249
+1967    55.678290
+1972    57.647386
+1977    59.570157
+1982    61.533197
+1987    63.212613
+1992    64.160338
+1997    65.014676
+2002    65.694923
+2007    67.007423
+Name: lifeExp, dtype: float64
+~~~
+{: .output}
+
+The `groupby` method expects you to pass in the name of a column (or a list of columns) in your data. 
+
+<!-- Note that you might get a message about the summarize function regrouping the output by 'year'. This simply indicates what the function is grouping by.  -->
 
 > ## Grouping the data
 >
-> Try calculating the average life expectancy by continent.
+> Try calculating the mean life expectancy by continent.
 >
 > > ## Solution
 > >
 > > 
 > > ~~~
-> > gapminder_data %>%
-> > group_by(continent) %>%
-> > summarize(average=mean(lifeExp))
+> > (
+> >     gapminder
+> >     .groupby('continent')['lifeExp']
+> >     .mean()
+> > )
 > > ~~~
-> > {: .language-r}
+> > {: .language-python}
 > > 
 > > 
 > > 
 > > ~~~
-> > # A tibble: 5 × 2
-> >   continent average
-> >   <chr>       <dbl>
-> > 1 Africa       48.9
-> > 2 Americas     64.7
-> > 3 Asia         60.1
-> > 4 Europe       71.9
-> > 5 Oceania      74.3
+> > continent
+> > Africa      48.865330
+> > Americas    64.658737
+> > Asia        60.064903
+> > Europe      71.903686
+> > Oceania     74.326208
+> > Name: lifeExp, dtype: float64
 > > ~~~
 > > {: .output}
 > > {: .source}
 > >
-> > By combining `group_by()` and `summarize()` we are able to calculate the mean life expectancy by continent.
+> > By chaining the two methods `groupby` and `mean` we are able to calculate the mean life expectancy by continent.
 > {: .solution}
 {: .challenge}
 
-You can also create more than one new column when you call `summarize()`. To do so, you must separate your columns with a comma. Building on the code from the last exercise, let's add a new column that calculates the minimum life expectancy for each continent. 
-
-
-~~~
-gapminder_data %>%
-  group_by(continent) %>%
-  summarize(average=mean(lifeExp), min=min(lifeExp))
-~~~
-{: .language-r}
-
-
+Sometimes we may wish to apply more than one aggregation method. 
+For example, we may want to know the mean and minimum life expectancy by continents.
+To do so, we can use the aggregation method called `agg` and pass it a list of aggregation methods. 
 
 ~~~
-# A tibble: 5 × 3
-  continent average   min
-  <chr>       <dbl> <dbl>
-1 Africa       48.9  23.6
-2 Americas     64.7  37.6
-3 Asia         60.1  28.8
-4 Europe       71.9  43.6
-5 Oceania      74.3  69.1
+(
+    gapminder
+    .groupby('continent')['lifeExp']
+    .agg(['mean', 'min'])
+)
+~~~
+{: .language-python}
+
+~~~
+                mean     min
+continent                   
+Africa     48.865330  23.599
+Americas   64.658737  37.579
+Asia       60.064903  28.801
+Europe     71.903686  43.585
+Oceania    74.326208  69.120
 ~~~
 {: .output}
 
 
-## Make new variables with `mutate()` {#make-new-variables-with-mutate}
+## Make new variables with `assign` {#make-new-variables-with-assign}
 
 [*Back to top*](#contents)
 
-Each time we ran `summarize()`, we got back fewer rows than passed in. We either got one row back, or one row per group. But sometimes we want to create a new column in our data without changing the number of rows. The function we use to create new columns is called `mutate()`.
+Sometimes we want to create a new column in our data.
+We can use the pandas `assign` method to assign new columns to a DataFrame.
 
-We have a column for the population and the GDP per capita. If we wanted to get the total GDP, we could multiply the per capita GDP values by the total population. Here's what such a `mutate()` command would look like:
-
-
-~~~
-gapminder_data %>%
-  mutate(gdp = pop * gdpPercap)
-~~~
-{: .language-r}
-
+We have a column for the population and the GDP per capita. 
+If we wanted to get the total GDP, we could multiply the per capita GDP values by the total population. 
+Below is what the code would look like:
 
 
 ~~~
-# A tibble: 1,704 × 7
-   country      year      pop continent lifeExp gdpPercap          gdp
-   <chr>       <dbl>    <dbl> <chr>       <dbl>     <dbl>        <dbl>
- 1 Afghanistan  1952  8425333 Asia         28.8      779.  6567086330.
- 2 Afghanistan  1957  9240934 Asia         30.3      821.  7585448670.
- 3 Afghanistan  1962 10267083 Asia         32.0      853.  8758855797.
- 4 Afghanistan  1967 11537966 Asia         34.0      836.  9648014150.
- 5 Afghanistan  1972 13079460 Asia         36.1      740.  9678553274.
- 6 Afghanistan  1977 14880372 Asia         38.4      786. 11697659231.
- 7 Afghanistan  1982 12881816 Asia         39.9      978. 12598563401.
- 8 Afghanistan  1987 13867957 Asia         40.8      852. 11820990309.
- 9 Afghanistan  1992 16317921 Asia         41.7      649. 10595901589.
-10 Afghanistan  1997 22227415 Asia         41.8      635. 14121995875.
-# … with 1,694 more rows
+(
+    gapminder
+    .assign(gdp=lambda df: df['pop'] * df['gdpPercap'])
+)
+~~~
+{: .language-python}
+
+
+
+~~~
+          country  year         pop continent  lifeExp   gdpPercap           gdp
+0     Afghanistan  1952   8425333.0      Asia   28.801  779.445314  6.567086e+09
+1     Afghanistan  1957   9240934.0      Asia   30.332  820.853030  7.585449e+09
+2     Afghanistan  1962  10267083.0      Asia   31.997  853.100710  8.758856e+09
+3     Afghanistan  1967  11537966.0      Asia   34.020  836.197138  9.648014e+09
+4     Afghanistan  1972  13079460.0      Asia   36.088  739.981106  9.678553e+09
+...           ...   ...         ...       ...      ...         ...           ...
+1699     Zimbabwe  1987   9216418.0    Africa   62.351  706.157306  6.508241e+09
+1700     Zimbabwe  1992  10704340.0    Africa   60.377  693.420786  7.422612e+09
+1701     Zimbabwe  1997  11404948.0    Africa   46.809  792.449960  9.037851e+09
+1702     Zimbabwe  2002  11926563.0    Africa   39.989  672.038623  8.015111e+09
+1703     Zimbabwe  2007  12311143.0    Africa   43.487  469.709298  5.782658e+09
+
+[1704 rows x 7 columns]
 ~~~
 {: .output}
 
-This will add a new column called "gdp" to our data. We use the column names as if they were regular values that we want to perform mathematical operations on and provide the name in front of an equals sign like we have done with `summarize()`
+This will add a new column called "gdp" to our data. 
+We use the column names as if they were regular values that we want to perform mathematical operations on and provide the name in front of an equals sign.
 
-> ## `mutate()`
-> We can also multiply by constants or other numbers using mutate - remember how in the plotting lesson we made a plot with population in millions? Try making a new column for this dataframe called popInMillions that is the population in million. 
+> ## Assigning multiple columns
+> We can also assign multiple columns by separating them with a comma inside `assign()`. Try making a new column for this DataFrame called popInMillions that is the population in million. 
 > 
 > > ## Solution: 
 > > 
 > > ~~~
-> > gapminder_data %>%  
-> > mutate(gdp = pop * gdpPercap, popInMillions = pop / 1000000)  
+> > (
+> >     gapminder
+> >     .assign(gdp=lambda df: df['pop'] * df['gdpPercap'],
+> >             popInMillions=lambda df: df['pop'] / 1_000_000,
+> >            )
+)
 > > ~~~
-> > {: .language-r}
+> > {: .language-python}
 > > 
 > > 
 > > 
 > > ~~~
-> > # A tibble: 1,704 × 8
-> >    country      year      pop continent lifeExp gdpPercap      gdp popInMillions
-> >    <chr>       <dbl>    <dbl> <chr>       <dbl>     <dbl>    <dbl>         <dbl>
-> >  1 Afghanistan  1952  8425333 Asia         28.8      779.  6.57e 9          8.43
-> >  2 Afghanistan  1957  9240934 Asia         30.3      821.  7.59e 9          9.24
-> >  3 Afghanistan  1962 10267083 Asia         32.0      853.  8.76e 9         10.3 
-> >  4 Afghanistan  1967 11537966 Asia         34.0      836.  9.65e 9         11.5 
-> >  5 Afghanistan  1972 13079460 Asia         36.1      740.  9.68e 9         13.1 
-> >  6 Afghanistan  1977 14880372 Asia         38.4      786.  1.17e10         14.9 
-> >  7 Afghanistan  1982 12881816 Asia         39.9      978.  1.26e10         12.9 
-> >  8 Afghanistan  1987 13867957 Asia         40.8      852.  1.18e10         13.9 
-> >  9 Afghanistan  1992 16317921 Asia         41.7      649.  1.06e10         16.3 
-> > 10 Afghanistan  1997 22227415 Asia         41.8      635.  1.41e10         22.2 
-> > # … with 1,694 more rows
+> >           country  year         pop continent  lifeExp   gdpPercap           gdp  popInMillions
+> > 0     Afghanistan  1952   8425333.0      Asia   28.801  779.445314  6.567086e+09       8.425333
+> > 1     Afghanistan  1957   9240934.0      Asia   30.332  820.853030  7.585449e+09       9.240934
+> > 2     Afghanistan  1962  10267083.0      Asia   31.997  853.100710  8.758856e+09      10.267083
+> > 3     Afghanistan  1967  11537966.0      Asia   34.020  836.197138  9.648014e+09      11.537966
+> > 4     Afghanistan  1972  13079460.0      Asia   36.088  739.981106  9.678553e+09      13.079460
+> > ...           ...   ...         ...       ...      ...         ...           ...            ...
+> > 1699     Zimbabwe  1987   9216418.0    Africa   62.351  706.157306  6.508241e+09       9.216418
+> > 1700     Zimbabwe  1992  10704340.0    Africa   60.377  693.420786  7.422612e+09      10.704340
+> > 1701     Zimbabwe  1997  11404948.0    Africa   46.809  792.449960  9.037851e+09      11.404948
+> > 1702     Zimbabwe  2002  11926563.0    Africa   39.989  672.038623  8.015111e+09      11.926563
+> > 1703     Zimbabwe  2007  12311143.0    Africa   43.487  469.709298  5.782658e+09      12.311143
+> > 
+> > [1704 rows x 8 columns]
 > > ~~~
 > > {: .output}
 > {: .solution}
 {: .challenge}
  
 
-## Subset columns using `select()` {#subset-columns-using-select}
+## Subset columns {#subset-columns}
 
 [*Back to top*](#contents)
 
-We use the `filter()` function to choose a subset of the rows from our data, but when we want to choose a subset of columns from our data we use `select()`. For example, if we only wanted to see the population ("pop") and year values, we can do:
+We can apply the `query` method to choose a subset of the rows from our data, 
+but when we want to choose a subset of columns from our data we can pass a list of column names into (another) pair of square brackets. 
+For example, if we only wanted to see the population ("pop") and year values, we can do:
 
 
 ~~~
-gapminder_data %>%
-  select(pop, year)
+(
+    gapminder
+    [['pop', 'year']]
+)
 ~~~
-{: .language-r}
+{: .language-python}
 
 
 
 ~~~
-# A tibble: 1,704 × 2
-        pop  year
-      <dbl> <dbl>
- 1  8425333  1952
- 2  9240934  1957
- 3 10267083  1962
- 4 11537966  1967
- 5 13079460  1972
- 6 14880372  1977
- 7 12881816  1982
- 8 13867957  1987
- 9 16317921  1992
-10 22227415  1997
-# … with 1,694 more rows
+             pop  year
+0      8425333.0  1952
+1      9240934.0  1957
+2     10267083.0  1962
+3     11537966.0  1967
+4     13079460.0  1972
+...          ...   ...
+1699   9216418.0  1987
+1700  10704340.0  1992
+1701  11404948.0  1997
+1702  11926563.0  2002
+1703  12311143.0  2007
+
+[1704 rows x 2 columns]
 ~~~
 {: .output}
 
-We can also use `select()` to drop/remove particular columns by putting a minus sign (`-`) in front of the column name. For example, if we want everything but the continent column, we can do:
+> **Note:** There are two nested pairs of square bracket in the code above. The outer square brackets is the notation for selecting columns from a DataFrame by name. The inner square brackets define a Python list that contains the column names. Try removing one pair of bracket and see what happens. 
+
+
+We can also apply the `drop` method to drop/remove particular columns. 
+For example, if we want everything but the continent and population columns, we can do:
 
 
 ~~~
-gapminder_data %>%
-  select(-continent)
+(
+    gapminder
+    .drop(columns=['continent', 'pop'])
+)
 ~~~
-{: .language-r}
+{: .language-python}
 
 
 
 ~~~
-# A tibble: 1,704 × 5
-   country      year      pop lifeExp gdpPercap
-   <chr>       <dbl>    <dbl>   <dbl>     <dbl>
- 1 Afghanistan  1952  8425333    28.8      779.
- 2 Afghanistan  1957  9240934    30.3      821.
- 3 Afghanistan  1962 10267083    32.0      853.
- 4 Afghanistan  1967 11537966    34.0      836.
- 5 Afghanistan  1972 13079460    36.1      740.
- 6 Afghanistan  1977 14880372    38.4      786.
- 7 Afghanistan  1982 12881816    39.9      978.
- 8 Afghanistan  1987 13867957    40.8      852.
- 9 Afghanistan  1992 16317921    41.7      649.
-10 Afghanistan  1997 22227415    41.8      635.
-# … with 1,694 more rows
+          country  year  lifeExp   gdpPercap
+0     Afghanistan  1952   28.801  779.445314
+1     Afghanistan  1957   30.332  820.853030
+2     Afghanistan  1962   31.997  853.100710
+3     Afghanistan  1967   34.020  836.197138
+4     Afghanistan  1972   36.088  739.981106
+...           ...   ...      ...         ...
+1699     Zimbabwe  1987   62.351  706.157306
+1700     Zimbabwe  1992   60.377  693.420786
+1701     Zimbabwe  1997   46.809  792.449960
+1702     Zimbabwe  2002   39.989  672.038623
+1703     Zimbabwe  2007   43.487  469.709298
+
+[1704 rows x 4 columns]
 ~~~
 {: .output}
 
@@ -587,127 +904,169 @@ gapminder_data %>%
 > > 
 > > 
 > > ~~~
-> > gapminder_data %>%
-> >   select(country, continent, year, lifeExp)
+> > (
+> >     gapminder
+> >     [['country', 'continent', 'year', 'lifeExp']]
+> > )
 > > ~~~
-> > {: .language-r}
+> > {: .language-python}
 > > 
 > > 
 > > 
 > > ~~~
-> > # A tibble: 1,704 × 4
-> >    country     continent  year lifeExp
-> >    <chr>       <chr>     <dbl>   <dbl>
-> >  1 Afghanistan Asia       1952    28.8
-> >  2 Afghanistan Asia       1957    30.3
-> >  3 Afghanistan Asia       1962    32.0
-> >  4 Afghanistan Asia       1967    34.0
-> >  5 Afghanistan Asia       1972    36.1
-> >  6 Afghanistan Asia       1977    38.4
-> >  7 Afghanistan Asia       1982    39.9
-> >  8 Afghanistan Asia       1987    40.8
-> >  9 Afghanistan Asia       1992    41.7
-> > 10 Afghanistan Asia       1997    41.8
-> > # … with 1,694 more rows
+> >           country continent  year  lifeExp
+> > 0     Afghanistan      Asia  1952   28.801
+> > 1     Afghanistan      Asia  1957   30.332
+> > 2     Afghanistan      Asia  1962   31.997
+> > 3     Afghanistan      Asia  1967   34.020
+> > 4     Afghanistan      Asia  1972   36.088
+> > ...           ...       ...   ...      ...
+> > 1699     Zimbabwe    Africa  1987   62.351
+> > 1700     Zimbabwe    Africa  1992   60.377
+> > 1701     Zimbabwe    Africa  1997   46.809
+> > 1702     Zimbabwe    Africa  2002   39.989
+> > 1703     Zimbabwe    Africa  2007   43.487
+> > 
+> > [1704 rows x 4 columns]
 > > ~~~
 > > {: .output}
 > > 
 > > ~~~
-> > gapminder_data %>%
-> >   select(-pop, -gdpPercap)
+> > (
+> >     gapminder
+> >     .drop(columns=['pop', 'gdpPercap'])
+> > )
 > > ~~~
-> > {: .language-r}
+> > {: .language-python}
 > > 
 > > 
 > > 
 > > ~~~
-> > # A tibble: 1,704 × 4
-> >    country      year continent lifeExp
-> >    <chr>       <dbl> <chr>       <dbl>
-> >  1 Afghanistan  1952 Asia         28.8
-> >  2 Afghanistan  1957 Asia         30.3
-> >  3 Afghanistan  1962 Asia         32.0
-> >  4 Afghanistan  1967 Asia         34.0
-> >  5 Afghanistan  1972 Asia         36.1
-> >  6 Afghanistan  1977 Asia         38.4
-> >  7 Afghanistan  1982 Asia         39.9
-> >  8 Afghanistan  1987 Asia         40.8
-> >  9 Afghanistan  1992 Asia         41.7
-> > 10 Afghanistan  1997 Asia         41.8
-> > # … with 1,694 more rows
+> >           country  year continent  lifeExp
+> > 0     Afghanistan  1952      Asia   28.801
+> > 1     Afghanistan  1957      Asia   30.332
+> > 2     Afghanistan  1962      Asia   31.997
+> > 3     Afghanistan  1967      Asia   34.020
+> > 4     Afghanistan  1972      Asia   36.088
+> > ...           ...   ...       ...      ...
+> > 1699     Zimbabwe  1987    Africa   62.351
+> > 1700     Zimbabwe  1992    Africa   60.377
+> > 1701     Zimbabwe  1997    Africa   46.809
+> > 1702     Zimbabwe  2002    Africa   39.989
+> > 1703     Zimbabwe  2007    Africa   43.487
+> > 
+> > [1704 rows x 4 columns]
 > > ~~~
 > > {: .output}
 > {: .solution}
 {: .challenge}
 
 
-> ## Bonus: Using helper functions with `select()`
+> ## Bonus: Using the `filter` method
 >
-> The `select()` function has a bunch of helper functions that are handy if you are working with a dataset that has a lot of columns. You can see these helper functions on the `?select` help page. For example, let's say we wanted to select the year column and all the columns that start with the letter "c". You can do that with:
+> The `filter` method can be used to filter columns by their names. It may become handy if you are working with a dataset that has a lot of columns. For example, let's say we wanted to select the year column and all the columns that contain the letter "e". You can do that with:
 > 
 > 
 > ~~~
-> gapminder_data %>%
->   select(year, starts_with("c"))
+> (
+>     gapminder
+>     .filter(like='e')
+> )
 > ~~~
-> {: .language-r}
+> {: .language-python}
 > 
 > 
 > 
 > ~~~
-> # A tibble: 1,704 × 3
->     year country     continent
->    <dbl> <chr>       <chr>    
->  1  1952 Afghanistan Asia     
->  2  1957 Afghanistan Asia     
->  3  1962 Afghanistan Asia     
->  4  1967 Afghanistan Asia     
->  5  1972 Afghanistan Asia     
->  6  1977 Afghanistan Asia     
->  7  1982 Afghanistan Asia     
->  8  1987 Afghanistan Asia     
->  9  1992 Afghanistan Asia     
-> 10  1997 Afghanistan Asia     
-> # … with 1,694 more rows
+>       year continent  lifeExp   gdpPercap
+> 0     1952      Asia   28.801  779.445314
+> 1     1957      Asia   30.332  820.853030
+> 2     1962      Asia   31.997  853.100710
+> 3     1967      Asia   34.020  836.197138
+> 4     1972      Asia   36.088  739.981106
+> ...    ...       ...      ...         ...
+> 1699  1987    Africa   62.351  706.157306
+> 1700  1992    Africa   60.377  693.420786
+> 1701  1997    Africa   46.809  792.449960
+> 1702  2002    Africa   39.989  672.038623
+> 1703  2007    Africa   43.487  469.709298
+> 
+> [1704 rows x 4 columns]
 > ~~~
 > {: .output}
-> This returns just the three columns we are interested in. 
+> This returns the four columns we are interested in. 
 >
-> > ## Using `select()` with a helper function
+> > ## Applying `filter` with regular expression
 > >
-> > Find a helper function on the help page that will choose all the columns that have "p" as their last letter (ie: "pop","lifeExp","gdpPerCap")
+> > For those of you who know regular expression (pattern matching in text), the `filter` method also supports it. For example, let’s say we want to select all the columns that start with the letter “c”. We can do that with:
 > >
 > > > ## Solution
 > > >
-> > > The helper function `ends_with()` can help us here.
 > > >
 > > > 
 > > > ~~~
-> > > gapminder_data %>%
-> > > select(ends_with("p"))
+> > > (
+> > >     gapminder
+> > >     .filter(regex='^c')
+> > > )
 > > > ~~~
-> > > {: .language-r}
+> > > {: .language-python}
 > > > 
 > > > 
 > > > 
 > > > ~~~
-> > > # A tibble: 1,704 × 3
-> > >         pop lifeExp gdpPercap
-> > >       <dbl>   <dbl>     <dbl>
-> > >  1  8425333    28.8      779.
-> > >  2  9240934    30.3      821.
-> > >  3 10267083    32.0      853.
-> > >  4 11537966    34.0      836.
-> > >  5 13079460    36.1      740.
-> > >  6 14880372    38.4      786.
-> > >  7 12881816    39.9      978.
-> > >  8 13867957    40.8      852.
-> > >  9 16317921    41.7      649.
-> > > 10 22227415    41.8      635.
-> > > # … with 1,694 more rows
+> > >           country continent
+> > > 0     Afghanistan      Asia
+> > > 1     Afghanistan      Asia
+> > > 2     Afghanistan      Asia
+> > > 3     Afghanistan      Asia
+> > > 4     Afghanistan      Asia
+> > > ...           ...       ...
+> > > 1699     Zimbabwe    Africa
+> > > 1700     Zimbabwe    Africa
+> > > 1701     Zimbabwe    Africa
+> > > 1702     Zimbabwe    Africa
+> > > 1703     Zimbabwe    Africa
+> > > 
+> > > [1704 rows x 2 columns]
 > > > ~~~
 > > > {: .output}
 > > {: .solution}
+> > 
+> > Similarly, if we want to select all the columns that end with the letter “p”. We can do that with:
+> > > ## Solution
+> > >
+> > >
+> > > 
+> > > ~~~
+> > > (
+> > >     gapminder
+> > >     .filter(regex='p$')
+> > > )
+> > > ~~~
+> > > {: .language-python}
+> > > 
+> > > 
+> > > 
+> > > ~~~
+> > >              pop  lifeExp   gdpPercap
+> > > 0      8425333.0   28.801  779.445314
+> > > 1      9240934.0   30.332  820.853030
+> > > 2     10267083.0   31.997  853.100710
+> > > 3     11537966.0   34.020  836.197138
+> > > 4     13079460.0   36.088  739.981106
+> > > ...          ...      ...         ...
+> > > 1699   9216418.0   62.351  706.157306
+> > > 1700  10704340.0   60.377  693.420786
+> > > 1701  11404948.0   46.809  792.449960
+> > > 1702  11926563.0   39.989  672.038623
+> > > 1703  12311143.0   43.487  469.709298
+> > > 
+> > > [1704 rows x 3 columns]
+> > > ~~~
+> > > {: .output}
+> > {: .solution}
+> >
 > {: .challenge}
 > 
 {: .solution}
@@ -717,80 +1076,142 @@ gapminder_data %>%
 
 [*Back to top*](#contents)
 
-Data comes in many shapes and sizes, and one way we classify data is either "wide" or "long." Data that is "long" has one row per observation. The gapminder_data data is in a long format. We have one row for each country for each year and each different measurement for that country is in a different column. We might describe this data as "tidy" because it makes it easy to work with `ggplot2` and `dplyr` functions (this is where the "tidy" in "tidyverse" comes from). As tidy as it may be, sometimes we may want our data in a "wide" format. Typically in "wide" format each row represents a group of observations and each value is placed in a different column rather than a different row. For example maybe we want only one row per country and want to spread the life expectancy values into different columns (one for each year).
+Data comes in many shapes and sizes, and one way we classify data is either "wide" or "long." 
+Data that is "long" has one row per observation. 
+The gapminder data is in a long format. 
+We have one row for each country for each year and each different measurement for that country is in a different column. 
+We might describe this data as "tidy" because it makes it easy to work with pandas and seaborn. 
+As tidy as it may be, sometimes we may want our data in a "wide" format. 
+Typically in "wide" format each row represents a group of observations and each value is placed in a different column rather than a different row. 
+For example maybe we want only one row per country and want to spread the life expectancy values into different columns (one for each year).
 
-The `tidyr` package contains the functions `pivot_wider` and `pivot_longer` that make it easy to switch between the two formats. The `tidyr` package is included in the `tidyverse` package so we don't need to do anything to load it.
-
-
-~~~
-gapminder_data %>%
-  select(country, continent, year, lifeExp) %>%
-  pivot_wider(names_from = year, values_from = lifeExp )
-~~~
-{: .language-r}
-
+The pandas methods `pivot` and `melt` make it easy to switch between the two formats.
 
 
 ~~~
-# A tibble: 142 × 14
-   country     continent `1952` `1957` `1962` `1967` `1972` `1977` `1982` `1987`
-   <chr>       <chr>      <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>
- 1 Afghanistan Asia        28.8   30.3   32.0   34.0   36.1   38.4   39.9   40.8
- 2 Albania     Europe      55.2   59.3   64.8   66.2   67.7   68.9   70.4   72  
- 3 Algeria     Africa      43.1   45.7   48.3   51.4   54.5   58.0   61.4   65.8
- 4 Angola      Africa      30.0   32.0   34     36.0   37.9   39.5   39.9   39.9
- 5 Argentina   Americas    62.5   64.4   65.1   65.6   67.1   68.5   69.9   70.8
- 6 Australia   Oceania     69.1   70.3   70.9   71.1   71.9   73.5   74.7   76.3
- 7 Austria     Europe      66.8   67.5   69.5   70.1   70.6   72.2   73.2   74.9
- 8 Bahrain     Asia        50.9   53.8   56.9   59.9   63.3   65.6   69.1   70.8
- 9 Bangladesh  Asia        37.5   39.3   41.2   43.5   45.3   46.9   50.0   52.8
-10 Belgium     Europe      68     69.2   70.2   70.9   71.4   72.8   73.9   75.4
-# … with 132 more rows, and 4 more variables: 1992 <dbl>, 1997 <dbl>,
-#   2002 <dbl>, 2007 <dbl>
+(
+    gapminder
+    [['country', 'continent', 'year', 'lifeExp']]
+    .pivot(columns='year', 
+           index=['country', 'continent'], 
+           values='lifeExp',
+          )
+)
+~~~
+{: .language-python}
+
+
+
+~~~
+year                            1952    1957    1962    1967    1972    1977    1982    1987    1992    1997    2002    2007
+country            continent                                                                                                
+Afghanistan        Asia       28.801  30.332  31.997  34.020  36.088  38.438  39.854  40.822  41.674  41.763  42.129  43.828
+Albania            Europe     55.230  59.280  64.820  66.220  67.690  68.930  70.420  72.000  71.581  72.950  75.651  76.423
+Algeria            Africa     43.077  45.685  48.303  51.407  54.518  58.014  61.368  65.799  67.744  69.152  70.994  72.301
+Angola             Africa     30.015  31.999  34.000  35.985  37.928  39.483  39.942  39.906  40.647  40.963  41.003  42.731
+Argentina          Americas   62.485  64.399  65.142  65.634  67.065  68.481  69.942  70.774  71.868  73.275  74.340  75.320
+...                              ...     ...     ...     ...     ...     ...     ...     ...     ...     ...     ...     ...
+Vietnam            Asia       40.412  42.887  45.363  47.838  50.254  55.764  58.816  62.820  67.662  70.672  73.017  74.249
+West Bank and Gaza Asia       43.160  45.671  48.127  51.631  56.532  60.765  64.406  67.046  69.718  71.096  72.370  73.422
+Yemen Rep.         Asia       32.548  33.970  35.180  36.984  39.848  44.175  49.113  52.922  55.599  58.020  60.308  62.698
+Zambia             Africa     42.038  44.077  46.023  47.768  50.107  51.386  51.821  50.821  46.100  40.238  39.193  42.384
+Zimbabwe           Africa     48.451  50.469  52.358  53.995  55.635  57.674  60.363  62.351  60.377  46.809  39.989  43.487
+
+[142 rows x 12 columns]
 ~~~
 {: .output}
 
-Notice here that we tell `pivot_wider()` which columns to pull the names we wish our new columns to be named from the year variable, and the values to populate those columns from the lifeExp variable. (Again, neither of which have to be in quotes in the code when there are no special characters or spaces - certainly an incentive not to use special characters or spaces!) We see that the resulting table has new columns by year, and the values populate it with our remaining variables dictating the rows.
+Notice here that we tell `pivot` which columns to pull the names we wish our new columns to be named from the year variable, 
+and the values to populate those columns from the lifeExp variable. 
+We see that the resulting table has new columns by year, and the values populate it with country and continent dictating the rows.
+
+The pandas `melt` method allows us to "melt" a table from wide format to long format. 
+The code below convert our wide table back to the long format. 
+
+~~~
+(
+    gapminder
+    [['country', 'continent', 'year', 'lifeExp']]
+    .pivot(columns='year', 
+           index=['country', 'continent'], 
+           values='lifeExp',
+          )
+    .reset_index()
+    .melt(id_vars=['country', 'continent'],
+          value_name='lifeExp',
+         )
+)
+~~~
+{: .language-python}
+
+
+
+~~~
+                 country continent  year  lifeExp
+0            Afghanistan      Asia  1952   28.801
+1                Albania    Europe  1952   55.230
+2                Algeria    Africa  1952   43.077
+3                 Angola    Africa  1952   30.015
+4              Argentina  Americas  1952   62.485
+...                  ...       ...   ...      ...
+1699             Vietnam      Asia  2007   74.249
+1700  West Bank and Gaza      Asia  2007   73.422
+1701          Yemen Rep.      Asia  2007   62.698
+1702              Zambia    Africa  2007   42.384
+1703            Zimbabwe    Africa  2007   43.487
+
+[1704 rows x 4 columns]
+~~~
+{: .output}
 
 Before we move on to more data cleaning, let's create the final gapminder dataframe we will be working with for the rest of the lesson! 
 
 > ## Final Americas 2007 gapminder dataset
-> Read in the `gapminder_data.csv` file, filter out the year 2007 and the continent "Americas." Then drop the `year` and `continent` columns from the dataframe. Then save the new dataframe into a variable called `gapminder_data_2007`. 
+> Read in the `gapminder_data.csv` file, filter out the year 2007 and the continent "Americas." Then drop the `year` and `continent` columns from the dataframe. Then save the new dataframe into a variable called `gapminder_2007`. 
 > 
 > > ## Solution: 
 > > 
 > > ~~~
-> > gapminder_data_2007 <- read_csv("data/gapminder_data.csv") %>%
-> >   filter(year == 2007 & continent == "Americas") %>%
-> >   select(-year, -continent)
+> > gapminder_2007 = (
+> >     gapminder
+> >     .query("year == 2007 and continent == 'Americas'")
+> >     .drop(columns=['year', 'continent'])
+> > )
 > > ~~~
-> > {: .language-r}
+> > {: .language-python}
 > > 
 > > 
 > > 
 > > ~~~
-> > Rows: 1704 Columns: 6
+> >                   country          pop  lifeExp     gdpPercap
+> > 59              Argentina   40301927.0   75.320  12779.379640
+> > 143               Bolivia    9119152.0   65.554   3822.137084
+> > 179                Brazil  190010647.0   72.390   9065.800825
+> > 251                Canada   33390141.0   80.653  36319.235010
+> > 287                 Chile   16284741.0   78.553  13171.638850
+> > 311              Colombia   44227550.0   72.889   7006.580419
+> > 359            Costa Rica    4133884.0   78.782   9645.061420
+> > 395                  Cuba   11416987.0   78.273   8948.102923
+> > 443    Dominican Republic    9319622.0   72.235   6025.374752
+> > 455               Ecuador   13755680.0   74.994   6873.262326
+> > 479           El Salvador    6939688.0   71.878   5728.353514
+> > 611             Guatemala   12572928.0   70.259   5186.050003
+> > 647                 Haiti    8502814.0   60.916   1201.637154
+> > 659              Honduras    7483763.0   70.198   3548.330846
+> > 791               Jamaica    2780132.0   72.567   7320.880262
+> > 995                Mexico  108700891.0   76.195  11977.574960
+> > 1115            Nicaragua    5675356.0   72.899   2749.320965
+> > 1187               Panama    3242173.0   75.537   9809.185636
+> > 1199             Paraguay    6667147.0   71.752   4172.838464
+> > 1211                 Peru   28674757.0   71.421   7408.905561
+> > 1259          Puerto Rico    3942491.0   78.746  19328.709010
+> > 1559  Trinidad and Tobago    1056608.0   69.819  18008.509240
+> > 1619        United States  301139947.0   78.242  42951.653090
+> > 1631              Uruguay    3447496.0   76.384  10611.462990
+> > 1643            Venezuela   26084662.0   73.747  11415.805690
 > > ~~~
 > > {: .output}
 > > 
-> > 
-> > 
-> > ~~~
-> > ── Column specification ─────────────────────────────────────────────────────────────────────────────────
-> > Delimiter: ","
-> > chr (2): country, continent
-> > dbl (4): year, pop, lifeExp, gdpPercap
-> > ~~~
-> > {: .output}
-> > 
-> > 
-> > 
-> > ~~~
-> > 
-> > ℹ Use `spec()` to retrieve the full column specification for this data.
-> > ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-> > ~~~
-> > {: .output}
 > {: .solution}
 {: .challenge}
 
@@ -807,26 +1228,30 @@ Let's start by print our current working directory and listing the items in the 
 pwd
 ls
 ```
+{: .language-bash}
 
 Now, we'll navigate to the un-report directory. 
 ```
 cd ~/Desktop/un-report  
 ls
 ```
+{: .language-bash}
 
 To start, let's pull to make sure our local repository is up to date. 
 ```
 git status
 git pull
 ```
+{: .language-bash}
 
 Not let's add and commit our changes. 
 ```
 git status
 git add
-git status "un_data_analysis.R"  
+git status "un_data_analysis.ipynb"  
 git commit -m "Create data analysis file"  
 ```
+{: .language-bash}
 
 Finally, let's check our commits and then push the commits to GitHub. 
 ```
@@ -835,326 +1260,217 @@ git log --online
 git push 
 git status
 ``` 
+{: .language-bash}
 
 # Cleaning up data
 
 [*Back to top*](#contents)
 
-Researchers are often pulling data from several sources, and the process of making data compatible with one another and prepared for analysis can be a large undertaking. Luckily, there are many functions that allow us to do this in R. We've been working with the gapminder dataset, which contains population and GDP data by year. In this section, we practice cleaning and preparing a second dataset containing CO2 emissions data by country and year, sourced from [the UN](https://data.un.org/_Docs/SYB/CSV/SYB63_310_202009_Carbon%20Dioxide%20Emission%20Estimates.csv).
+Researchers are often pulling data from several sources, and the process of making data compatible with one another and prepared for analysis can be a large undertaking. 
+Luckily, there are many functions that allow us to do this with pandas. 
+We've been working with the gapminder dataset, which contains population and GDP data by year. 
+In this section, we practice cleaning and preparing a second dataset containing CO2 emissions data by country and year, sourced from [the UN](https://data.un.org/_Docs/SYB/CSV/SYB63_310_202009_Carbon%20Dioxide%20Emission%20Estimates.csv).
 
-It's always good to go into data cleaning with a clear goal in mind. Here, we'd like to prepare the CO2 UN data to be compatible with our gapminder data so we can directly compare GDP to CO2 emissions. To make this work, we'd like a data frame that contains a column with the country name, and columns for different ways of measuring CO2 emissions. We will also want the data to be collected as close to 2007 as possible (the last year we have data for in gapminder). Let's start with reading the data in using `read_csv()`
+It's always good to go into data cleaning with a clear goal in mind. 
+Here, we'd like to prepare the CO2 UN data to be compatible with our gapminder data so we can directly compare GDP to CO2 emissions. 
+To make this work, we'd like a data frame that contains a column with the country name, and columns for different ways of measuring CO2 emissions. 
+We will also want the data to be collected as close to 2007 as possible (the last year we have data for in gapminder). 
+Let's start with reading the data in using pandas's `read_csv` function.
 
 
 ~~~
-read_csv("data/co2-un-data.csv")
+pd.read_csv("./data/co2-un-data.csv")
 ~~~
-{: .language-r}
-
-
-
-~~~
-New names:
-* `` -> ...3
-* `` -> ...4
-* `` -> ...5
-* `` -> ...6
-* `` -> ...7
-~~~
-{: .output}
+{: .language-python}
 
 
 
 ~~~
-Rows: 2133 Columns: 7
-~~~
-{: .output}
+                      T24 CO2 emission estimates Unnamed: 2                                         Unnamed: 3 Unnamed: 4 Unnamed: 5  \
+0     Region/Country/Area                    NaN       Year                                             Series      Value  Footnotes   
+1                       8                Albania       1975  Emissions (thousand metric tons of carbon diox...  4338.3340        NaN   
+2                       8                Albania       1985  Emissions (thousand metric tons of carbon diox...  6929.9260        NaN   
+3                       8                Albania       1995  Emissions (thousand metric tons of carbon diox...  1848.5490        NaN   
+4                       8                Albania       2005  Emissions (thousand metric tons of carbon diox...  3825.1840        NaN   
+...                   ...                    ...        ...                                                ...        ...        ...   
+2128                  716               Zimbabwe       2005  Emissions per capita (metric tons of carbon di...     0.7940        NaN   
+2129                  716               Zimbabwe       2010  Emissions per capita (metric tons of carbon di...     0.6720        NaN   
+2130                  716               Zimbabwe       2015  Emissions per capita (metric tons of carbon di...     0.7490        NaN   
+2131                  716               Zimbabwe       2016  Emissions per capita (metric tons of carbon di...     0.6420        NaN   
+2132                  716               Zimbabwe       2017  Emissions per capita (metric tons of carbon di...     0.5880        NaN   
 
+                                             Unnamed: 6  
+0                                                Source  
+1     International Energy Agency, IEA World Energy ...  
+2     International Energy Agency, IEA World Energy ...  
+3     International Energy Agency, IEA World Energy ...  
+4     International Energy Agency, IEA World Energy ...  
+...                                                 ...  
+2128  International Energy Agency, IEA World Energy ...  
+2129  International Energy Agency, IEA World Energy ...  
+2130  International Energy Agency, IEA World Energy ...  
+2131  International Energy Agency, IEA World Energy ...  
+2132  International Energy Agency, IEA World Energy ...  
 
-
-~~~
-── Column specification ─────────────────────────────────────────────────────────────────────────────────
-Delimiter: ","
-chr (7): T24, CO2 emission estimates, ...3, ...4, ...5, ...6, ...7
-~~~
-{: .output}
-
-
-
-~~~
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-~~~
-{: .output}
-
-
-
-~~~
-# A tibble: 2,133 × 7
-   T24                 `CO2 emission estimates` ...3  ...4    ...5  ...6  ...7  
-   <chr>               <chr>                    <chr> <chr>   <chr> <chr> <chr> 
- 1 Region/Country/Area <NA>                     Year  Series  Value Foot… Source
- 2 8                   Albania                  1975  Emissi… 4338… <NA>  Inter…
- 3 8                   Albania                  1985  Emissi… 6929… <NA>  Inter…
- 4 8                   Albania                  1995  Emissi… 1848… <NA>  Inter…
- 5 8                   Albania                  2005  Emissi… 3825… <NA>  Inter…
- 6 8                   Albania                  2010  Emissi… 3930… <NA>  Inter…
- 7 8                   Albania                  2015  Emissi… 3824… <NA>  Inter…
- 8 8                   Albania                  2016  Emissi… 3674… <NA>  Inter…
- 9 8                   Albania                  2017  Emissi… 4342… <NA>  Inter…
-10 8                   Albania                  1975  Emissi… 1.80… <NA>  Inter…
-# … with 2,123 more rows
-~~~
-{: .output}
-
-The output gives us a warning about missing column names being filled in with things like 'X3', 'X4', etc. Looking at the table that is outputted by `read_csv()` we can see that there appear to be two rows at the top of the file that contain information about the data in the table. The first is a header that tells us the table number and its name. Ideally, we'd skip that. We can do this using the `skip=` argument in read_csv by giving it a number of lines to skip.
-
-
-~~~
-read_csv("data/co2-un-data.csv", skip=1)
-~~~
-{: .language-r}
-
-
-
-~~~
-New names:
-* `` -> ...2
+[2133 rows x 7 columns]
 ~~~
 {: .output}
 
 
+Looking at the table that is outputted above we can see that there appear to be two rows at the top of the file that contain information about the data in the table. 
+The first is a header that tells us the table number and its name. 
+Ideally, we'd skip that. We can do this using the `skiprows` argument in `read_csv`` by giving it a number of rows to skip.
 
 ~~~
-Rows: 2132 Columns: 7
+pd.read_csv("./data/co2-un-data.csv", skiprows=1)
 ~~~
-{: .output}
-
-
-
-~~~
-── Column specification ─────────────────────────────────────────────────────────────────────────────────
-Delimiter: ","
-chr (4): ...2, Series, Footnotes, Source
-dbl (3): Region/Country/Area, Year, Value
-~~~
-{: .output}
+{: .language-python}
 
 
 
 ~~~
+      Region/Country/Area Unnamed: 1  Year                                             Series     Value Footnotes  \
+0                       8    Albania  1975  Emissions (thousand metric tons of carbon diox...  4338.334       NaN   
+1                       8    Albania  1985  Emissions (thousand metric tons of carbon diox...  6929.926       NaN   
+2                       8    Albania  1995  Emissions (thousand metric tons of carbon diox...  1848.549       NaN   
+3                       8    Albania  2005  Emissions (thousand metric tons of carbon diox...  3825.184       NaN   
+4                       8    Albania  2010  Emissions (thousand metric tons of carbon diox...  3930.295       NaN   
+...                   ...        ...   ...                                                ...       ...       ...   
+2127                  716   Zimbabwe  2005  Emissions per capita (metric tons of carbon di...     0.794       NaN   
+2128                  716   Zimbabwe  2010  Emissions per capita (metric tons of carbon di...     0.672       NaN   
+2129                  716   Zimbabwe  2015  Emissions per capita (metric tons of carbon di...     0.749       NaN   
+2130                  716   Zimbabwe  2016  Emissions per capita (metric tons of carbon di...     0.642       NaN   
+2131                  716   Zimbabwe  2017  Emissions per capita (metric tons of carbon di...     0.588       NaN   
 
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-~~~
-{: .output}
+                                                 Source  
+0     International Energy Agency, IEA World Energy ...  
+1     International Energy Agency, IEA World Energy ...  
+2     International Energy Agency, IEA World Energy ...  
+3     International Energy Agency, IEA World Energy ...  
+4     International Energy Agency, IEA World Energy ...  
+...                                                 ...  
+2127  International Energy Agency, IEA World Energy ...  
+2128  International Energy Agency, IEA World Energy ...  
+2129  International Energy Agency, IEA World Energy ...  
+2130  International Energy Agency, IEA World Energy ...  
+2131  International Energy Agency, IEA World Energy ...  
 
-
-
-~~~
-# A tibble: 2,132 × 7
-   `Region/Country/Area` ...2     Year Series       Value Footnotes Source      
-                   <dbl> <chr>   <dbl> <chr>        <dbl> <chr>     <chr>       
- 1                     8 Albania  1975 Emissions … 4.34e3 <NA>      Internation…
- 2                     8 Albania  1985 Emissions … 6.93e3 <NA>      Internation…
- 3                     8 Albania  1995 Emissions … 1.85e3 <NA>      Internation…
- 4                     8 Albania  2005 Emissions … 3.83e3 <NA>      Internation…
- 5                     8 Albania  2010 Emissions … 3.93e3 <NA>      Internation…
- 6                     8 Albania  2015 Emissions … 3.82e3 <NA>      Internation…
- 7                     8 Albania  2016 Emissions … 3.67e3 <NA>      Internation…
- 8                     8 Albania  2017 Emissions … 4.34e3 <NA>      Internation…
- 9                     8 Albania  1975 Emissions … 1.80e0 <NA>      Internation…
-10                     8 Albania  1985 Emissions … 2.34e0 <NA>      Internation…
-# … with 2,122 more rows
+[2132 rows x 7 columns]
 ~~~
 {: .output}
 
-Now we get a similar Warning message as before, but the outputted table looks better.
+Now the outputted table looks better.
 
-> ## Warnings and Errors
+<!-- > ## Warnings and Errors
 > It's important to differentiate between Warnings and Errors in R. A warning tells us, "you might want to know about this issue, but R still did what you asked". An error tells us, "there's something wrong with your code or your data and R didn't do what you asked". You need to fix any errors that arise. Warnings, are probably best to resolve or at least understand why they are coming up.
-{.callout}
+{.callout} -->
 
-We can resolve this warning by telling `read_csv()` what the column names should be with the `col_names()` argument where we give it the column names we want within the c() function separated by commas. If we do this, then we need to set skip to 2 to also skip the column headings. Let's also save this dataframe to `co2_emissions_dirty` so that we don't have to read it in every time we want to clean it even more.
-
-
-~~~
-co2_emissions_dirty <- read_csv("data/co2-un-data.csv", skip=2,
-         col_names=c("region", "country", "year", "series", "value", "footnotes", "source"))
-~~~
-{: .language-r}
-
+Another thing we can do is to tell the `read_csv` function what the column names should be with the `names` argument where we give it the column names we want as a Python list.
+If we do this, then we need to skip 2 rows including the original column headings. 
+Let's also save this dataframe to `co2_emissions_dirty` so that we don't have to read it in every time we want to clean it even more.
 
 
 ~~~
-Rows: 2132 Columns: 7
+co2_emissions_dirty = (
+    pd.read_csv("./data/co2-un-data.csv", skiprows=2,
+                names=['region', 'country', 'year', 'series', 'value', 'footnotes', 'source'],
+               )
+)
 ~~~
-{: .output}
+{: .language-python}
 
-
-
-~~~
-── Column specification ─────────────────────────────────────────────────────────────────────────────────
-Delimiter: ","
-chr (4): country, series, footnotes, source
-dbl (3): region, year, value
-~~~
-{: .output}
-
-
-
-~~~
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-~~~
-{: .output}
 
 
 
 ~~~
 co2_emissions_dirty
 ~~~
-{: .language-r}
+{: .language-python}
 
 
 
 ~~~
-# A tibble: 2,132 × 7
-   region country  year series             value footnotes source               
-    <dbl> <chr>   <dbl> <chr>              <dbl> <chr>     <chr>                
- 1      8 Albania  1975 Emissions (thous… 4.34e3 <NA>      International Energy…
- 2      8 Albania  1985 Emissions (thous… 6.93e3 <NA>      International Energy…
- 3      8 Albania  1995 Emissions (thous… 1.85e3 <NA>      International Energy…
- 4      8 Albania  2005 Emissions (thous… 3.83e3 <NA>      International Energy…
- 5      8 Albania  2010 Emissions (thous… 3.93e3 <NA>      International Energy…
- 6      8 Albania  2015 Emissions (thous… 3.82e3 <NA>      International Energy…
- 7      8 Albania  2016 Emissions (thous… 3.67e3 <NA>      International Energy…
- 8      8 Albania  2017 Emissions (thous… 4.34e3 <NA>      International Energy…
- 9      8 Albania  1975 Emissions per ca… 1.80e0 <NA>      International Energy…
-10      8 Albania  1985 Emissions per ca… 2.34e0 <NA>      International Energy…
-# … with 2,122 more rows
+      region   country  year                                             series     value footnotes  \
+0          8   Albania  1975  Emissions (thousand metric tons of carbon diox...  4338.334       NaN   
+1          8   Albania  1985  Emissions (thousand metric tons of carbon diox...  6929.926       NaN   
+2          8   Albania  1995  Emissions (thousand metric tons of carbon diox...  1848.549       NaN   
+3          8   Albania  2005  Emissions (thousand metric tons of carbon diox...  3825.184       NaN   
+4          8   Albania  2010  Emissions (thousand metric tons of carbon diox...  3930.295       NaN   
+...      ...       ...   ...                                                ...       ...       ...   
+2127     716  Zimbabwe  2005  Emissions per capita (metric tons of carbon di...     0.794       NaN   
+2128     716  Zimbabwe  2010  Emissions per capita (metric tons of carbon di...     0.672       NaN   
+2129     716  Zimbabwe  2015  Emissions per capita (metric tons of carbon di...     0.749       NaN   
+2130     716  Zimbabwe  2016  Emissions per capita (metric tons of carbon di...     0.642       NaN   
+2131     716  Zimbabwe  2017  Emissions per capita (metric tons of carbon di...     0.588       NaN   
+
+                                                 source  
+0     International Energy Agency, IEA World Energy ...  
+1     International Energy Agency, IEA World Energy ...  
+2     International Energy Agency, IEA World Energy ...  
+3     International Energy Agency, IEA World Energy ...  
+4     International Energy Agency, IEA World Energy ...  
+...                                                 ...  
+2127  International Energy Agency, IEA World Energy ...  
+2128  International Energy Agency, IEA World Energy ...  
+2129  International Energy Agency, IEA World Energy ...  
+2130  International Energy Agency, IEA World Energy ...  
+2131  International Energy Agency, IEA World Energy ...  
+
+[2132 rows x 7 columns]
 ~~~
 {: .output}
 
-> ## Bonus: Another way to deal with this error
+> ## Bonus: Another way to deal with the column names
 > 
-> There are often multiple ways to clean data. Here we  read in the table, get the warning and then fix the column names using the rename function.
-> 
-> 
-> ~~~
-> read_csv("data/co2-un-data.csv", skip=1) %>%
->   rename(country=X2)
-> ~~~
-> {: .language-r}
-> 
+> Many data analysts prefer to have their column names be in all lower case. We can apply the `rename` method to set all of the column names to lower case.
 > 
 > 
 > ~~~
-> New names:
-> * `` -> ...2
+> (
+>     pd.read_csv("./data/co2-un-data.csv", skiprows=1)
+>     .rename(columns=str.lower)
+> )
 > ~~~
-> {: .output}
+> {: .language-python}
 > 
 > 
 > 
 > ~~~
-> Rows: 2132 Columns: 7
-> ~~~
-> {: .output}
+>       region/country/area unnamed: 1  year                                             series     value footnotes  \
+> 0                       8    Albania  1975  Emissions (thousand metric tons of carbon diox...  4338.334       NaN   
+> 1                       8    Albania  1985  Emissions (thousand metric tons of carbon diox...  6929.926       NaN   
+> 2                       8    Albania  1995  Emissions (thousand metric tons of carbon diox...  1848.549       NaN   
+> 3                       8    Albania  2005  Emissions (thousand metric tons of carbon diox...  3825.184       NaN   
+> 4                       8    Albania  2010  Emissions (thousand metric tons of carbon diox...  3930.295       NaN   
+> ...                   ...        ...   ...                                                ...       ...       ...   
+> 2127                  716   Zimbabwe  2005  Emissions per capita (metric tons of carbon di...     0.794       NaN   
+> 2128                  716   Zimbabwe  2010  Emissions per capita (metric tons of carbon di...     0.672       NaN   
+> 2129                  716   Zimbabwe  2015  Emissions per capita (metric tons of carbon di...     0.749       NaN   
+> 2130                  716   Zimbabwe  2016  Emissions per capita (metric tons of carbon di...     0.642       NaN   
+> 2131                  716   Zimbabwe  2017  Emissions per capita (metric tons of carbon di...     0.588       NaN   
 > 
+>                                                  source  
+> 0     International Energy Agency, IEA World Energy ...  
+> 1     International Energy Agency, IEA World Energy ...  
+> 2     International Energy Agency, IEA World Energy ...  
+> 3     International Energy Agency, IEA World Energy ...  
+> 4     International Energy Agency, IEA World Energy ...  
+> ...                                                 ...  
+> 2127  International Energy Agency, IEA World Energy ...  
+> 2128  International Energy Agency, IEA World Energy ...  
+> 2129  International Energy Agency, IEA World Energy ...  
+> 2130  International Energy Agency, IEA World Energy ...  
+> 2131  International Energy Agency, IEA World Energy ...  
 > 
-> 
-> ~~~
-> ── Column specification ─────────────────────────────────────────────────────────────────────────────────
-> Delimiter: ","
-> chr (4): ...2, Series, Footnotes, Source
-> dbl (3): Region/Country/Area, Year, Value
-> ~~~
-> {: .output}
-> 
-> 
-> 
-> ~~~
-> 
-> ℹ Use `spec()` to retrieve the full column specification for this data.
-> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-> ~~~
-> {: .output}
-> 
-> 
-> 
-> ~~~
-> Error: Can't rename columns that don't exist.
-> ✖ Column `X2` doesn't exist.
-> ~~~
-> {: .error}
->
-> Many data analysts prefer to have their column headings and variable names be in all lower case. We can use a variation of `rename()`, which is `rename_all()` that allows us to set all of the column headings to lower case by giving it the name of the tolower function, which makes everything lowercase.
-> 
-> 
-> ~~~
-> read_csv("data/co2-un-data.csv", skip=1) %>%
->  rename_all(tolower)
-> ~~~
-> {: .language-r}
-> 
-> 
-> 
-> ~~~
-> New names:
-> * `` -> ...2
+> [2132 rows x 7 columns]
 > ~~~
 > {: .output}
 > 
 > 
-> 
-> ~~~
-> Rows: 2132 Columns: 7
-> ~~~
-> {: .output}
-> 
-> 
-> 
-> ~~~
-> ── Column specification ─────────────────────────────────────────────────────────────────────────────────
-> Delimiter: ","
-> chr (4): ...2, Series, Footnotes, Source
-> dbl (3): Region/Country/Area, Year, Value
-> ~~~
-> {: .output}
-> 
-> 
-> 
-> ~~~
-> 
-> ℹ Use `spec()` to retrieve the full column specification for this data.
-> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-> ~~~
-> {: .output}
-> 
-> 
-> 
-> ~~~
-> # A tibble: 2,132 × 7
->    `region/country/area` ...2     year series       value footnotes source      
->                    <dbl> <chr>   <dbl> <chr>        <dbl> <chr>     <chr>       
->  1                     8 Albania  1975 Emissions … 4.34e3 <NA>      Internation…
->  2                     8 Albania  1985 Emissions … 6.93e3 <NA>      Internation…
->  3                     8 Albania  1995 Emissions … 1.85e3 <NA>      Internation…
->  4                     8 Albania  2005 Emissions … 3.83e3 <NA>      Internation…
->  5                     8 Albania  2010 Emissions … 3.93e3 <NA>      Internation…
->  6                     8 Albania  2015 Emissions … 3.82e3 <NA>      Internation…
->  7                     8 Albania  2016 Emissions … 3.67e3 <NA>      Internation…
->  8                     8 Albania  2017 Emissions … 4.34e3 <NA>      Internation…
->  9                     8 Albania  1975 Emissions … 1.80e0 <NA>      Internation…
-> 10                     8 Albania  1985 Emissions … 2.34e0 <NA>      Internation…
-> # … with 2,122 more rows
-> ~~~
-> {: .output}
 {: .solution}
 
-We previously saw how we can subset columns from a data frame using the select function. There are a lot of columns with extraneous information in this dataset, let's subset out the columns we are interested in. 
+We previously saw how we can subset columns from a DataFrame using the select function. 
+There are a lot of columns with extraneous information in this dataset, let's subset out the columns we are interested in. 
 
 > ## Reviewing selecting columns
 > Select the country, year, series, and value columns from our dataset. 
@@ -1162,127 +1478,145 @@ We previously saw how we can subset columns from a data frame using the select f
 > > ## Solution: 
 > > 
 > > ~~~
-> > co2_emissions_dirty %>%
-> >   select(country, year, series, value)
+> > (
+> >     co2_emissions_dirty
+> >     [['country', 'year', 'series', 'value']]
+> > )
 > > ~~~
-> > {: .language-r}
+> > {: .language-python}
 > > 
 > > 
 > > 
 > > ~~~
-> > # A tibble: 2,132 × 4
-> >    country  year series                                                 value
-> >    <chr>   <dbl> <chr>                                                  <dbl>
-> >  1 Albania  1975 Emissions (thousand metric tons of carbon dioxide)   4338.  
-> >  2 Albania  1985 Emissions (thousand metric tons of carbon dioxide)   6930.  
-> >  3 Albania  1995 Emissions (thousand metric tons of carbon dioxide)   1849.  
-> >  4 Albania  2005 Emissions (thousand metric tons of carbon dioxide)   3825.  
-> >  5 Albania  2010 Emissions (thousand metric tons of carbon dioxide)   3930.  
-> >  6 Albania  2015 Emissions (thousand metric tons of carbon dioxide)   3825.  
-> >  7 Albania  2016 Emissions (thousand metric tons of carbon dioxide)   3674.  
-> >  8 Albania  2017 Emissions (thousand metric tons of carbon dioxide)   4342.  
-> >  9 Albania  1975 Emissions per capita (metric tons of carbon dioxide)    1.80
-> > 10 Albania  1985 Emissions per capita (metric tons of carbon dioxide)    2.34
-> > # … with 2,122 more rows
+> >        country  year                                             series     value
+> > 0      Albania  1975  Emissions (thousand metric tons of carbon diox...  4338.334
+> > 1      Albania  1985  Emissions (thousand metric tons of carbon diox...  6929.926
+> > 2      Albania  1995  Emissions (thousand metric tons of carbon diox...  1848.549
+> > 3      Albania  2005  Emissions (thousand metric tons of carbon diox...  3825.184
+> > 4      Albania  2010  Emissions (thousand metric tons of carbon diox...  3930.295
+> > ...        ...   ...                                                ...       ...
+> > 2127  Zimbabwe  2005  Emissions per capita (metric tons of carbon di...     0.794
+> > 2128  Zimbabwe  2010  Emissions per capita (metric tons of carbon di...     0.672
+> > 2129  Zimbabwe  2015  Emissions per capita (metric tons of carbon di...     0.749
+> > 2130  Zimbabwe  2016  Emissions per capita (metric tons of carbon di...     0.642
+> > 2131  Zimbabwe  2017  Emissions per capita (metric tons of carbon di...     0.588
+> > 
+> > [2132 rows x 4 columns]
 > > ~~~
 > > {: .output}
 > {: .solution}
 {: .challenge}
 
-The series column has two methods of quantifying CO2 emissions - "Emissions (thousand metric tons of carbon dioxide)" and "Emissions per capita (metric tons of carbon dioxide)". Those are long titles that we'd like to shorten to make them easier to work with. We can shorten them to "total_emissions" and "per_capita_emissions" using the recode function. We need to do this within the mutate function where we will mutate the series column. The syntax in the recode function is to tell recode which column we want to recode and then what the old value (e.g. "Emissions (thousand metric tons of carbon dioxide)") should equal after recoding (e.g. "total").
+The series column has two methods of quantifying CO2 emissions - "Emissions (thousand metric tons of carbon dioxide)" and "Emissions per capita (metric tons of carbon dioxide)". 
+Those are long titles that we'd like to shorten to make them easier to work with. 
+We can shorten them to "emissions_total" and "emissions_percap" using the recode function. 
+We can achieve this by applying the pandas `replace` method to replace the values. 
+When using the `replace` method we need to tell it which column we want to replace values and then what the old value (e.g. "Emissions (thousand metric tons of carbon dioxide)") and new values (e.g. "emissions_total").
 
 
 ~~~
-co2_emissions_dirty %>% 
-  select(country, year, series, value) %>%
-  mutate(series = recode(series, "Emissions (thousand metric tons of carbon dioxide)" = "total_emissions",
-                         "Emissions per capita (metric tons of carbon dioxide)" = "per_capita_emissions"))
+(
+    co2_emissions_dirty[['country', 'year', 'series', 'value']]
+    .replace({'series': {"Emissions (thousand metric tons of carbon dioxide)":"emissions_total",
+                         "Emissions per capita (metric tons of carbon dioxide)":"emissions_percap"}, 
+             })
+)
 ~~~
-{: .language-r}
-
-
-
-~~~
-# A tibble: 2,132 × 4
-   country  year series                 value
-   <chr>   <dbl> <chr>                  <dbl>
- 1 Albania  1975 total_emissions      4338.  
- 2 Albania  1985 total_emissions      6930.  
- 3 Albania  1995 total_emissions      1849.  
- 4 Albania  2005 total_emissions      3825.  
- 5 Albania  2010 total_emissions      3930.  
- 6 Albania  2015 total_emissions      3825.  
- 7 Albania  2016 total_emissions      3674.  
- 8 Albania  2017 total_emissions      4342.  
- 9 Albania  1975 per_capita_emissions    1.80
-10 Albania  1985 per_capita_emissions    2.34
-# … with 2,122 more rows
-~~~
-{: .output}
-
-Recall that we'd like to have separate columns for the two ways that we CO2 emissions data. To achieve this, we'll use the pivot_wider function that we saw previously. The columns we want to spread out are series (i.e. names_from) and value (i.e. values_from).
-
-
-~~~
-co2_emissions_dirty %>%
-  select(country, year, series, value) %>%
-  mutate(series = recode(series, "Emissions (thousand metric tons of carbon dioxide)" = "total_emission",
-                         "Emissions per capita (metric tons of carbon dioxide)" = "per_capita_emission")) %>%
-  pivot_wider(names_from=series, values_from=value)
-~~~
-{: .language-r}
+{: .language-python}
 
 
 
 ~~~
-# A tibble: 1,066 × 4
-   country  year total_emission per_capita_emission
-   <chr>   <dbl>          <dbl>               <dbl>
- 1 Albania  1975          4338.               1.80 
- 2 Albania  1985          6930.               2.34 
- 3 Albania  1995          1849.               0.58 
- 4 Albania  2005          3825.               1.27 
- 5 Albania  2010          3930.               1.35 
- 6 Albania  2015          3825.               1.33 
- 7 Albania  2016          3674.               1.28 
- 8 Albania  2017          4342.               1.51 
- 9 Algeria  1975         13553.               0.811
-10 Algeria  1985         42073.               1.86 
-# … with 1,056 more rows
+       country  year            series     value
+0      Albania  1975   emissions_total  4338.334
+1      Albania  1985   emissions_total  6929.926
+2      Albania  1995   emissions_total  1848.549
+3      Albania  2005   emissions_total  3825.184
+4      Albania  2010   emissions_total  3930.295
+...        ...   ...               ...       ...
+2127  Zimbabwe  2005  emissions_percap     0.794
+2128  Zimbabwe  2010  emissions_percap     0.672
+2129  Zimbabwe  2015  emissions_percap     0.749
+2130  Zimbabwe  2016  emissions_percap     0.642
+2131  Zimbabwe  2017  emissions_percap     0.588
+
+[2132 rows x 4 columns]
 ~~~
 {: .output}
 
-Excellent! The last step before we can join this data frame is to get the most data that is for the year closest to 2007 so we can make a more direct comparison to the most recent data we have from gapminder. For the sake of time, we'll just tell you that we want data from 2005. 
+Recall that we'd like to have separate columns for the two ways that we CO2 emissions data. 
+To achieve this, we'll apply the `pivot` method that we used previously. 
+The columns we want to spread out are "series" (i.e. the `columns` argument) and "value" (i.e. the `value` argument).
+
+
+~~~
+(
+    co2_emissions_dirty[['country', 'year', 'series', 'value']]
+    .replace({'series': {"Emissions (thousand metric tons of carbon dioxide)":"emissions_total",
+                         "Emissions per capita (metric tons of carbon dioxide)":"emissions_percap"}, 
+             })
+    .pivot(index=['country', 'year'], columns='series', values='value')
+    .reset_index()
+)
+~~~
+{: .language-python}
+
+
+
+~~~
+series   country  year  emissions_percap  emissions_total
+0        Albania  1975             1.804         4338.334
+1        Albania  1985             2.337         6929.926
+2        Albania  1995             0.580         1848.549
+3        Albania  2005             1.270         3825.184
+4        Albania  2010             1.349         3930.295
+...          ...   ...               ...              ...
+1061    Zimbabwe  2005             0.794        10272.774
+1062    Zimbabwe  2010             0.672         9464.714
+1063    Zimbabwe  2015             0.749        11822.362
+1064    Zimbabwe  2016             0.642        10368.900
+1065    Zimbabwe  2017             0.588         9714.938
+
+[1066 rows x 4 columns]
+~~~
+{: .output}
+
+Excellent! The last step before we can join this data frame is to get the most data that is for the year closest to 2007 so we can make a more direct comparison to the most recent data we have from gapminder. 
+For the sake of time, we'll just tell you that we want data from 2005. 
 
 > ## Bonus: How did we determine that 2005 is the closest year to 2007? 
 > 
-> We want to make sure we pick a year that is close to 2005, but also a year that has a decent amount of data to work with. One useful tool is the `count()` function, which will tell us how many times a value is repeated in a column of a data frame. Let's use this function on the year column to see which years we have data for and to tell us whether we have a good number of countries represented in that year.
+> We want to make sure we pick a year that is close to 2005, but also a year that has a decent amount of data to work with. One useful tool is the `value_counts` method, which will tell us how many times a value is repeated in a column of a DataFrame. Let's use this function on the year column to see which years we have data for and to tell us whether we have a good number of countries represented in that year.
 > 
 > 
 > ~~~
-> co2_emissions_dirty %>%
->  select(country, year, series, value) %>%
->  mutate(series = recode(series, "Emissions (thousand metric tons of carbon dioxide)" = "total",
->                         "Emissions per capita (metric tons of carbon dioxide)" = "per_capita")) %>%
->   pivot_wider(names_from=series, values_from=value) %>%
->  count(year)
+> (
+>     co2_emissions_dirty[['country', 'year', 'series', 'value']]
+>     .replace({'series': {"Emissions (thousand metric tons of carbon dioxide)":"emissions_total",
+>                          "Emissions per capita (metric tons of carbon dioxide)":"emissions_percap"}, 
+>              })
+>     .pivot(index=['country', 'year'], columns='series', values='value')
+>     .reset_index()
+>     ['year']
+>     .value_counts()
+>     .sort_index()
+> )
 > ~~~
-> {: .language-r}
+> {: .language-python}
 > 
 > 
 > 
 > ~~~
-> # A tibble: 8 × 2
->    year     n
->   <dbl> <int>
-> 1  1975   111
-> 2  1985   113
-> 3  1995   136
-> 4  2005   140
-> 5  2010   140
-> 6  2015   142
-> 7  2016   142
-> 8  2017   142
+> year
+> 1975    111
+> 1985    113
+> 1995    136
+> 2005    140
+> 2010    140
+> 2015    142
+> 2016    142
+> 2017    142
+> Name: count, dtype: int64
 > ~~~
 > {: .output}
 > 
@@ -1296,425 +1630,468 @@ Excellent! The last step before we can join this data frame is to get the most d
 > > ## Solution: 
 > > 
 > > ~~~
-> > co2_emissions_dirty %>%
-> >  select(country, year, series, value) %>%
-> >  mutate(series = recode(series, "Emissions (thousand metric tons of carbon dioxide)" = "total",
-> >                         "Emissions per capita (metric tons of carbon dioxide)" = "per_capita")) %>%
-> >  pivot_wider(names_from=series, values_from=value) %>%
-> >  filter(year==2005) %>%
-> >  select(-year)
+> > (
+> >     co2_emissions_dirty[['country', 'year', 'series', 'value']]
+> >     .replace({'series': {"Emissions (thousand metric tons of carbon dioxide)":"emissions_total",
+> >                          "Emissions per capita (metric tons of carbon dioxide)":"emissions_percap"}, 
+> >              })
+> >     .pivot(index=['country', 'year'], columns='series', values='value')
+> >     .reset_index()
+> >     .query("year == 2005")
+> >     .drop(columns='year')
+> > )
 > > ~~~
-> > {: .language-r}
+> > {: .language-python}
 > > 
 > > 
 > > 
 > > ~~~
-> > # A tibble: 140 × 3
-> >    country      total per_capita
-> >    <chr>        <dbl>      <dbl>
-> >  1 Albania      3825.      1.27 
-> >  2 Algeria     77474.      2.33 
-> >  3 Angola       6147.      0.314
-> >  4 Argentina  149476.      3.82 
-> >  5 Armenia      4130.      1.38 
-> >  6 Australia  365515.     17.9  
-> >  7 Austria     74764.      9.09 
-> >  8 Azerbaijan  29018.      3.46 
-> >  9 Bahrain     20565.     23.1  
-> > 10 Bangladesh  31960.      0.223
-> > # … with 130 more rows
+> > series                     country  emissions_percap  emissions_total
+> > 3                          Albania             1.270         3825.184
+> > 11                         Algeria             2.327        77474.130
+> > 19                          Angola             0.314         6146.691
+> > 27                       Argentina             3.819       149476.040
+> > 33                         Armenia             1.385         4129.845
+> > ...                            ...               ...              ...
+> > 1029    Venezuela (Boliv. Rep. of)             5.141       137701.548
+> > 1037                      Viet Nam             0.940        79230.185
+> > 1045                         Yemen             0.915        18836.222
+> > 1053                        Zambia             0.176         2120.692
+> > 1061                      Zimbabwe             0.794        10272.774
+> > 
+> > [140 rows x 3 columns]
 > > ~~~
 > > {: .output}
 > {: .solution}
 {: .challenge}
 
-
 Finally, let's go ahead and assign the output of this code chunk, which is the cleaned dataframe, to a variable name:
 
-
 ~~~
-co2_emissions <- co2_emissions_dirty %>%
-  select(country, year, series, value) %>%
-  mutate(series = recode(series, "Emissions (thousand metric tons of carbon dioxide)" = "total_emission",
-                         "Emissions per capita (metric tons of carbon dioxide)" = "per_capita_emission")) %>%
-  pivot_wider(names_from=series, values_from=value) %>%
-  filter(year==2005) %>%
-  select(-year)
+co2_emissions = (
+    co2_emissions_dirty[['country', 'year', 'series', 'value']]
+    .replace({'series': {'Emissions (thousand metric tons of carbon dioxide)':'emissions_total',
+                         'Emissions per capita (metric tons of carbon dioxide)':'emissions_percap'}, 
+             })
+    .pivot(index=['country', 'year'], columns='series', values='value')
+    .reset_index()
+    .query("year == 2005")
+    .drop(columns='year')
+)
 ~~~
-{: .language-r}
+{: .language-python}
 
-> **Looking at your data:** You can get a look at your data-cleaning hard work by navigating to the **Environment** tab in JupyterLab and clicking the table icon next to the variable name. Notice when we do this, JupyterLab automatically runs the `View()` command. We've made a lot of progress!
-{.callout}
+<!-- > **Looking at your data:** You can get a look at your data-cleaning hard work by navigating to the **Environment** tab in JupyterLab and clicking the table icon next to the variable name. Notice when we do this, JupyterLab automatically runs the `View()` command. We've made a lot of progress!
+{.callout} -->
 
 # Joining data frames
 
 [*Back to top*](#contents)
 
 
-Now we're ready to join our CO2 emissions data to the gapminder data. Previously we saw that we could read in and filter the gapminder data like this to get the data from the Americas for 2007 so we can create a new dataframe with our filtered data:
-
-
-~~~
-gapminder_data_2007 <- read_csv("data/gapminder_data.csv") %>%
-  filter(year == 2007 & continent == "Americas") %>%
-  select(-year, -continent)
-~~~
-{: .language-r}
-
-
+Now we're ready to join our CO2 emissions data to the gapminder data. 
+Previously we saw that we could read in and query the gapminder data like this to get the data from the Americas for 2007 so we can create a new DataFrame with our filtered data:
 
 ~~~
-Rows: 1704 Columns: 6
+gapminder_2007 = (
+    gapminder
+    .query("year == 2007 and continent == 'Americas'")
+    .drop(columns=['year', 'continent'])
+)
 ~~~
-{: .output}
+{: .language-python}
 
 
+Look at the data in `co2_emissions` and `gapminder_data_2007`. 
+If you had to merge these two data frames together, which column would you use to merge them together? 
+If you said "country" - good job!
 
-~~~
-── Column specification ─────────────────────────────────────────────────────────────────────────────────
-Delimiter: ","
-chr (2): country, continent
-dbl (4): year, pop, lifeExp, gdpPercap
-~~~
-{: .output}
+We'll call country our "key". 
+Now, when we join them together, can you think of any problems we might run into when we merge things? 
+We might not have CO2 emissions data for all of the countries in the gapminder dataset and vice versa. 
+Also, a country might be represented in both data frames but not by the same name in both places. 
+As an example, write down the name of the country that the University of Michigan is in - 
+we'll come back to your answer shortly!
 
+pandas has a number of tools for joining data frames together depending on what we want to do with the rows of the data of countries that are not represented in both data frames. 
+Here we'll be using "inner join" and "outer join". 
 
-
-~~~
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-~~~
-{: .output}
-
-Look at the data in `co2_emissions` and `gapminder_data_2007`. If you had to merge these two data frames together, which column would you use to merge them together? If you said "country" - good job!
-
-We'll call country our "key". Now, when we join them together, can you think of any problems we might run into when we merge things? We might not have CO2 emissions data for all of the countries in the gapminder dataset and vice versa. Also, a country might be represented in both data frames but not by the same name in both places. As an example, write down the name of the country that the University of Michigan is in - we'll come back to your answer shortly!
-
-The dplyr package has a number of tools for joining data frames together depending on what we want to do with the rows of the data of countries that are not represented in both data frames. Here we'll be using `inner_join()` and `anti_join()`. 
-
-In an "inner join", the new data frame only has those rows where the same key is found in both data frames. This is a very commonly used join.
+In an "inner join", the new data frame only has those rows where the same key is found in both data frames. 
+This is a very commonly used join.
 
 ![]({{ page.root }}/fig/r-data-analysis/join-inner.png)
 
-> ## Bonus: Other dplyr join functions 
+> ## Bonus: Other pandas join methods 
 >
-> Outer joins and can be performed using `left_join()`, `right_join()`, and `full_join()`. In a "left join", if the key is present in the left hand data frame, it will appear in the output, even if it is not found in the the right hand data frame. For a right join, the opposite is true. For a full join, all possible keys are included in the output data frame.
+> There are other types of join too. 
+> For a *left* join, if the key is present in the left hand DataFrame, it will appear in the output, even if it is not found in the the right hand DataFrame. 
+> For a *right* join, the opposite is true.
+> For a *outer* (or full) join, all possible keys are included in the output DataFrame.
 > 
 > ![]({{ page.root }}/fig/r-data-analysis/join-outer.png)
 {: .solution}
 
-Let's give the `inner_join()` function a try.
+Let's give the `merge` method a try.
 
 ~~~
-inner_join(gapminder_data, co2_emissions)
+(
+    gapminder_2007
+    .merge(co2_emissions, how='inner', on='country')
+)
 ~~~
-{: .language-r}
+{: .language-python}
+
+
+~~~
+                country          pop  lifeExp     gdpPercap  emissions_percap  emissions_total
+0             Argentina   40301927.0   75.320  12779.379640             3.819       149476.040
+1                Brazil  190010647.0   72.390   9065.800825             1.667       311623.799
+2                Canada   33390141.0   80.653  36319.235010            16.762       540431.495
+3                 Chile   16284741.0   78.553  13171.638850             3.343        54434.634
+4              Colombia   44227550.0   72.889   7006.580419             1.238        53585.300
+5            Costa Rica    4133884.0   78.782   9645.061420             1.286         5463.059
+6                  Cuba   11416987.0   78.273   8948.102923             2.220        25051.431
+7    Dominican Republic    9319622.0   72.235   6025.374752             1.897        17522.139
+8               Ecuador   13755680.0   74.994   6873.262326             1.742        23926.725
+9           El Salvador    6939688.0   71.878   5728.353514             1.037         6252.815
+10            Guatemala   12572928.0   70.259   5186.050003             0.811        10621.597
+11                Haiti    8502814.0   60.916   1201.637154             0.214         1980.992
+12             Honduras    7483763.0   70.198   3548.330846             0.976         7192.737
+13              Jamaica    2780132.0   72.567   7320.880262             3.746        10281.648
+14               Mexico  108700891.0   76.195  11977.574960             3.854       412385.135
+15            Nicaragua    5675356.0   72.899   2749.320965             0.750         4032.083
+16               Panama    3242173.0   75.537   9809.185636             2.035         6776.118
+17             Paraguay    6667147.0   71.752   4172.838464             0.599         3472.665
+18                 Peru   28674757.0   71.421   7408.905561             1.037        28632.888
+19  Trinidad and Tobago    1056608.0   69.819  18008.509240            13.243        17175.823
+20              Uruguay    3447496.0   76.384  10611.462990             1.549         5151.871
+~~~
+{: .output}
+
+Do you see that we now have data from both DataFrames joined together? 
+
+
+One thing to notice is that gapminder data had 25 rows, but the output of our join only had 21. 
+Let's investigate. 
+It appears that there must have been countries in the gapminder data that did not appear in our CO2 emission data. 
+
+Let's do another merge for this, this time with an outer join. 
+If we set the `indicator` argument to `True`, it will add a new column called `_merge` to the merged data, and the value indicates whether a particular record appeared at `left_only`, `right_only`, or `both`. 
+Then we can do a query to show the data for the keys on the left that are missing from the data frame on the right. 
+
+
+~~~
+(
+    gapminder_2007
+    .merge(co2_emissions, how='outer', on='country', indicator=True)
+    .query("_merge == 'left_only'")
+)
+~~~
+{: .language-python}
 
 
 
 ~~~
-Joining, by = "country"
+          country          pop  lifeExp     gdpPercap  emissions_percap  emissions_total     _merge
+1         Bolivia    9119152.0   65.554   3822.137084               NaN              NaN  left_only
+20    Puerto Rico    3942491.0   78.746  19328.709010               NaN              NaN  left_only
+22  United States  301139947.0   78.242  42951.653090               NaN              NaN  left_only
+24      Venezuela   26084662.0   73.747  11415.805690               NaN              NaN  left_only
+~~~
+{: .output}
+
+We can see that the CO2 emission data were missing for Bolivia, Puerto Rico, United States, and Venezuela. 
+
+
+We can query the CO2 emission data to check if there are records contain these names. 
+
+Note we can split a long string by adding a backslash `\` (it's called a line continuation character) at the end of each line.
+The string will continue on the next line as if it were a single line.
+
+~~~
+(
+    co2_emissions
+    .query("country.str.contains('Bolivia') or \
+            country.str.contains('Puerto Rico') or \
+            country.str.contains('United States') or \
+            country.str.contains('Venezuela')")
+)
+~~~
+{: .language-python}
+
+
+~~~
+series                     country  emissions_percap  emissions_total
+101     Bolivia (Plurin. State of)             0.984         8975.809
+1007      United States of America            19.268      5703220.175
+1029    Venezuela (Boliv. Rep. of)             5.141       137701.548
+~~~
+{: .output}
+
+From the outputs above we can see that Bolivia, United States, and Venezuela are called different things in the CO2 emission data. 
+Puerto Rico isn't a country; it's part of the United States. 
+We can apply the `replace` method to these country names in the CO2 emission data so that the country names for Bolivia, United States, and Venezuela, match those in the gapminder data.
+
+~~~
+(
+    co2_emissions
+    .replace({'country':{'Bolivia (Plurin. State of)':'Bolivia',
+                         'United States of America':'United States',
+                         'Venezuela (Boliv. Rep. of)':'Venezuela'}
+             })
+)
+~~~
+{: .language-python}
+
+~~~
+series    country  emissions_percap  emissions_total
+3         Albania             1.270         3825.184
+11        Algeria             2.327        77474.130
+19         Angola             0.314         6146.691
+27      Argentina             3.819       149476.040
+33        Armenia             1.385         4129.845
+...           ...               ...              ...
+1029    Venezuela             5.141       137701.548
+1037     Viet Nam             0.940        79230.185
+1045        Yemen             0.915        18836.222
+1053       Zambia             0.176         2120.692
+1061     Zimbabwe             0.794        10272.774
+
+[140 rows x 3 columns]
 ~~~
 {: .output}
 
 
-
 ~~~
-# A tibble: 1,188 × 8
-   country  year     pop continent lifeExp gdpPercap total_emission
-   <chr>   <dbl>   <dbl> <chr>       <dbl>     <dbl>          <dbl>
- 1 Albania  1952 1282697 Europe       55.2     1601.          3825.
- 2 Albania  1957 1476505 Europe       59.3     1942.          3825.
- 3 Albania  1962 1728137 Europe       64.8     2313.          3825.
- 4 Albania  1967 1984060 Europe       66.2     2760.          3825.
- 5 Albania  1972 2263554 Europe       67.7     3313.          3825.
- 6 Albania  1977 2509048 Europe       68.9     3533.          3825.
- 7 Albania  1982 2780097 Europe       70.4     3631.          3825.
- 8 Albania  1987 3075321 Europe       72       3739.          3825.
- 9 Albania  1992 3326498 Europe       71.6     2497.          3825.
-10 Albania  1997 3428038 Europe       73.0     3193.          3825.
-# … with 1,178 more rows, and 1 more variable: per_capita_emission <dbl>
+(
+    gapminder_2007
+    .merge(co2_emissions.replace({'country':{'Bolivia (Plurin. State of)':'Bolivia',
+                                  'United States of America':'United States',
+                                  'Venezuela (Boliv. Rep. of)':'Venezuela'}
+                                 }),
+           how='outer', on='country', indicator=True)
+    .query("_merge == 'left_only'")
+)
 ~~~
-{: .output}
-
-Do you see that we now have data from both data frames joined together in the same data frame? One thing to note about the output is that `inner_join()` tells us that that it joined by "country". We can make this explicit using the "by" argument in the join functions
-
-
-~~~
-inner_join(gapminder_data, co2_emissions, by="country")
-~~~
-{: .language-r}
+{: .language-python}
 
 
 
 ~~~
-# A tibble: 1,188 × 8
-   country  year     pop continent lifeExp gdpPercap total_emission
-   <chr>   <dbl>   <dbl> <chr>       <dbl>     <dbl>          <dbl>
- 1 Albania  1952 1282697 Europe       55.2     1601.          3825.
- 2 Albania  1957 1476505 Europe       59.3     1942.          3825.
- 3 Albania  1962 1728137 Europe       64.8     2313.          3825.
- 4 Albania  1967 1984060 Europe       66.2     2760.          3825.
- 5 Albania  1972 2263554 Europe       67.7     3313.          3825.
- 6 Albania  1977 2509048 Europe       68.9     3533.          3825.
- 7 Albania  1982 2780097 Europe       70.4     3631.          3825.
- 8 Albania  1987 3075321 Europe       72       3739.          3825.
- 9 Albania  1992 3326498 Europe       71.6     2497.          3825.
-10 Albania  1997 3428038 Europe       73.0     3193.          3825.
-# … with 1,178 more rows, and 1 more variable: per_capita_emission <dbl>
+        country        pop  lifeExp    gdpPercap  emissions_percap  emissions_total     _merge
+20  Puerto Rico  3942491.0   78.746  19328.70901               NaN              NaN  left_only
 ~~~
 {: .output}
 
-One thing to notice is that gapminder data had 25 rows, but the output of our join only had 21. Let's investigate. It appears that there must have been countries in the gapminder data that did not appear in our co2_emissions data frame. 
+Now we see that the replacement of the country names enabled the join for all countries in the gapminder, and we are left with Puerto Rico. 
+In the next exercise, let's replace the name Puerto Rico to United States in the gapminder data and then use the `groupby` method to aggregate the data.
+We'll use the population data to weight the life expectancy and GDP values.
 
-Let's use `anti_join()` for this - this will show us the data for the keys on the left that are missing from the data frame on the right. 
-
-
-~~~
-anti_join(gapminder_data, co2_emissions, by="country")
-~~~
-{: .language-r}
-
-
+In the gapminder data, let's first replace the name Puerto Rico to United States. 
 
 ~~~
-# A tibble: 516 × 6
-   country      year      pop continent lifeExp gdpPercap
-   <chr>       <dbl>    <dbl> <chr>       <dbl>     <dbl>
- 1 Afghanistan  1952  8425333 Asia         28.8      779.
- 2 Afghanistan  1957  9240934 Asia         30.3      821.
- 3 Afghanistan  1962 10267083 Asia         32.0      853.
- 4 Afghanistan  1967 11537966 Asia         34.0      836.
- 5 Afghanistan  1972 13079460 Asia         36.1      740.
- 6 Afghanistan  1977 14880372 Asia         38.4      786.
- 7 Afghanistan  1982 12881816 Asia         39.9      978.
- 8 Afghanistan  1987 13867957 Asia         40.8      852.
- 9 Afghanistan  1992 16317921 Asia         41.7      649.
-10 Afghanistan  1997 22227415 Asia         41.8      635.
-# … with 506 more rows
+(
+    gapminder_2007
+    .replace({'country':{'Puerto Rico':'United States'}})
+)
 ~~~
-{: .output}
-We can see that the co2_emissions data were missing for Bolivia, Puerto Rico, United States, and Venezuela. 
-
-If we look at the co2_emissions data with `View()`, we will see that Bolivia, United States, and Venezuela are called different things in the co2_emissions data frame. They're called "Bolivia (Plurin. State of)", "United States of America", and "Venezuela (Boliv. Rep. of)". Puerto Rico isn't a country; it's part of the United States. Using `mutate()` and `recode()`, we can re-import the co2_emissions data so that the country names for Bolivia, United States, and Venezuela, match those in the gapminder data.
-
-
-~~~
-co2_emissions <- read_csv("data/co2-un-data.csv", skip=2,
-                          col_names=c("region", "country", "year",
-                                      "series", "value", "footnotes", "source")) %>%
-  select(country, year, series, value) %>%
-  mutate(series = recode(series, "Emissions (thousand metric tons of carbon dioxide)" = "total",
-                         "Emissions per capita (metric tons of carbon dioxide)" = "per_capita")) %>%
-  pivot_wider(names_from=series, values_from=value) %>%
-  filter(year==2005) %>%
-  select(-year) %>%
-  mutate(country=recode(country,
-                        "Bolivia (Plurin. State of)" = "Bolivia",
-                        "United States of America" = "United States",
-                        "Venezuela (Boliv. Rep. of)" = "Venezuela")
-  )
-~~~
-{: .language-r}
+{: .language-python}
 
 
 
 ~~~
-Rows: 2132 Columns: 7
+                  country          pop  lifeExp     gdpPercap
+59              Argentina   40301927.0   75.320  12779.379640
+143               Bolivia    9119152.0   65.554   3822.137084
+179                Brazil  190010647.0   72.390   9065.800825
+251                Canada   33390141.0   80.653  36319.235010
+287                 Chile   16284741.0   78.553  13171.638850
+311              Colombia   44227550.0   72.889   7006.580419
+359            Costa Rica    4133884.0   78.782   9645.061420
+395                  Cuba   11416987.0   78.273   8948.102923
+443    Dominican Republic    9319622.0   72.235   6025.374752
+455               Ecuador   13755680.0   74.994   6873.262326
+479           El Salvador    6939688.0   71.878   5728.353514
+611             Guatemala   12572928.0   70.259   5186.050003
+647                 Haiti    8502814.0   60.916   1201.637154
+659              Honduras    7483763.0   70.198   3548.330846
+791               Jamaica    2780132.0   72.567   7320.880262
+995                Mexico  108700891.0   76.195  11977.574960
+1115            Nicaragua    5675356.0   72.899   2749.320965
+1187               Panama    3242173.0   75.537   9809.185636
+1199             Paraguay    6667147.0   71.752   4172.838464
+1211                 Peru   28674757.0   71.421   7408.905561
+1259        United States    3942491.0   78.746  19328.709010
+1559  Trinidad and Tobago    1056608.0   69.819  18008.509240
+1619        United States  301139947.0   78.242  42951.653090
+1631              Uruguay    3447496.0   76.384  10611.462990
+1643            Venezuela   26084662.0   73.747  11415.805690
 ~~~
 {: .output}
 
-
-
-~~~
-── Column specification ─────────────────────────────────────────────────────────────────────────────────
-Delimiter: ","
-chr (4): country, series, footnotes, source
-dbl (3): region, year, value
-~~~
-{: .output}
-
-
+Now we have to group Puerto Rico and the US together, aggregating and calculating the data for all of the other columns. 
+This is a little tricky - we will need a populated-weighted mean of lifeExp and gdpPercap. 
 
 ~~~
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+(
+    gapminder_2007
+    .replace({'country':{'Puerto Rico':'United States'}})
+    .groupby('country')
+    .apply(lambda df: pd.Series({'pop': np.sum(df['pop']),
+                                 'gdpPercap': np.sum(df['gdpPercap'] * df['pop']) / np.sum(df['pop']),
+                                 'lifeExp': np.sum(df['lifeExp'] * df['pop']) / np.sum(df['pop']),
+                                }))
+)
 ~~~
-{: .output}
+{: .language-python}
 
 
 
 ~~~
-anti_join(gapminder_data, co2_emissions, by="country")
-~~~
-{: .language-r}
-
-
-
-~~~
-# A tibble: 480 × 6
-   country      year      pop continent lifeExp gdpPercap
-   <chr>       <dbl>    <dbl> <chr>       <dbl>     <dbl>
- 1 Afghanistan  1952  8425333 Asia         28.8      779.
- 2 Afghanistan  1957  9240934 Asia         30.3      821.
- 3 Afghanistan  1962 10267083 Asia         32.0      853.
- 4 Afghanistan  1967 11537966 Asia         34.0      836.
- 5 Afghanistan  1972 13079460 Asia         36.1      740.
- 6 Afghanistan  1977 14880372 Asia         38.4      786.
- 7 Afghanistan  1982 12881816 Asia         39.9      978.
- 8 Afghanistan  1987 13867957 Asia         40.8      852.
- 9 Afghanistan  1992 16317921 Asia         41.7      649.
-10 Afghanistan  1997 22227415 Asia         41.8      635.
-# … with 470 more rows
-~~~
-{: .output}
-
-Now we see that our recode enabled the join for all countries in the gapminder, and we are left with Puerto Rico. In the next exercise, let's recode Puerto Rico as United States in the gapminder data and then use `group_by()` and `summarize()` to aggregate the data; we'll use the population data to weight the life expectancy and GDP values.
-
-
-In the gapminder data, let's recode Puerto Rico as United States. 
-
-~~~
-gapminder_data <- read_csv("data/gapminder_data.csv") %>%
-filter(year == 2007 & continent == "Americas") %>%
-select(-year, -continent) %>%
-mutate(country = recode(country, "Puerto Rico" = "United States")) 
-~~~
-{: .language-r}
-
-
-
-~~~
-Rows: 1704 Columns: 6
+                             pop     gdpPercap    lifeExp
+country                                                  
+Argentina             40301927.0  12779.379640  75.320000
+Bolivia                9119152.0   3822.137084  65.554000
+Brazil               190010647.0   9065.800825  72.390000
+Canada                33390141.0  36319.235010  80.653000
+Chile                 16284741.0  13171.638850  78.553000
+Colombia              44227550.0   7006.580419  72.889000
+Costa Rica             4133884.0   9645.061420  78.782000
+Cuba                  11416987.0   8948.102923  78.273000
+Dominican Republic     9319622.0   6025.374752  72.235000
+Ecuador               13755680.0   6873.262326  74.994000
+El Salvador            6939688.0   5728.353514  71.878000
+Guatemala             12572928.0   5186.050003  70.259000
+Haiti                  8502814.0   1201.637154  60.916000
+Honduras               7483763.0   3548.330846  70.198000
+Jamaica                2780132.0   7320.880262  72.567000
+Mexico               108700891.0  11977.574960  76.195000
+Nicaragua              5675356.0   2749.320965  72.899000
+Panama                 3242173.0   9809.185636  75.537000
+Paraguay               6667147.0   4172.838464  71.752000
+Peru                  28674757.0   7408.905561  71.421000
+Trinidad and Tobago    1056608.0  18008.509240  69.819000
+United States        305082438.0  42646.380702  78.248513
+Uruguay                3447496.0  10611.462990  76.384000
+Venezuela             26084662.0  11415.805690  73.747000
 ~~~
 {: .output}
 
-
-
-~~~
-── Column specification ─────────────────────────────────────────────────────────────────────────────────
-Delimiter: ","
-chr (2): country, continent
-dbl (4): year, pop, lifeExp, gdpPercap
-~~~
-{: .output}
-
-
-
-~~~
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-~~~
-{: .output}
-
-Now we have to group Puerto Rico and the US together, aggregating and calculating the data for all of the other columns. This is a little tricky - we will need a weighted average of lifeExp and gdpPercap. 
-
-
-~~~
-gapminder_data <- read_csv("data/gapminder_data.csv") %>%
-  filter(year == 2007 & continent == "Americas") %>%
-  select(-year, -continent) %>%
-  mutate(country = recode(country, "Puerto Rico" = "United States")) %>%
-  group_by(country) %>%
-  summarize(lifeExp = sum(lifeExp * pop)/sum(pop),
-            gdpPercap = sum(gdpPercap * pop)/sum(pop),
-            pop = sum(pop)
-  )
-~~~
-{: .language-r}
-
-
-
-~~~
-Rows: 1704 Columns: 6
-~~~
-{: .output}
-
-
-
-~~~
-── Column specification ─────────────────────────────────────────────────────────────────────────────────
-Delimiter: ","
-chr (2): country, continent
-dbl (4): year, pop, lifeExp, gdpPercap
-~~~
-{: .output}
-
-
-
-~~~
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-~~~
-{: .output}
 
 Let's check to see if it worked! 
 
 ~~~
-anti_join(gapminder_data, co2_emissions, by="country")
+(
+    gapminder_2007
+    .replace({'country':{'Puerto Rico': 'United States'}})
+    .groupby('country')
+    .apply(lambda df: pd.Series({'pop': np.sum(df['pop']),
+                                 'gdpPercap': np.sum(df['gdpPercap'] * df['pop']) / np.sum(df['pop']),
+                                 'lifeExp': np.sum(df['lifeExp'] * df['pop']) / np.sum(df['pop']),
+                                }))
+    .merge(co2_emissions.replace({'country': {"Bolivia (Plurin. State of)":"Bolivia",
+                                              "United States of America":"United States",
+                                              "Venezuela (Boliv. Rep. of)":"Venezuela"}}),
+           how='outer', on='country', indicator=True)
+    .query("_merge == 'left_only'")
+)
 ~~~
-{: .language-r}
+{: .language-python}
 
 
 
 ~~~
-# A tibble: 0 × 4
-# … with 4 variables: country <chr>, lifeExp <dbl>, gdpPercap <dbl>, pop <dbl>
+Empty DataFrame
+Columns: [country, pop, gdpPercap, lifeExp, emissions_percap, emissions_total, _merge]
+Index: []
 ~~~
 {: .output}
-Now our `anti_join()` returns an empty data frame, which tells us that we have reconciled all of the keys from the gapminder data with the data in the co2_emissions data frame.
 
-Finally, let's use the `inner_join()` to create a new data frame:
+Now the output above returns an empty DataFrame, which tells us that we have reconciled all of the keys from the gapminder data with the data in the CO2 emission data.
+
+Finally, let's merge the data with inner join to create a new DataFrame.
 
 
 ~~~
-gapminder_co2 <- inner_join(gapminder_data, co2_emissions, by="country")
+gapminder_co2 = (
+    gapminder_2007
+    .replace({'country':{'Puerto Rico': 'United States'}})
+    .groupby('country')
+    .apply(lambda df: pd.Series({'pop': np.sum(df['pop']),
+                                 'gdpPercap': np.sum(df['gdpPercap'] * df['pop']) / np.sum(df['pop']),
+                                 'lifeExp': np.sum(df['lifeExp'] * df['pop']) / np.sum(df['pop']),
+                                }))
+    .merge(co2_emissions.replace({'country': {"Bolivia (Plurin. State of)":"Bolivia",
+                                              "United States of America":"United States",
+                                              "Venezuela (Boliv. Rep. of)":"Venezuela"}}),
+           how='inner', on='country')
+)
 ~~~
-{: .language-r}
+{: .language-python}
 
 One last thing! What if we're interested in distinguishing between countries in North America and South America? We want to create two groups - Canada, the United States, and Mexico in one and the other countries in another.  
 
-We can create a grouping variable using `mutate()` combined with an `if_else()` function - a very useful pairing.  
+We can apply the `assign` method to add a new column and use the numpy function `np.where` to help us define the region.
  
 
 ~~~
-gapminder_co2 %>%  
-mutate(region = if_else(country == "Canada" | country == "United States" | country == "Mexico", "north", "south"))  
+(
+    gapminder_co2
+    .assign(region=lambda df: np.where(df['country'].isin(['Canada', 'United States', 'Mexico']), 'north', 'south'))
+)
 ~~~
-{: .language-r}
+{: .language-python}
 
 
 
 ~~~
-# A tibble: 24 × 7
-   country            lifeExp gdpPercap       pop   total per_capita region
-   <chr>                <dbl>     <dbl>     <dbl>   <dbl>      <dbl> <chr> 
- 1 Argentina             75.3    12779.  40301927 149476.      3.82  south 
- 2 Bolivia               65.6     3822.   9119152   8976.      0.984 south 
- 3 Brazil                72.4     9066. 190010647 311624.      1.67  south 
- 4 Canada                80.7    36319.  33390141 540431.     16.8   north 
- 5 Chile                 78.6    13172.  16284741  54435.      3.34  south 
- 6 Colombia              72.9     7007.  44227550  53585.      1.24  south 
- 7 Costa Rica            78.8     9645.   4133884   5463.      1.29  south 
- 8 Cuba                  78.3     8948.  11416987  25051.      2.22  south 
- 9 Dominican Republic    72.2     6025.   9319622  17522.      1.90  south 
-10 Ecuador               75.0     6873.  13755680  23927.      1.74  south 
-# … with 14 more rows
+                country          pop     gdpPercap    lifeExp  emissions_percap  emissions_total region
+0             Argentina   40301927.0  12779.379640  75.320000             3.819       149476.040  south
+1               Bolivia    9119152.0   3822.137084  65.554000             0.984         8975.809  south
+2                Brazil  190010647.0   9065.800825  72.390000             1.667       311623.799  south
+3                Canada   33390141.0  36319.235010  80.653000            16.762       540431.495  north
+4                 Chile   16284741.0  13171.638850  78.553000             3.343        54434.634  south
+5              Colombia   44227550.0   7006.580419  72.889000             1.238        53585.300  south
+6            Costa Rica    4133884.0   9645.061420  78.782000             1.286         5463.059  south
+7                  Cuba   11416987.0   8948.102923  78.273000             2.220        25051.431  south
+8    Dominican Republic    9319622.0   6025.374752  72.235000             1.897        17522.139  south
+9               Ecuador   13755680.0   6873.262326  74.994000             1.742        23926.725  south
+10          El Salvador    6939688.0   5728.353514  71.878000             1.037         6252.815  south
+11            Guatemala   12572928.0   5186.050003  70.259000             0.811        10621.597  south
+12                Haiti    8502814.0   1201.637154  60.916000             0.214         1980.992  south
+13             Honduras    7483763.0   3548.330846  70.198000             0.976         7192.737  south
+14              Jamaica    2780132.0   7320.880262  72.567000             3.746        10281.648  south
+15               Mexico  108700891.0  11977.574960  76.195000             3.854       412385.135  north
+16            Nicaragua    5675356.0   2749.320965  72.899000             0.750         4032.083  south
+17               Panama    3242173.0   9809.185636  75.537000             2.035         6776.118  south
+18             Paraguay    6667147.0   4172.838464  71.752000             0.599         3472.665  south
+19                 Peru   28674757.0   7408.905561  71.421000             1.037        28632.888  south
+20  Trinidad and Tobago    1056608.0  18008.509240  69.819000            13.243        17175.823  south
+21        United States  305082438.0  42646.380702  78.248513            19.268      5703220.175  north
+22              Uruguay    3447496.0  10611.462990  76.384000             1.549         5151.871  south
+23            Venezuela   26084662.0  11415.805690  73.747000             5.141       137701.548  south
 ~~~
 {: .output}
-Let's look at the output - see how the Canada, US, and Mexico rows are all labeled as "north" and everything else is labeled as "south"  
 
-We have reached our data cleaning goals! One of the best aspects of doing all of these steps coded in R is that our efforts are reproducible, and the raw data is maintained. With good documentation of data cleaning and analysis steps, we could easily share our work with another researcher who would be able to repeat what we've done. However, it's also nice to have a saved `csv` copy of our clean data. That way we can access it later without needing to redo our data cleaning, and we can also share the cleaned data with collaborators. To save our dataframe, we'll use `write_csv()`. 
+Let's look at the output - see how the Canada, US, and Mexico rows are all labeled as "north" and everything else is labeled as "south". 
+
+We have reached our data cleaning goals! 
+One of the best aspects of doing all of these steps coded in Python is that our efforts are reproducible, and the raw data is maintained. 
+With good documentation of data cleaning and analysis steps, we could easily share our work with another researcher who would be able to repeat what we've done. 
+However, it's also nice to have a saved `csv` copy of our clean data. 
+That way we can access it later without needing to redo our data cleaning, 
+and we can also share the cleaned data with collaborators. 
+We can apply the `to_csv` method to a DataFrame to save it to a CSV file. 
 
 
 ~~~
-write_csv(gapminder_co2, "data/gapminder_co2.csv")
+(
+    gapminder_co2
+    .assign(region=lambda df: np.where(df['country'].isin(['Canada', 'United States', 'Mexico']), 'north', 'south'))
+    .to_csv("./data/gapminder_co2.csv")
+)
 ~~~
-{: .language-r}
+{: .language-python}
 
 Great - Now we can move on to the analysis! 
 
@@ -1722,135 +2099,157 @@ Great - Now we can move on to the analysis!
 
 [*Back to top*](#contents)
 
-For our analysis, we have two questions we'd like to answer. First, is there a relationship between the GDP of a country and the amount of CO2 emitted (per capita)? Second, Canada, the United States, and Mexico account for nearly half of the population of the Americas. What percent of the total CO2 production do they account for?
+For our analysis, we have two questions we'd like to answer. 
+First, is there a relationship between the GDP of a country and the amount of CO2 emitted (per capita)?
+Second, Canada, the United States, and Mexico account for nearly half of the population of the Americas. 
+What percent of the total CO2 production do they account for?
 
 To answer the first question, we'll plot the CO2 emitted (on a per capita basis) against the GDP (on a per capita basis) using a scatter plot:
 
-
 ~~~
-ggplot(gapminder_co2, aes(x=gdpPercap, y=per_capita)) +
-  geom_point() +
-  labs(x="GDP (per capita)",
-       y="CO2 emitted (per capita)",
-       title="There is a strong association between a nation's GDP \nand the amount of CO2 it produces"
-  )
-~~~
-{: .language-r}
+import seaborn.objects as so
 
-<img src="../fig/rmd-04-PlotPercapCO2vsGDP-1.png" title="plot of chunk PlotPercapCO2vsGDP" alt="plot of chunk PlotPercapCO2vsGDP" width="612" style="display: block; margin: auto;" />
+(
+    so.Plot(gapminder_co2, x='gdpPercap', y='emissions_percap')
+    .add(so.Dot())
+    .label(x="GDP (per capita)",
+           y="CO2 emitted (per capita)",
+           title="There is a strong association between a nation's GDP \nand the amount of CO2 it produces")
+)
+~~~
+{: .language-python}
+
+<img src="../fig/05-PlotPercapCO2vsGDP-1.png" title="plot of chunk PlotPercapCO2vsGDP" alt="plot of chunk PlotPercapCO2vsGDP" width="612" style="display: block; margin: auto;" />
 
 *Tip:* Notice we used the `\n` in our title to get a new line to prevent it from getting cut off.
 
-To help clarify the association, we can add a fit line through the data using `geom_smooth()`
+To help clarify the association, we can add a fitted line representing a 3rd order polynomial regression model.
 
 
 ~~~
-ggplot(gapminder_co2, aes(x=gdpPercap, y=per_capita)) +
-  geom_point() +
-  labs(x="GDP (per capita)",
-       y="CO2 emitted (per capita)",
-       title="There is a strong association between a nation's GDP \nand the amount of CO2 it produces"
-  ) +
-  geom_smooth()
+(
+    so.Plot(gapminder_co2, x='gdpPercap', y='emissions_percap')
+    .add(so.Dot(), label='data')
+    .add(so.Line(color='red'), so.PolyFit(order=3), label='model')
+    .label(x="GDP (per capita)",
+           y="CO2 emitted (per capita)",
+           title="There is a strong association between a nation's GDP \nand the amount of CO2 it produces")
+)
 ~~~
-{: .language-r}
+{: .language-python}
 
+<img src="../fig/05-PlotPercapCO2vsGDPSmooth-1.png" title="plot of chunk PlotPercapCO2vsGDPSmooth" alt="plot of chunk PlotPercapCO2vsGDPSmooth" width="612" style="display: block; margin: auto;" />
 
-
-~~~
-`geom_smooth()` using method = 'loess' and formula 'y ~ x'
-~~~
-{: .output}
-
-<img src="../fig/rmd-04-PlotPercapCO2vsGDPSmooth-1.png" title="plot of chunk PlotPercapCO2vsGDPSmooth" alt="plot of chunk PlotPercapCO2vsGDPSmooth" width="612" style="display: block; margin: auto;" />
-
-We can force the line to be straight using `method="lm"` as an argument to `geom_smooth`
+We can force the line to be straight using `order=1` as an argument to `so.PolyFit`.
 
 
 ~~~
-ggplot(gapminder_co2, aes(x=gdpPercap, y=per_capita)) +
-  geom_point() +
-  labs(x="GDP (per capita)",
-       y="CO2 emitted (per capita)",
-       title="There is a strong association between a nation's GDP \nand the amount of CO2 it produces"
-  ) +
-  geom_smooth(method="lm")
+(
+    so.Plot(gapminder_co2, x='gdpPercap', y='emissions_percap')
+    .add(so.Dot(), label='data')
+    .add(so.Line(color='red'), so.PolyFit(order=1), label='model')
+    .label(x="GDP (per capita)",
+           y="CO2 emitted (per capita)",
+           title="There is a strong association between a nation's GDP \nand the amount of CO2 it produces")
+)
 ~~~
-{: .language-r}
+{: .language-python}
 
 
+<img src="../fig/05-PlotPercapCO2vsGDP1SmoothLm-1.png" title="plot of chunk PlotPercapCO2vsGDP1SmoothLm" alt="plot of chunk PlotPercapCO2vsGDP1SmoothLm" width="612" style="display: block; margin: auto;" />
+
+In addition, we see that only two or three countries have very high GDP/emissions, while the rest of the countries are cluttered in the lower ranges of the axes. 
+To make it easier to see the relationship we can set the x and y axis to a logarithmic scale.
+Lastly, we can also add a text layer that displays the country names next to the markers. 
 
 ~~~
-`geom_smooth()` using formula 'y ~ x'
+(
+    so.Plot(gapminder_co2, x='gdpPercap', y='emissions_percap', text='country')
+    .add(so.Dot(alpha=.8, pointsize=8))
+    .add(so.Text(color='gray', valign='bottom', fontsize=11))
+    .scale(x='log', y='log')
+    .label(x="GDP (per capita)",
+           y="CO2 emitted (per capita)",
+           title="There is a strong association between a nation's GDP \nand the amount of CO2 it produces")
+    .limit(x=(None, 70_000), y=(None, 30))
+)
 ~~~
-{: .output}
+{: .language-python}
 
-<img src="../fig/rmd-04-PlotPercapCO2vsGDP1SmoothLm-1.png" title="plot of chunk PlotPercapCO2vsGDP1SmoothLm" alt="plot of chunk PlotPercapCO2vsGDP1SmoothLm" width="612" style="display: block; margin: auto;" />
+<img src="../fig/05-PlotPercapCO2vsGDP-log.png" title="plot of chunk PlotPercapCO2vsGDP1SmoothLm" alt="plot of chunk PlotPercapCO2vsGDP1SmoothLm" width="612" style="display: block; margin: auto;" />
+
 
 To answer our first question, as the title of our plot indicates there is indeed a strong association between a nation's GDP and the amount of CO2 it produces.
 
 For the second question, we want to create two groups - Canada, the United States, and Mexico in one and the other countries in another.
 
-We can create a grouping variable using `mutate()` combined with an `if_else()` function - a very useful pairing.
-
 
 ~~~
-gapminder_co2 %>%
-  mutate(region = if_else(country == "Canada" | country == "United States" | country == "Mexico", "north", "south"))
+(
+    gapminder_co2
+    .assign(region=lambda df: np.where(df['country'].isin(['Canada', 'United States', 'Mexico']), 'north', 'south'))
+)
 ~~~
-{: .language-r}
-
-
-
-~~~
-# A tibble: 24 × 7
-   country            lifeExp gdpPercap       pop   total per_capita region
-   <chr>                <dbl>     <dbl>     <dbl>   <dbl>      <dbl> <chr> 
- 1 Argentina             75.3    12779.  40301927 149476.      3.82  south 
- 2 Bolivia               65.6     3822.   9119152   8976.      0.984 south 
- 3 Brazil                72.4     9066. 190010647 311624.      1.67  south 
- 4 Canada                80.7    36319.  33390141 540431.     16.8   north 
- 5 Chile                 78.6    13172.  16284741  54435.      3.34  south 
- 6 Colombia              72.9     7007.  44227550  53585.      1.24  south 
- 7 Costa Rica            78.8     9645.   4133884   5463.      1.29  south 
- 8 Cuba                  78.3     8948.  11416987  25051.      2.22  south 
- 9 Dominican Republic    72.2     6025.   9319622  17522.      1.90  south 
-10 Ecuador               75.0     6873.  13755680  23927.      1.74  south 
-# … with 14 more rows
-~~~
-{: .output}
-
-Now we can use this column to repeat our `group_by()` and `summarize()` steps
-
-
-~~~
-gapminder_co2 %>%
-  mutate(region = if_else(country == "Canada" |
-                            country == "United States" |
-                            country == "Mexico", "north", "south")) %>%
-  group_by(region) %>%
-  summarize(sumtotal = sum(total),
-            sumpop = sum(pop))
-~~~
-{: .language-r}
+{: .language-python}
 
 
 
 ~~~
-# A tibble: 2 × 3
-  region sumtotal    sumpop
-  <chr>     <dbl>     <dbl>
-1 north  6656037. 447173470
-2 south   889332. 451697714
+                country          pop     gdpPercap    lifeExp  emissions_percap  emissions_total region
+0             Argentina   40301927.0  12779.379640  75.320000             3.819       149476.040  south
+1               Bolivia    9119152.0   3822.137084  65.554000             0.984         8975.809  south
+2                Brazil  190010647.0   9065.800825  72.390000             1.667       311623.799  south
+3                Canada   33390141.0  36319.235010  80.653000            16.762       540431.495  north
+4                 Chile   16284741.0  13171.638850  78.553000             3.343        54434.634  south
+5              Colombia   44227550.0   7006.580419  72.889000             1.238        53585.300  south
+6            Costa Rica    4133884.0   9645.061420  78.782000             1.286         5463.059  south
+7                  Cuba   11416987.0   8948.102923  78.273000             2.220        25051.431  south
+8    Dominican Republic    9319622.0   6025.374752  72.235000             1.897        17522.139  south
+9               Ecuador   13755680.0   6873.262326  74.994000             1.742        23926.725  south
+10          El Salvador    6939688.0   5728.353514  71.878000             1.037         6252.815  south
+11            Guatemala   12572928.0   5186.050003  70.259000             0.811        10621.597  south
+12                Haiti    8502814.0   1201.637154  60.916000             0.214         1980.992  south
+13             Honduras    7483763.0   3548.330846  70.198000             0.976         7192.737  south
+14              Jamaica    2780132.0   7320.880262  72.567000             3.746        10281.648  south
+15               Mexico  108700891.0  11977.574960  76.195000             3.854       412385.135  north
+16            Nicaragua    5675356.0   2749.320965  72.899000             0.750         4032.083  south
+17               Panama    3242173.0   9809.185636  75.537000             2.035         6776.118  south
+18             Paraguay    6667147.0   4172.838464  71.752000             0.599         3472.665  south
+19                 Peru   28674757.0   7408.905561  71.421000             1.037        28632.888  south
+20  Trinidad and Tobago    1056608.0  18008.509240  69.819000            13.243        17175.823  south
+21        United States  305082438.0  42646.380702  78.248513            19.268      5703220.175  north
+22              Uruguay    3447496.0  10611.462990  76.384000             1.549         5151.871  south
+23            Venezuela   26084662.0  11415.805690  73.747000             5.141       137701.548  south
 ~~~
 {: .output}
 
-The `if_else()` statement reads like, "if country equals "Canada" OR `|` "United states" OR "Mexico", the new variable region should be "north", else "south"". It's worth exploring logical operators for "or" `|`, "and" `&&`, and "not" `!`, which opens up a great deal of possibilities for writing code to do what you want.
-
-We see that although Canada, the United States, and Mexico account for close to half the population of the Americas, they account for 88% of the CO2 emitted. We just did this math quickly by plugging the numbers from our table into the console to get the percentages. Can we make that a little more reproducible by calculating percentages for population (pop) and total emissions (total) into our data before summarizing?
+Now we can use this column to repeat our `groupby` method.
 
 
-## Finishing with Git and GitHub
+~~~
+(
+    gapminder_co2
+    .assign(region=lambda df: np.where(df['country'].isin(['Canada', 'United States', 'Mexico']), 'north', 'south'))
+    .groupby('region')[["emissions_total", "pop"]]
+    .sum()
+)
+~~~
+{: .language-python}
+
+
+
+~~~
+        emissions_total          pop
+region                              
+north       6656036.805  447173470.0
+south        889331.721  451697714.0
+~~~
+{: .output}
+
+We see that although Canada, the United States, and Mexico account for close to half the population of the Americas, they account for 88% of the CO2 emitted. We just did this math quickly by plugging the numbers from our table into the console to get the percentages. Can we make that a little more reproducible by calculating percentages for population and total emissions into our data before summarizing?
+
+
+## Finishing with Git and GitHub {#finishing-with-git-and-github}
 
 Awesome work! Let's make sure it doesn't go to waste. Time to add, commit, and push our changes to GitHub again - do you remember how?
 
@@ -1863,6 +2262,7 @@ Awesome work! Let's make sure it doesn't go to waste. Time to add, commit, and p
 > > cd ~/Desktop/un-report  
 > > ls
 > > ```
+> > {: .language-bash}
 > {: .solution}
 {: .challenge}
 
@@ -1875,7 +2275,7 @@ Awesome work! Let's make sure it doesn't go to waste. Time to add, commit, and p
 > > git status 
 > > git pull
 > > git status 
-> > git add "data-analysis.R"  
+> > git add "data-analysis.ipynb"  
 > > git status 
 > > git commit -m "Create data analysis file"  
 > > git status 
@@ -1883,6 +2283,7 @@ Awesome work! Let's make sure it doesn't go to waste. Time to add, commit, and p
 > > git push
 > > git status 
 > > ```
+> > {: .language-bash}
 > {: .solution}
 {: .challenge}
 
@@ -1891,32 +2292,41 @@ Awesome work! Let's make sure it doesn't go to waste. Time to add, commit, and p
 
 ## Bonus content
 
-### Sort data with `arrange()`
+### Sort data with `sort_values`
 
-The `arrange()` function allows us to sort our data by some value. Let's use the `gapminder_data` dataframe. We will take the average value for each continent in 2007 and then sort it so the continents with the longest life expectancy are on top. Which continent might you guess has be highest life expectancy before running the code?
+The `sort_values` method allows us to sort our data by some value. 
+Let's use the full gapminder data. 
+We will take the mean value for each continent in 2007 and then sort it so the continents with the longest life expectancy are on top. 
+Which continent might you guess has be highest life expectancy before running the code?
 
 The helper function `ends_with()` can help us here.
 
 ~~~
-gapminder_data %>%
- filter(year==2007) %>%
- group_by(continent) %>%
- summarise(average= mean(lifeExp)) %>%
- arrange(desc(average))
+(
+    gapminder
+    .query("year == 2007")
+    .groupby('continent')['lifeExp']
+    .mean()
+    .sort_values(ascending=False)
+)
 ~~~
-{: .language-r}
+{: .language-python}
 
 
 
 ~~~
-Error: Problem with `filter()` input `..1`.
-ℹ Input `..1` is `year == 2007`.
-✖ object 'year' not found
+continent
+Oceania     80.719500
+Europe      77.648600
+Americas    73.608120
+Asia        70.728485
+Africa      54.806038
+Name: lifeExp, dtype: float64
 ~~~
-{: .error}
+{: .output}
 
-Notice there that we can use the column created the in the `summarize()` step ("average") later in the `arrange()` step. We also use the `desc()` function here to sort the values in a descending order so the largest values are on top. The default is to put the smallest values on top.
-
+Notice we passed the argument `ascending=False` to the `sort_values` method to sort the values in a descending order so the largest values are on top. 
+The default is to put the smallest values on top.
 
 ## Bonus exercises
 
@@ -1926,59 +2336,73 @@ Notice there that we can use the column created the in the `summarize()` step ("
 >
 > > ## Solution
 > >
-> > Create a new variable using `mutate()` that calculates percentages for the pop and total variables.
+> > Create a new variable using `assign` that calculates percentages for the pop and total variables.
 > >
 > > 
 > > ~~~
-> > gapminder_co2 %>%
-> >   mutate(region = if_else(country == "Canada" | country == "United States" | country == "Mexico", "north", "south")) %>%
-> >   mutate(totalPercent = total/sum(total)*100,
-> >          popPercent = pop/sum(pop)*100)
+> > (
+> >     gapminder_co2
+> >     .assign(region=lambda df: np.where(df['country'].isin(['Canada', 'United States', 'Mexico']), 'north', 'south'), 
+> >             emissions_total_perc=lambda df: df['emissions_total']/df['emissions_total'].sum()*100,
+> >             pop_perc=lambda df: df['pop']/df['pop'].sum()*100)
+> > )
 > > ~~~
-> > {: .language-r}
+> > {: .language-python}
 > > 
 > > 
 > > 
 > > ~~~
-> > # A tibble: 24 × 9
-> >    country       lifeExp gdpPercap     pop  total per_capita region totalPercent
-> >    <chr>           <dbl>     <dbl>   <dbl>  <dbl>      <dbl> <chr>         <dbl>
-> >  1 Argentina        75.3    12779.  4.03e7 1.49e5      3.82  south        1.98  
-> >  2 Bolivia          65.6     3822.  9.12e6 8.98e3      0.984 south        0.119 
-> >  3 Brazil           72.4     9066.  1.90e8 3.12e5      1.67  south        4.13  
-> >  4 Canada           80.7    36319.  3.34e7 5.40e5     16.8   north        7.16  
-> >  5 Chile            78.6    13172.  1.63e7 5.44e4      3.34  south        0.721 
-> >  6 Colombia         72.9     7007.  4.42e7 5.36e4      1.24  south        0.710 
-> >  7 Costa Rica       78.8     9645.  4.13e6 5.46e3      1.29  south        0.0724
-> >  8 Cuba             78.3     8948.  1.14e7 2.51e4      2.22  south        0.332 
-> >  9 Dominican Re…    72.2     6025.  9.32e6 1.75e4      1.90  south        0.232 
-> > 10 Ecuador          75.0     6873.  1.38e7 2.39e4      1.74  south        0.317 
-> > # … with 14 more rows, and 1 more variable: popPercent <dbl>
+> >                 country          pop     gdpPercap    lifeExp  emissions_percap  emissions_total region  emissions_total_perc   pop_perc
+> > 0             Argentina   40301927.0  12779.379640  75.320000             3.819       149476.040  south              1.981030   4.483615
+> > 1               Bolivia    9119152.0   3822.137084  65.554000             0.984         8975.809  south              0.118958   1.014512
+> > 2                Brazil  190010647.0   9065.800825  72.390000             1.667       311623.799  south              4.130001  21.138807
+> > 3                Canada   33390141.0  36319.235010  80.653000            16.762       540431.495  north              7.162427   3.714675
+> > 4                 Chile   16284741.0  13171.638850  78.553000             3.343        54434.634  south              0.721431   1.811688
+> > 5              Colombia   44227550.0   7006.580419  72.889000             1.238        53585.300  south              0.710175   4.920344
+> > 6            Costa Rica    4133884.0   9645.061420  78.782000             1.286         5463.059  south              0.072403   0.459897
+> > 7                  Cuba   11416987.0   8948.102923  78.273000             2.220        25051.431  south              0.332011   1.270147
+> > 8    Dominican Republic    9319622.0   6025.374752  72.235000             1.897        17522.139  south              0.232224   1.036814
+> > 9               Ecuador   13755680.0   6873.262326  74.994000             1.742        23926.725  south              0.317105   1.530328
+> > 10          El Salvador    6939688.0   5728.353514  71.878000             1.037         6252.815  south              0.082870   0.772045
+> > 11            Guatemala   12572928.0   5186.050003  70.259000             0.811        10621.597  south              0.140770   1.398746
+> > 12                Haiti    8502814.0   1201.637154  60.916000             0.214         1980.992  south              0.026254   0.945944
+> > 13             Honduras    7483763.0   3548.330846  70.198000             0.976         7192.737  south              0.095327   0.832573
+> > 14              Jamaica    2780132.0   7320.880262  72.567000             3.746        10281.648  south              0.136264   0.309291
+> > 15               Mexico  108700891.0  11977.574960  76.195000             3.854       412385.135  north              5.465407  12.093044
+> > 16            Nicaragua    5675356.0   2749.320965  72.899000             0.750         4032.083  south              0.053438   0.631387
+> > 17               Panama    3242173.0   9809.185636  75.537000             2.035         6776.118  south              0.089805   0.360694
+> > 18             Paraguay    6667147.0   4172.838464  71.752000             0.599         3472.665  south              0.046024   0.741724
+> > 19                 Peru   28674757.0   7408.905561  71.421000             1.037        28632.888  south              0.379476   3.190085
+> > 20  Trinidad and Tobago    1056608.0  18008.509240  69.819000            13.243        17175.823  south              0.227634   0.117548
+> > 21        United States  305082438.0  42646.380702  78.248513            19.268      5703220.175  north             75.585707  33.940618
+> > 22              Uruguay    3447496.0  10611.462990  76.384000             1.549         5151.871  south              0.068279   0.383536
+> > 23            Venezuela   26084662.0  11415.805690  73.747000             5.141       137701.548  south              1.824981   2.901936
 > > ~~~
 > > {: .output}
 > >
-> > This table shows that the United states makes up 33% of the population of the Americas, but accounts for 77% of total emissions. Now let's take a look at population and emission for the two different continents: 
+> > This table shows that the United states makes up 33% of the population of the Americas, but accounts for 76% of total emissions. Now let's take a look at population and emission for the two different continents: 
 > >
 > > 
 > > ~~~
-> > gapminder_co2 %>%
-> >   mutate(region = if_else(country == "Canada" | country == "United States" | country == "Mexico", "north", "south")) %>%
-> >   mutate(totalPercent = total/sum(total)*100,
-> >          popPercent = pop/sum(pop)*100) %>%
-> >   group_by(region) %>%
-> >   summarize(sumTotalPercent = sum(totalPercent),
-> >             sumPopPercent = sum(popPercent))
+> > (
+> >     gapminder_co2
+> >     .assign(region=lambda df: np.where(df['country'].isin(['Canada', 'United States', 'Mexico']), 'north', 'south'), 
+> >             emissions_total_perc=lambda df: df['emissions_total']/df['emissions_total'].sum()*100,
+> >             pop_perc=lambda df: df['pop']/df['pop'].sum()*100,
+> >            )
+> >     .groupby('region')[['emissions_total_perc', 'pop_perc']]
+> >     .sum()
+> > )
 > > ~~~
-> > {: .language-r}
+> > {: .language-python}
 > > 
 > > 
 > > 
 > > ~~~
-> > # A tibble: 2 × 3
-> >   region sumTotalPercent sumPopPercent
-> >   <chr>            <dbl>         <dbl>
-> > 1 north             88.2          49.7
-> > 2 south             11.8          50.3
+> >         emissions_total_perc   pop_perc
+> > region                                 
+> > north              88.213542  49.748337
+> > south              11.786458  50.251663
 > > ~~~
 > > {: .output}
 > > 
@@ -1988,64 +2412,69 @@ Notice there that we can use the column created the in the `summarize()` step ("
 
 
 > ## CO2 bar plot
-> Create a bar plot of the percent of emissions for each country, colored by north and south america (HINT: use geom_col())  
+> Create a bar plot of the percent of emissions for each country, colored by north and south America.
 > > ## Solution 
 > > 
 > > ~~~
-> > gapminder_co2 %>% ggplot(aes(x = country, y = total_emissionsPercent, fill = region)) +  
-> > geom_col()  
+> > (
+> >     so.Plot(gapminder_co2
+> >             .assign(region=lambda df: np.where(df['country'].isin(['Canada', 'United States', 'Mexico']), 'north', 'south'), 
+> >                     emissions_total_perc=lambda df: df['emissions_total']/df['emissions_total'].sum()*100,
+> >                     pop_perc=lambda df: df['pop']/df['pop'].sum()*100,),
+> >             x='country', y='emissions_total_perc', color='region')
+> >     .add(so.Bar())
+> > )
 > > ~~~
-> > {: .language-r}
+> > {: .language-python}
 > > 
 > > 
 > > 
-> > ~~~
-> > Error in FUN(X[[i]], ...): object 'total_emissionsPercent' not found
-> > ~~~
-> > {: .error}
 > > 
-> > <img src="../fig/rmd-04-unnamed-chunk-3-1.png" title="plot of chunk unnamed-chunk-3" alt="plot of chunk unnamed-chunk-3" width="612" style="display: block; margin: auto;" />
+> > <img src="../fig/05-unnamed-chunk-3-1.png" title="plot of chunk unnamed-chunk-3" alt="plot of chunk unnamed-chunk-3" width="612" style="display: block; margin: auto;" />
 > {: .solution}
 > 
-> Now rotate the x-labels by 90 degrees (if you don't remember how, google it again or look at our code from the ggplot lesson)  
+> Now switch the x and y axis to make the country names more readable.   
 > 
 > > ## Solution 
 > > 
 > > ~~~
-> > gapminder_co2 %>% ggplot(aes(x = country, y = total_emissionsPercent, fill = region)) +  
-> > geom_col() +  
-> > theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)) 
+> > (
+> >     so.Plot(gapminder_co2
+> >             .assign(region=lambda df: np.where(df['country'].isin(['Canada', 'United States', 'Mexico']), 'north', 'south'), 
+> >                     emissions_total_perc=lambda df: df['emissions_total']/df['emissions_total'].sum()*100,
+> >                     pop_perc=lambda df: df['pop']/df['pop'].sum()*100,),
+> >             x='emissions_total_perc', y='country', color='region')
+> >     .add(so.Bar())
+> > )
 > > ~~~
-> > {: .language-r}
+> > {: .language-python}
 > > 
 > > 
 > > 
-> > ~~~
-> > Error in FUN(X[[i]], ...): object 'total_emissionsPercent' not found
-> > ~~~
-> > {: .error}
 > > 
-> > <img src="../fig/rmd-04-unnamed-chunk-4-1.png" title="plot of chunk unnamed-chunk-4" alt="plot of chunk unnamed-chunk-4" width="612" style="display: block; margin: auto;" />
+> > <img src="../fig/05-unnamed-chunk-4-1.png" title="plot of chunk unnamed-chunk-4" alt="plot of chunk unnamed-chunk-4" width="612" style="display: block; margin: auto;" />
 > {: .solution}
 > 
-> Reorder the bars in descending order. **Hint:** try Googling how to use the `reorder()` function with ggplot.
+> Reorder the bars in descending order. **Hint:** what method we used earlier to sort data values?
 > > ## Solution 
 > > 
 > > ~~~
-> > gapminder_co2 %>% ggplot(aes(x = reorder(country, - total_emissionsPercent), y = total_emissionsPercent, fill = region)) +  
-> > geom_col() +  
-> > theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)) 
+> > (
+> >     so.Plot(gapminder_co2
+> >             .assign(region=lambda df: np.where(df['country'].isin(['Canada', 'United States', 'Mexico']), 'north', 'south'), 
+> >                     emissions_total_perc=lambda df: df['emissions_total']/df['emissions_total'].sum()*100,
+> >                     pop_perc=lambda df: df['pop']/df['pop'].sum()*100,)
+> >             .sort_values('emissions_total_perc', ascending=False),
+> >             x='emissions_total_perc', y='country', color='region')
+> >     .add(so.Bar())
+> > )
 > > ~~~
-> > {: .language-r}
+> > {: .language-python}
 > > 
 > > 
 > > 
-> > ~~~
-> > Error in tapply(X = X, INDEX = x, FUN = FUN, ...): object 'total_emissionsPercent' not found
-> > ~~~
-> > {: .error}
 > > 
-> > <img src="../fig/rmd-04-unnamed-chunk-5-1.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
+> > <img src="../fig/05-unnamed-chunk-5-1.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
 > {: .solution}
 > 
 > Practice making it look pretty! 
@@ -2053,63 +2482,75 @@ Notice there that we can use the column created the in the `summarize()` step ("
 
 
 > ## low emissions
-> Find the 3 countries with lowest per capita emissions. **Hint:** use the `arrange()` function. 
+> Find the 3 countries with lowest per capita emissions.
 > 
 > > ## Solution 
 > > 
 > > ~~~
-> > gapminder_co2 %>% arrange(per_capita_emissions)  
+> > (
+> >     gapminder_co2
+> >     .assign(region=lambda df: np.where(df['country'].isin(['Canada', 'United States', 'Mexico']), 'north', 'south'), 
+> >             emissions_total_perc=lambda df: df['emissions_total']/df['emissions_total'].sum()*100,
+> >             pop_perc=lambda df: df['pop']/df['pop'].sum()*100,)
+> >     .sort_values('emissions_percap', ascending=True)[['country', 'emissions_percap']]
+> >     .head(3)
+> > )
 > > ~~~
-> > {: .language-r}
+> > {: .language-python}
 > > 
 > > 
 > > 
 > > ~~~
-> > Error: arrange() failed at implicit mutate() step. 
-> > * Problem with `mutate()` column `..1`.
-> > ℹ `..1 = per_capita_emissions`.
-> > ✖ object 'per_capita_emissions' not found
+> >       country  emissions_percap
+> > 12      Haiti             0.214
+> > 18   Paraguay             0.599
+> > 16  Nicaragua             0.750
 > > ~~~
-> > {: .error}
+> > {: .output}
 > {: .solution}
 > 
 > Create a bar chart for the per capita emissions for just those three countries. 
 > > ## Solution 
 > > 
 > > ~~~
-> > gapminder_co2 %>% filter(country == "Haiti" | country == "Paraguay" | country == "Nicaragua") %>%  
-> > ggplot(aes(x = country, y = per_capita_emissions)) +  
-> > geom_col() 
+> > (
+> >     so.Plot(gapminder_co2
+> >             .assign(region=lambda df: np.where(df['country'].isin(['Canada', 'United States', 'Mexico']), 'north', 'south'), 
+> >                     emissions_total_perc=lambda df: df['emissions_total']/df['emissions_total'].sum()*100,
+> >                     pop_perc=lambda df: df['pop']/df['pop'].sum()*100,)
+> >             .query("country in ['Haiti', 'Paraguay', 'Nicaragua']"),
+> >             x='country', y='emissions_percap')
+> >     .add(so.Bar())
+> > )
 > > ~~~
-> > {: .language-r}
+> > {: .language-python}
 > > 
 > > 
 > > 
-> > ~~~
-> > Error in FUN(X[[i]], ...): object 'per_capita_emissions' not found
-> > ~~~
-> > {: .error}
 > > 
-> > <img src="../fig/rmd-04-unnamed-chunk-7-1.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" width="612" style="display: block; margin: auto;" />
+> > <img src="../fig/05-unnamed-chunk-7-1.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" width="612" style="display: block; margin: auto;" />
 > {: .solution}
 > 
-> Reorder them in descending order. **Hint:** use the `reorder()` function. 
+> Reorder them in descending order.
 > > ## Solution 
 > > 
 > > ~~~
-> > gapminder_co2 %>% filter(country == "Haiti" | country == "Paraguay" | country == "Nicaragua") %>%  
-> > ggplot(aes(x = reorder(country, - per_capita_emissions), y = per_capita_emissions)) +  
-> > geom_col() 
+> > (
+> >     so.Plot(gapminder_co2
+> >             .assign(region=lambda df: np.where(df['country'].isin(['Canada', 'United States', 'Mexico']), 'north', 'south'), 
+> >                     emissions_total_perc=lambda df: df['emissions_total']/df['emissions_total'].sum()*100,
+> >                     pop_perc=lambda df: df['pop']/df['pop'].sum()*100,)
+> >             .query("country in ['Haiti', 'Paraguay', 'Nicaragua']")
+> >             .sort_values('emissions_percap', ascending=False),
+> >             x='country', y='emissions_percap')
+> >     .add(so.Bar())
+> > )
 > > ~~~
-> > {: .language-r}
+> > {: .language-python}
 > > 
 > > 
 > > 
-> > ~~~
-> > Error in tapply(X = X, INDEX = x, FUN = FUN, ...): object 'per_capita_emissions' not found
-> > ~~~
-> > {: .error}
 > > 
-> > <img src="../fig/rmd-04-unnamed-chunk-8-1.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" width="612" style="display: block; margin: auto;" />
+> > <img src="../fig/05-unnamed-chunk-8-1.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" width="612" style="display: block; margin: auto;" />
 > {: .solution}
 {: .challenge}
