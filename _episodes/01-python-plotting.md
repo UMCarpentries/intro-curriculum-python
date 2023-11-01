@@ -11,7 +11,7 @@ objectives:
 - "To become oriented with Python and JupyterLab."
 - "To be able to read in data from csv files."
 - "To create plots with both discrete and continuous variables."
-- "To understand transforming and plotting data using the **seaborn** library."
+- "To understand transforming and plotting data using the seaborn library."
 - "To be able to modify a plot's color, theme, and axis labels."
 - "To be able to save plots to a local directory."
 keypoints:
@@ -29,7 +29,7 @@ keypoints:
 1. [Creating our first plot](#creating-our-first-plot)
 1. [Plotting for data exploration](#plotting-for-data-exploration)
     + [Importing datasets](#importing-datasets)
-    + [Discrete plots](#discrete-plots)
+    + [Categorical plots](#categorical-plots)
     + [Layers](#layers)
     + [Color vs. Fill](#color-vs-fill)
     + [Univariate plots](#univariate-plots)
@@ -55,11 +55,14 @@ _[Back to top](#contents)_
 In this session we will be testing the hypothesis that a country's life expectancy is related to the total value of its finished goods and services, also known as the Gross Domestic Product (GDP).
 To test this hypothesis, we'll need two things: data and a platform to analyze the data.
 
-You already [downloaded the data]({{ page.root }}/setup.html). But what platform will we use to analyze the data? We have many options!
+You already [downloaded the data]({{ page.root }}/setup.html). 
+But what platform will we use to analyze the data? We have many options!
 
 We could try to use a spreadsheet program like Microsoft Excel or Google sheets that have limited access, less flexibility, and don't easily allow for things that are critical to ["reproducible" research](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1003285), like easily sharing the steps used to explore and make changes to the original data.
 
-Instead, we'll use a programming language to test our hypothesis. Today we will use Python, but we could have also used R for the same reasons we chose Python (and we teach workshops for both languages). Both Python and R are freely available, the instructions you use to do the analysis are easily shared, and by using reproducible practices, it's straightforward to add more data or to change settings like colors or the size of a plotting symbol.
+Instead, we'll use a programming language to test our hypothesis. 
+Today we will use Python, but we could have also used R for the same reasons we chose Python (and we teach workshops for both languages). 
+Both Python and R are freely available, the instructions you use to do the analysis are easily shared, and by using reproducible practices, it's straightforward to add more data or to change settings like colors or the size of a plotting symbol.
 
 > ## But why Python and not R?
 > There's no great reason.
@@ -78,11 +81,28 @@ We will use JupyterLab (which come with Anaconda) as the integrated development 
 > {: .solution}
 {: .challenge}
 
-To get started, we'll spend a little time getting familiar with the JupyterLab environment and setting it up to suit your tastes. When you start JupyterLab, you'll have three panels.
+To get started, we'll spend a little time getting familiar with the JupyterLab environment and setting it up to suit your tastes. When you start JupyterLab, you'll have two panels.
+On the left side there's the File Browser where we can see all the files and folders under the current directory.
 
-<img src="{{ page.root }}/fig/r-plotting/initial_rstudio.png" width="700"/>
+<img src="{{ page.root }}/fig/python-plotting/jupyter-lab-1.png" width="700"/>
 
-On the left you'll have a panel with three tabs - Console, Terminal, and Jobs. The Console tab is what running Python from the command line looks like. This is where you can enter Python code. Try typing in `2+2` at the prompt (>). In the upper right panel are tabs indicating the Environment, History, and a few other things. If you click on the History tab, you'll see the command you ran at the Python prompt.
+Now let's create a new Jupyter notebook by clicking the "Python 3" button on the "Launcher" tab under the "Notebook".
+
+<img src="{{ page.root }}/fig/python-plotting/jupyter-lab-2.png" width="700"/>
+
+A notebook is composed of "cells". You can add more cells by clicking the plus "+" button at the top of the notebook.
+
+We can use Python as a calculator. If we type the following into a cell, and click the run button (the triangle-shaped button that looks like a play button for a media player), we will see the output under the cell.
+
+~~~
+2 + 3
+~~~
+{: .language-python}
+
+<img src="{{ page.root }}/fig/python-plotting/jupyter-lab-3.png" width="700"/>
+
+
+<!-- On the left you'll have a panel with three tabs - Console, Terminal, and Jobs. The Console tab is what running Python from the command line looks like. This is where you can enter Python code. Try typing in `2+2` at the prompt (>). In the upper right panel are tabs indicating the Environment, History, and a few other things. If you click on the History tab, you'll see the command you ran at the Python prompt.
 
 <img src="{{ page.root }}/fig/r-plotting/history.png" width="700"/>
 
@@ -149,17 +169,11 @@ As you write more code, you can highlight multiple lines and then click <kbd>Run
 
 Let's delete the line with 2+2 and replace it with `library(tidyverse)`.
 
-Go ahead and run that line in the **Console** by clicking the <kbd>Run</kbd> button on the top right of the **Editor** tab and choosing <kbd>Run Selected Lines</kbd>. This loads a set of useful functions and sample data that makes it easier for us to do complex analyses and create professional visualizations in R.
+Go ahead and run that line in the **Console** by clicking the <kbd>Run</kbd> button on the top right of the **Editor** tab and choosing <kbd>Run Selected Lines</kbd>. This loads a set of useful functions and sample data that makes it easier for us to do complex analyses and create professional visualizations in R. -->
 
 
-~~~
-import numpy as np
-import pandas as pd
-~~~
-{: .language-python}
 
-
-> ## What's with all those messages???
+<!-- > ## What's with all those messages???
 >
 > When you loaded the `tidyverse` package, you probably got a message like the
 > one we got above. Don't panic! These messages are just giving you more
@@ -184,25 +198,24 @@ import pandas as pd
 > that was most recently loaded, so if we try using the `filter()` function after
 > loading `tidyverse`, we will be using the `filter()` function > from `dplyr()`.
 >
-{: .callout}
+{: .callout} -->
 
 
-> ## Pro-tip
+<!-- > ## Pro-tip
 >
-> Those of us that use **pandas** on a daily basis use cheat sheets to help us remember how to use various **pandas** functions. If you haven't already, print out the PDF versions of the cheat sheets that were in the setup instructions.
->
-> You can also find them in JupyterLab by going to the "Help" menu and selecting "Cheat Sheets". The two that will be most helpful in this workshop are "Data Visualization with ggplot2", "Data Transformation with dplyr", "R Markdown Cheat Sheet", and "R Markdown Reference Guide".
+> Those of us that use **pandas** on a daily basis use cheat sheets to help us remember how to use various **pandas** functions. 
+> If you haven't already, print out the PDF versions of the cheat sheets that were in the setup instructions.
 >
 > For things that aren't on the cheat sheets, [Google is your best friend]({{ page.root }}/06-conclusion/). Even expert coders use Google when they're stuck or trying something new!
 >
-{: .testimonial}
+{: .testimonial} -->
 
 ---
 
 # Loading and reviewing data
 _[Back to top](#contents)_
 
-We will import a subsetted file from the gapminder dataset called `gapminder_1997.csv`. There are many ways to import data into Python but for your first plot we will use JupyterLab's file menu to import and display this data. As we move through this process, JupyterLab will translate these *point and click* commands into code for us.
+<!-- We will import a subsetted file from the gapminder dataset called `gapminder_1997.csv`. There are many ways to import data into Python but for your first plot we will use JupyterLab's file menu to import and display this data. As we move through this process, JupyterLab will translate these *point and click* commands into code for us.
 
 In JupyterLab select "File" > "Import Dataset" > "From Text (readr)".
 
@@ -226,20 +239,33 @@ After we've reviewed the data, you'll want to make sure to click the tab in the 
 
 Now look in the **Environment** tab in the upper right corner of JupyterLab. Here you will see a list of all the objects you've created or imported during your R session. You will now see `gapminder_1997` listed here as well.
 
-Finally, take a look at the **Console** at the bottom left part of the JupyterLab screen. Here you will see the commands that were run for you to import your data in addition to associated metadata and warnings.
+Finally, take a look at the **Console** at the bottom left part of the JupyterLab screen. Here you will see the commands that were run for you to import your data in addition to associated metadata and warnings. -->
 
 > ## Data objects
-> There are many different ways to store data in R. Most objects have a table-like structure with rows and columns. We will refer to these objects generally as "data objects". If you've used R before, you many be used to calling them "data.frames". Functions from the "tidyverse" such as `read_csv` work with objects called "tibbles", which are a specialized kind of "data.frame." Another common way to store data is a "data.table". All of these types of data objects (tibbles, data.frames, and data.tables) can be used with the commands we will learn in this lesson to make plots. We may sometimes use these terms interchangeably.
+> There are many different ways to store data in Python. 
+> Most objects have a table-like structure with rows and columns. 
+> We will refer to these objects generally as "data objects". 
+> If you've used pandas before, you many be used to calling them "DataFrames". 
 {: .callout}
 
 # Understanding commands
 
-Let's start by looking at the code JupyterLab ran for us by copying and pasting the first line from the console into our `gdp_population.ipynb` file that is open in the **Editor** window.
+The first thing we usually do when starting a new notebook is to import the libraries that we will need later to the python session.
+In general, we will need to first install a library before we can import it.
+If you followed the [setup instruction]({{ page.root }}/setup.html) and installed Anaconda, some common data science libraries are already installed. 
+Here we can go ahead and import them using the `import` keyword followed by the name of the library. 
+It's common to give a library an alias, so we can type less words when calling the library later. We indicate the alias using the keyword `as`. 
+By convention, numpy's alias is `np`, and pandas's alias is `pd`. 
+Technically you can give whatever the alias you want, but please don't :)
 
 ~~~
 import numpy as np
 import pandas as pd
+~~~
+{: .language-python}
 
+
+~~~
 gapminder_1997 = pd.read_csv("gapminder_1997.csv")
 
 gapminder_1997
@@ -265,25 +291,40 @@ gapminder_1997
 {: .output}
 
 
-You should now have a line of text in your code file that started with `gapminder` and ends with a `)` symbol.
 
-What if we want to run this command from our code file?
+We can check the type of the variable by calling the Python built-in function `type`.
+
+~~~
+type(gapminder_1997)
+~~~
+{: .language-python}
+
+~~~
+pandas.core.frame.DataFrame
+~~~
+{: .output}
+
+
+<!-- You should now have a line of text in your code file that started with `gapminder` and ends with a `)` symbol. -->
+
+<!-- What if we want to run this command from our code file?
 
 In order to run code that you've typed in the editor, you have a few options. We can click <kbd>Run</kbd> again from the right side of the **Editor** tab but the quickest way to run the code is by pressing <kbd>Ctrl</kbd>+<kbd>Enter</kbd> on your keyboard (<kbd>Ctrl</kbd>+<kbd>Enter</kbd> on Mac).
 
-This will run the line of code that currently contains your cursor and will move your cursor to the next line. Note that when Rstudio runs your code, it basically just copies your code from the **Editor** window to the **Console** window, just like what happened when we selected <kbd>Run Selected Line(s)</kbd>.
+This will run the line of code that currently contains your cursor and will move your cursor to the next line. Note that when Rstudio runs your code, it basically just copies your code from the **Editor** window to the **Console** window, just like what happened when we selected <kbd>Run Selected Line(s)</kbd>. -->
 
-Let's take a closer look at the parts of this command.
+<!-- Let's take a closer look at the parts of this command.
 
-Starting from the left, the first thing we see is `gapminder_1997`. We viewed the contents of this file after it was imported so we know that `gapminder_1997` acts as a placeholder for our data.
+Starting from the left, the first thing we see is `gapminder_1997`. We viewed the contents of this file after it was imported so we know that `gapminder_1997` acts as a placeholder for our data. -->
 
-If we highlight just `gapminder_1997` within our code file and press <kbd>Ctrl</kbd>+<kbd>Enter</kbd> on our keyboard, what do we see?
+<!-- If we highlight just `gapminder_1997` within our code file and press <kbd>Ctrl</kbd>+<kbd>Enter</kbd> on our keyboard, what do we see?
 
-We should see a data table outputted, similar to what we saw in the Viewer tab.
+We should see a data table outputted, similar to what we saw in the Viewer tab. -->
 
 In pandas terms, `gapminder_1997` is a named [**DataFrame**](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html) that references or stores something. In this case, `gapminder_1997` stores a specific table of data.
 
-Looking back at the command in our code file, the second thing we see is a `=` symbol, which is the **assignment operator**. It assigns values generated or typed on the right to objects on the left. 
+Looking back at the command in our code, the second thing we see is a `=` symbol, which is the **assignment operator**. 
+It assigns values generated or typed on the right to objects on the left. 
 
 > ## Assigning values to objects
 > Try to assign values to some objects and observe each object after you have assigned a new value. What do you notice?
@@ -302,6 +343,15 @@ Looking back at the command in our code file, the second thing we see is a `=` s
 > > When we assign a value to an object, the object stores that value so we can access it later. However, if we store a new value in an object we have already created (like when we stored "Harry Potter" in the `name` object), it replaces the old value. The `age` object does not change, because we never assign it a new value.
 > {: .solution}
 {: .challenge}
+
+> ## Single vs Double Quotes
+> Python supports using either single quotes `'` or double quotes `"` to specify strings. 
+> You do need to use the same kind of quotes at the beginning and end of the string. 
+> There's no set rules on which one you should use. 
+> - [Some Python style guide](https://docs.ckan.org/en/ckan-2.1.5/python-coding-standards.html) suggests using single-quotes for shorter strings (the technical term is "[string literals](https://en.wikipedia.org/wiki/String_literal)"), as they are a little easier to type and read, and using double-quotes for strings that are likely to contain single-quote characters as part of the string itself (such as strings containing natural language, e.g. `"I'll be there."`).
+> - [Some other Python style guide](https://google.github.io/styleguide/pyguide.html) suggests being consistent with your choice of string quote character within a file. Pick `'` or `"` and stick with it.
+{: .callout}
+
 
 
 > ## Guidelines on naming objects
@@ -331,6 +381,121 @@ If in doubt, check the help to see if the name is already in use (`?function_nam
 > > Notice that we get an error when we try to assign values to `1number` and `favorite number`. This is because we cannot start an object name with a numeral and we cannot have spaces in object names. The object `Flower` still holds "marigold." This is because Python is case-sensitive, so running `flower = "rose"` does NOT change the `Flower` object. This can get confusing, and is why we generally avoid having objects with the same name and different capitalization.
 > {: .solution}
 {: .challenge}
+
+
+> ## Python lists
+> We can also store multiple values into a single object called a list.
+> A Python list is indicated with a pair of square brackets `[]`, and different items are separated by a comma. 
+> For example, we can have a list of numbers, or a list of strings. 
+> 
+> ~~~
+> squares = [1, 4, 9, 16, 25]
+> print(squares)
+> 
+> names = ["Sarah", "Tom", "Jerry", "Emma"]
+> print(names)
+> ~~~
+> {: .language-python}
+>
+> We can check the type of the variable by calling the Python built-in function `type`.
+> ~~~
+> type(names)
+> ~~~
+> {: .language-python}
+> 
+> 
+> ~~~
+> list
+> ~~~
+> {: .output}
+> 
+> 
+> An item from a list can be accessed by its position using the square bracket notation. 
+> Say if we want to get the first name, "Sarah", from the list, we can do 
+> ~~~
+> names[1]
+> ~~~
+> {: .language-python}
+> 
+> ~~~
+> 'Tom'
+> ~~~
+> {: .output}
+> That's not what we expected. Python uses something called 0-based indexing. 
+> In other words, it starts counting from 0 rather than 1. 
+> If we want to get the first item from the list, we should use an index of 0. Let's try that.
+> ~~~
+> names[0]
+> ~~~
+> {: .language-python}
+> 
+> ~~~
+> 'Sarah'
+> ~~~
+> {: .output}
+> Now see if you can get the *last* name from the list.
+> > ## Solutions:
+> > ~~~
+> > names[3]
+> > ~~~
+> > {: .language-python}
+> > A cool thing in Python is it also supports negative indexing. 
+> > If we just want the last time on a list, we can pass the index of `-1`.
+> > ~~~
+> > names[-1]
+> > ~~~
+> {: .solution}
+{: .callout}
+
+
+> ## Python dictionaries
+> Python lists allow us organize items by their position. 
+> Sometimes we want to organize items by their "key". We can do that using a Python dictionary.
+> A Python dictionary is indicated with a pair of curly brackets `{}` and composed of entries of key-value pairs. The key and value are connected via a colon `:`, and different entries are separated by a comma. 
+> For example, we can have a dictionary of capitals.
+> 
+> ~~~
+> capitals = {"France": "Paris",
+>             "USA": "Washington DC",
+>             "Germany": "Berlin",
+>             "Canada": "Ottawa"}
+> ~~~
+> {: .language-python}
+>
+> We can check the type of the variable by calling the Python built-in function `type`.
+> ~~~
+> type(capitals)
+> ~~~
+> {: .language-python}
+> 
+> ~~~
+> dict
+> ~~~
+> {: .output}
+> 
+> An entry from a dictionary can be accessed by its key using the square bracket notation. 
+> Say if we want to get the capital for USA, , we can do 
+> ~~~
+> capitals["USA"]
+> ~~~
+> {: .language-python}
+> 
+> ~~~
+> 'Washington DC'
+> ~~~
+> {: .output}
+> Now see if you can get the capital from another country.
+> > ## Solutions:
+> > ~~~
+> > capitals["Canada"]
+> > ~~~
+> > {: .language-python}
+> > ~~~
+> > 'Ottawa'
+> > ~~~
+> > {: .output}
+> {: .solution}
+{: .callout}
 
 The next part of the command is `pd.read_csv("gapminder_1997.csv")`. This has a few different key parts. The first part is `pd`, which is a nickname for pandas that we imported earlier. 
 The next part is the `read_csv` function from the pandas library. In Python you call a function from a library by typing the  name followed by opening then closing parenthesis. Each function has a purpose, which is often hinted at by the name of the function. Let's try to run the function without anything inside the parenthesis.
@@ -418,6 +583,7 @@ sum([5, 6])
 11
 ~~~
 {: .output}
+
 > ## Learning more about functions
 > Look up the function `round`. What does it do? What will you get as output for the following lines of code?
 >
@@ -490,11 +656,11 @@ Sometimes it is helpful - or even necessary - to include the argument name, but 
 {: .challenge}
 
 > ## Comments
-> Sometimes you may want to write comments in your code to help you remember
-> what your code is doing, but you don't want R to think these comments are a part
-> of the code you want to evaluate. That's where **comments** come in! Anything
-> after a `#` symbol in your code will be ignored by Python. For example, let's say we
-> wanted to make a note of what each of the functions we just used do:
+> Sometimes we may want to write some comments in our code to help us remember what our code is doing, 
+> but we don't want Python to think these comments are a part of the code you want to evaluate. 
+> That's where **comments** come in! 
+> Anything after a `#` symbol in your code will be ignored by Python. 
+> For example, let's say we wanted to make a note of what each of the functions we just used do:
 > 
 > ~~~
 > date.today()   # outputs today's date
@@ -549,541 +715,367 @@ Sometimes it is helpful - or even necessary - to include the argument name, but 
 # Creating our first plot
 _[Back to top](#contents)_
 
-We will be using the seaborn package today to make our plots. 
-This is a very popular statistical data visualization library in Python. 
+We will be using the seaborn library to make our plots. 
+Seaborn is a popular Python data visualization library. 
 We will use the [seaborn objects interface](https://seaborn.pydata.org/tutorial/objects_interface.html). 
-All plots start by calling the interface's `Plot()` function.
-
+All plots start by calling the `Plot` function.
+In a Jupyter notebook cell type the following:
 
 ~~~
 import seaborn.objects as so
 
-so.Plot(data=gapminder_1997)
-~~~
-{: .language-python}
-
-<img src="../fig/01-plotting-blank.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
-
-
-ADD X-AXIS ONLY
-
-~~~
-so.Plot(data=gapminder_1997, x="gdpPercap")
-~~~
-{: .language-python}
-
-<img src="../fig/01-plotting-x-only.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
-
-
-ADD Y-AXIS
-
-~~~
-so.Plot(gapminder_1997, x="gdpPercap", y="lifeExp")
-~~~
-{: .language-python}
-
-<img src="../fig/01-plotting-x-y.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
-
-
-ADD DOT
-
-~~~
-(so.Plot(gapminder_1997, x="gdpPercap", y="lifeExp")
- .add(so.Dot())
+(
+    so.Plot(gapminder_1997)
 )
 ~~~
 {: .language-python}
 
-<img src="../fig/01-plotting-x-y-dot.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
 
+<img src="../fig/python-plotting/01-plotting-blank.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
 
-ADD AXIS LABELS
+To run code that you've typed in a cell, you have a few options. 
+Remember that the quickest way to run the code in the selected cell is by pressing on your keyboard
+<kbd>Ctrl</kbd>+<kbd>Enter</kbd> (for Windows) or <kbd>Command</kbd>+<kbd>Return</kbd> (for MacOS). 
+
+What we've done is created a seaborn `Plot` object and told it we will be using the data
+from the `gapminder_1997`, the pandas DataFrame that we loaded from the CSV file. 
+We've done this by calling the `Plot` function with `gapminder_1997` as the `data` argument.
+
+So we've made a plot object, now we need to start telling it what we actually
+want to draw in this plot. 
+The elements of a plot have a bunch of visual properties such as an x and y position, a point size, a color, etc. 
+When creating a data visualization, we map a variable in our dataset to a visual property in our plot. 
+
+To create our plot, we need to map variables from our data `gapminder_1997` to
+the visual properties using the `Plot` function. 
+Since we have already told `Plot` that we are using the data in the `gapminder_1997`, we can
+access the columns of `gapminder_1997` using the data frame's column names.
+(Remember, Python is case-sensitive, so we have to be careful to match the column
+names exactly!)
+
+We are interested in whether there is a relationship between GDP and life expectancy, 
+so let's start by telling our plot object that we want to map the GDP values to the x axis, and the life expectancy to the y axis of the plot. 
 
 ~~~
-(so.Plot(gapminder_1997, x="gdpPercap", y="lifeExp")
- .add(so.Dot())
- .label(x="GDP Per Capita", 
-        y="Life Expectancy")
+(
+    so.Plot(gapminder_1997, x='gdpPercap', y='lifeExp')
 )
 ~~~
 {: .language-python}
 
-<img src="../fig/01-plotting-x-y-dot-xylabels.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
+<img src="../fig/python-plotting/01-plotting-x-y.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
 
 
-ADD TITLE
+Excellent. We've now told our plot where the x and y values are coming from and what they stand for. But we haven't told our plot how we want it to draw the data. 
+There are many different mark types (bars, lines, dots, etc). 
+We tell our plot what to draw by adding a layer of the visualization in terms of mark. 
+We will talk about many different marks today, 
+but for our first plot, let's draw our data using the "dot" mark for each value in the data set. 
+To do this, we apply the `add` method to our plot and put inside `so.Dot()` as the mark.
 
 ~~~
-(so.Plot(gapminder_1997, x="gdpPercap", y="lifeExp")
- .add(so.Dot())
- .label(x="GDP Per Capita", 
-        y="Life Expectancy", 
-        title = "Do people in wealthy countries live longer?")
+(
+    so.Plot(gapminder_1997, x='gdpPercap', y='lifeExp')
+    .add(so.Dot())
 )
 ~~~
 {: .language-python}
 
-<img src="../fig/01-plotting-x-y-dot-xylabels-title.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
+<img src="../fig/python-plotting/01-plotting-x-y-dot.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
 
 
-ADD COLOR
+We can add labels for the axes and title by applying the `label` method to our plot. 
 
 ~~~
-(so.Plot(gapminder_1997, 
-         x="gdpPercap", 
-         y="lifeExp", 
-         color="continent")
- .add(so.Dot())
- .label(x="GDP Per Capita", 
-        y="Life Expectancy", 
-        title = "Do people in wealthy countries live longer?")
+(
+    so.Plot(gapminder_1997, x='gdpPercap', y='lifeExp')
+    .add(so.Dot())
+    .label(x="GDP Per Capita")
 )
 ~~~
 {: .language-python}
 
-<img src="../fig/01-plotting-x-y-color-dot.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
+<img src="../fig/python-plotting/01-plotting-x-y-dot-xlabel.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
 
 
-COLOR PALETTE
+
+> ## Give the y axis a nice label.
+> {: .source}
+>
+>
+> > ## Solution
+> > 
+> > ~~~
+> > (
+> >     so.Plot(gapminder_1997, x='gdpPercap', y='lifeExp')
+> >     .add(so.Dot())
+> >     .label(x="GDP Per Capita", 
+> >            y="Life Expectancy")
+> > )
+> > ~~~
+> > {: .language-python}
+> > 
+> > <img src="../fig/python-plotting/01-plotting-x-y-dot-xylabels.png" title="plot of chunk FirstPlotAddY" alt="plot of chunk FirstPlotAddY" width="612" style="display: block; margin: auto;" />
+> > {: .source}
+> {: .solution}
+{: .challenge}
+
+
+Now it finally looks like a proper plot! 
+We can now see a trend in the data. 
+It looks like countries with a larger GDP tend to have a higher life expectancy. 
+Let's add a title to our plot to make that clearer. 
+We can specify that using the same `label` method, but this time we will use the `title` argument.
+
+~~~
+(
+    so.Plot(gapminder_1997, x='gdpPercap', y='lifeExp')
+    .add(so.Dot())
+    .label(x="GDP Per Capita", 
+           y="Life Expectancy", 
+           title="Do people in wealthy countries live longer?")
+)
+~~~
+{: .language-python}
+
+<img src="../fig/python-plotting/01-plotting-x-y-dot-xylabels-title.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
+
+
+
+No one can deny we've made a very handsome plot! 
+But now looking at the data, we might be curious about learning more about the points that are the extremes of the data. 
+We know that we have two more pieces of data in the `gapminder_1997` that we haven't used yet. 
+Maybe we are curious if the different continents show different patterns in GDP and life expectancy.
+One thing we could do is use a different color for each of the continents. 
+To map the continent of each point to a color, we can specify that in the `Plot` function.
+
+~~~
+(
+    so.Plot(gapminder_1997, 
+            x='gdpPercap', 
+            y='lifeExp', 
+            color='continent')
+    .add(so.Dot())
+    .label(x="GDP Per Capita", 
+           y="Life Expectancy", 
+           title = "Do people in wealthy countries live longer?")
+)
+~~~
+{: .language-python}
+
+<img src="../fig/python-plotting/01-plotting-x-y-color-dot.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
+
+Here we can see that in 1997 the African countries had much lower life expectancy than many other continents. 
+Notice that when we add a mapping for color, seaborn automatically provided a legend for us. 
+It took care of assigning different colors to each of our unique values of the `continent` variable. 
+The colors that seaborn uses are determined by the color "palette". 
+If needed, we can change the default color palette. 
+Let's change the colors to make them a bit prettier.
+
+The code below allows us to select a color palettes. 
+Seaborn is built based on Matplotlib and supports all the color palettes from the [matplot colormaps](https://matplotlib.org/stable/users/explain/colors/colormaps.html). 
+You can also learn more about the seaborn color palettes [from here](https://seaborn.pydata.org/tutorial/color_palettes.html). 
 
 ~~~
 import seaborn as sns
 sns.color_palette()
 
-sns.color_palette("flare")
-sns.color_palette("Set1")
+sns.color_palette('flare')
+sns.color_palette('Reds')
+sns.color_palette('Set1')
 ~~~
 {: .language-python}
 
-
-
-CHANGE COLOR PALETTE
+We can change the color palettes by applying the `scale` method to the plot. 
+The `scale` method specifies how the data should be mapped to visual properties, and in this case, how the categorical variable "continent" should be mapped to different colors of the dot marks. 
 
 ~~~
-(so.Plot(gapminder_1997, 
-         x="gdpPercap", 
-         y="lifeExp", 
-         color="continent")
- .add(so.Dot())
- .label(x="GDP Per Capita", 
-        y="Life Expectancy", 
-        title = "Do people in wealthy countries live longer?")
- .scale(color="Set1")
+(
+    so.Plot(gapminder_1997, 
+            x='gdpPercap', 
+            y='lifeExp', 
+            color='continent')
+    .add(so.Dot())
+    .label(x="GDP Per Capita", 
+           y="Life Expectancy", 
+           title="Do people in wealthy countries live longer?")
+    .scale(color='Set1')
 )
 ~~~
 {: .language-python}
 
-<img src="../fig/01-plotting-x-y-color-dot-colorpalette.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
+<img src="../fig/python-plotting/01-plotting-x-y-color-dot-colorpalette.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
 
 
-ADD POINT SIZE
+Seaborn also supports passing a list of custom colors to the `color` argument of the `scale` method. 
+For example, we can use the [color brewer](https://colorbrewer2.org/) to pick a list of colors of our choice, and pass it to the `scale` method. 
 
 ~~~
-(so.Plot(gapminder_1997, 
-         x="gdpPercap", 
-         y="lifeExp", 
-         color="continent",
-         pointsize="pop")
- .add(so.Dot())
- .label(x="GDP Per Capita", 
-        y="Life Expectancy", 
-        title = "Do people in wealthy countries live longer?")
- .scale(color="Set1")
+(
+    so.Plot(gapminder_1997, 
+            x='gdpPercap', 
+            y='lifeExp', 
+            color='continent')
+    .add(so.Dot())
+    .label(x="GDP Per Capita", 
+           y="Life Expectancy", 
+           title="Do people in wealthy countries live longer?")
+    .scale(color=['#1b9e77','#d95f02','#7570b3','#e7298a','#66a61e'])
 )
 ~~~
 {: .language-python}
 
-<img src="../fig/01-plotting-x-y-color-size-dot.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
+<img src="../fig/python-plotting/01-plotting-x-y-color-dot-colorbrewer.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
 
 
-
-CHANGING SHAPE
+Since we have the data for the population of each country, we might be curious what effect population might have on life expectancy and GDP per capita. 
+Do you think larger countries will have a longer or shorter life expectancy? 
+Let's find out by mapping the population of each country to another visual property: the size of the dot marks.
 
 ~~~
-(so.Plot(gapminder_1997, 
-         x="gdpPercap", 
-         y="lifeExp", 
-         color="continent",
-         pointsize="pop",
-         marker="continent")
- .add(so.Dot())
- .label(x="GDP Per Capita", 
-        y="Life Expectancy", 
-        title = "Do people in wealthy countries live longer?")
- .scale(color="Set1")
+(
+    so.Plot(gapminder_1997, 
+            x='gdpPercap', 
+            y='lifeExp', 
+            color='continent',
+            pointsize='pop')
+    .add(so.Dot())
+    .label(x="GDP Per Capita", 
+           y="Life Expectancy", 
+           title="Do people in wealthy countries live longer?")
+    .scale(color='Set1')
 )
 ~~~
 {: .language-python}
 
-<img src="../fig/01-plotting-x-y-color-size-dot-shape.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
+<img src="../fig/python-plotting/01-plotting-x-y-color-size-dot.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
 
 
-To run code that you've typed in a cell, you have a few options. Remember
-that the quickest way to run the code in the selected cell is by pressing
-<kbd>Ctrl</kbd>+<kbd>Enter</kbd> on your keyboard. This will run the cell that currently contains your cursor.
+We got another legend here for size which is nice, but the values look a bit ugly in scientific notation. 
+Let's assign a new column in our data called `pop_million` by dividing the population by 1,000,000 and label it "Population (in millions)"
 
-When we run this code, the **Plots** tab will pop to the front in the lower
-right corner of the RStudio screen. Right now, we just see a big grey rectangle.
-
-What we've done is created a ggplot object and told it we will be using the data
-from the `gapminder_1997` object that we've loaded into R. We've done this by
-calling the `ggplot()` function with `gapminder_1997` as the `data` argument.
-
-So we've made a plot object, now we need to start telling it what we actually
-want to draw in this plot. The elements of a plot have a bunch of properties
-like an x and y position, a size, a color, etc. These properties are called
-**aesthetics**. When creating a data visualization, we  map a variable in our
-dataset to an aesthetic in our plot. In ggplot, we can do this by creating an
-"aesthetic mapping", which we do with the `aes()` function.
-
-To create our plot, we need to map variables from our `gapminder_1997` object to
-ggplot aesthetics using the `aes()` function. Since we have already told
-`ggplot` that we are using the data in the `gapminder_1997` object, we can
-access the columns of `gapminder_1997` using the object's column names.
-(Remember, R is case-sensitive, so we have to be careful to match the column
-names exactly!)
-
-We are interested in whether there is a relationship between GDP and life
-expectancy, so let's start by telling our plot object that we want to map our
-GDP values to the x axis of our plot. We do this by adding (`+`) information to
-our plot object. Add this new line to your code and run both lines by
-highlighting them and pressing <kbd>Ctrl</kbd>+<kbd>Enter</kbd> on your
-keyboard:
-
+Note for large numbers such as `1000000`, it's easy to mis-count the number of digits when typing or reading it. 
+One cool thing in Python is we can use the underscore `_` as a separator to make large numbers easier to read. For example: `1_000_000`.
 
 ~~~
-so.Plot(gapminder_1997, x="gdpPercap", y="lifeExp")
+(
+    so.Plot(gapminder_1997.assign(pop_million=gapminder_1997['pop']/1_000_000), 
+            x='gdpPercap', 
+            y='lifeExp', 
+            color='continent',
+            pointsize='pop_million')
+    .add(so.Dot())
+    .label(x="GDP Per Capita", 
+           y="Life Expectancy", 
+           title="Do people in wealthy countries live longer?",
+           pointsize='Population (in millions)'
+          )
+    .scale(color='Set1')
+)
 ~~~
 {: .language-python}
 
-<img src="../fig/rmd-01-ggplotX-1.png" title="plot of chunk ggplotX" alt="plot of chunk ggplotX" width="612" style="display: block; margin: auto;" />
+<img src="../fig/python-plotting/01-plotting-x-y-color-size-dot-2.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
 
-Note that we've added this new function call to a second line just to make it
-easier to read. To do this we make sure that the `+` is at the end of the first
-line otherwise R will assume your command ends when it starts the next row. The
-`+` sign indicates not only that we are adding information, but to continue on
-to the next line of code.
 
-Observe that our **Plot** window is no longer a grey square. We now see that
-we've mapped the `gdpPercap` column to the x axis of our plot. Note that that
-column name isn't very pretty as an x-axis label, so let's add the `labs()`
-function to make a nicer label for the x axis
+We can further fine-tune how the population should be mapped to the point size using the `scale` method. 
+In this case, let's set the output range of the point size to 2-20.
 
+As you can see, some of the marks are on top of each other, making it hard to see some of them (This is called "overplotting" in data visualization.) 
+Let's also reduce the opacity of the dots by setting the `alpha` value inside the `so.Dot` function. 
 
 ~~~
-so.Plot(gapminder_1997, x="gdpPercap", y="lifeExp")
+(
+    so.Plot(gapminder_1997.assign(pop_million=gapminder_1997['pop']/1_000_000), 
+            x='gdpPercap', 
+            y='lifeExp', 
+            color='continent',
+            pointsize='pop_million')
+    .add(so.Dot(alpha=.5))
+    .label(x="GDP Per Capita", 
+           y="Life Expectancy", 
+           title="Do people in wealthy countries live longer?",
+           pointsize='Population (in millions)'
+          )
+    .scale(color='Set1', pointsize=(2, 18))
+)
 ~~~
 {: .language-python}
 
-<img src="../fig/rmd-01-FirstPlotAddXLabel-1.png" title="plot of chunk FirstPlotAddXLabel" alt="plot of chunk FirstPlotAddXLabel" width="612" style="display: block; margin: auto;" />
+<img src="../fig/python-plotting/01-plotting-x-y-color-size-dot-3.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
 
-OK. That looks better. 
 
-> ## Quotes vs No Quotes
-> Notice that when we added the label value we did so by placing the values
-> inside quotes. This is because we are not using a value from inside our data
-> object - we are providing the name directly. When you need to include actual
-> text values in R, they will be placed inside quotes to tell them apart from
-> other object or variable names.
-> 
-> The general rule is that if you want to use values from the columns of your
-> data object, then you supply the name of the column without quotes, but if you
-> want to specify a value that does not come from your data, then use quotes.
-{: .callout}
+In addition to colors, we can also use different markers to represent the continents. 
 
-> ## Mapping life expectancy to the y axis
-> Map our `lifeExp` values to the y axis and give them a nice label.
+~~~
+(
+    so.Plot(gapminder_1997.assign(pop_million=gapminder_1997['pop']/1_000_000), 
+            x='gdpPercap', 
+            y='lifeExp', 
+            color='continent',
+            marker='continent',
+            pointsize='pop_million')
+    .add(so.Dot(alpha=.5))
+    .label(x="GDP Per Capita", 
+           y="Life Expectancy", 
+           title="Do people in wealthy countries live longer?",
+           pointsize='Population (in millions)'
+          )
+    .scale(color='Set1', pointsize=(2, 18))
+)
+~~~
+{: .language-python}
+
+<img src="../fig/python-plotting/01-plotting-x-y-color-size-dot-shape.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
+
+
+> ## Changing marker type
+> Instead of (or in addition to) color, change the shape of the points so each continent has a different marker type. 
+> (I'm not saying this is a great thing to do - it's just for practice!) 
+> Feel free to check the documentation of the `Plot` function.
 > {: .source}
 >
->
 > > ## Solution
+> > You'll want to specify the `marker` argument in the `Plot` function:
 > > 
 > > ~~~
-> > ggplot(data = gapminder_1997) +
-> >   aes(x = gdpPercap) +
-> >   labs(x = "GDP Per Capita") +
-> >   aes(y = lifeExp) +
-> >   labs(y = "Life Expectancy")
+> > (
+> >     so.Plot(gapminder_1997.assign(pop_million=gapminder_1997['pop']/1_000_000), 
+> >             x='gdpPercap', 
+> >             y='lifeExp', 
+> >             color='continent',
+> >             marker='continent',
+> >             pointsize='pop_million')
+> >     .add(so.Dot(alpha=.5))
+> >     .label(x="GDP Per Capita", 
+> >            y="Life Expectancy", 
+> >            title="Do people in wealthy countries live longer?",
+> >            pointsize='Population (in millions)'
+> >           )
+> >     .scale(color='Set1', pointsize=(2, 18))
+> > )
 > > ~~~
-> > {: .language-r}
+> > {: .language-python}
 > > 
-> > <img src="../fig/rmd-01-FirstPlotAddY-1.png" title="plot of chunk FirstPlotAddY" alt="plot of chunk FirstPlotAddY" width="612" style="display: block; margin: auto;" />
+> > <img src="../fig/python-plotting/01-plotting-x-y-color-size-dot-shape.png" title="plot of chunk Shape" alt="plot of chunk Shape" width="612" style="display: block; margin: auto;" />
 > > {: .source}
 > {: .solution}
 {: .challenge}
 
-Excellent. We've now told our plot object where the x and y values are coming
-from and what they stand for. But we haven't told our object how we want it to
-draw the data. There are many different plot types (bar charts, scatter plots,
-histograms, etc). We tell our plot object what to draw by adding a "geometry"
-("geom" for short) to our object. We will talk about many different geometries
-today, but for our first plot, let's draw our data using the "points" geometry
-for each value in the data set. To do this, we add `geom_point()` to our plot
-object:
-
-
-~~~
-ggplot(data = gapminder_1997) +
-  aes(x = gdpPercap) +
-  labs(x = "GDP Per Capita") +
-  aes(y = lifeExp) +
-  labs(y = "Life Expectancy") +
-  geom_point()
-~~~
-{: .language-r}
-
-<img src="../fig/rmd-01-FirstPlotAddPoints-1.png" title="plot of chunk FirstPlotAddPoints" alt="plot of chunk FirstPlotAddPoints" width="612" style="display: block; margin: auto;" />
-
-Now we're really getting somewhere. It finally looks like a proper plot!  We can
-now see a trend in the data. It looks like countries with a larger GDP tend to
-have a higher life expectancy. Let's add a title to our plot to make that
-clearer. Again, we will use the `labs()` function, but this time we will use the
-`title =` argument.
-
-
-~~~
-ggplot(data = gapminder_1997) +
-  aes(x = gdpPercap) +
-  labs(x = "GDP Per Capita") +
-  aes(y = lifeExp) +
-  labs(y = "Life Expectancy") +
-  geom_point() +
-  labs(title = "Do people in wealthy countries live longer?")
-~~~
-{: .language-r}
-
-<img src="../fig/rmd-01-FirstPlotAddTitle-1.png" title="plot of chunk FirstPlotAddTitle" alt="plot of chunk FirstPlotAddTitle" width="612" style="display: block; margin: auto;" />
-
-No one can deny we've made a very handsome plot! But now looking at the data, we
-might be curious about learning more about the points that are the extremes of
-the data. We know that we have two more pieces of data in the `gapminder_1997`
-object that we haven't used yet. Maybe we are curious if the different
-continents show different patterns in GDP and life expectancy. One thing we
-could do is use a different color for each of the continents. To map the
-continent of each point to a color, we will again use the `aes()` function:
-
-
-~~~
-ggplot(data = gapminder_1997) +
-  aes(x = gdpPercap) +
-  labs(x = "GDP Per Capita") +
-  aes(y = lifeExp) +
-  labs(y = "Life Expectancy") +
-  geom_point() +
-  labs(title = "Do people in wealthy countries live longer?") +
-  aes(color = continent)
-~~~
-{: .language-r}
-
-<img src="../fig/rmd-01-FirstPlotAddColor-1.png" title="plot of chunk FirstPlotAddColor" alt="plot of chunk FirstPlotAddColor" width="612" style="display: block; margin: auto;" />
-
-Here we can see that in 1997 the African countries had much lower life
-expectancy than many other continents. Notice that when we add a mapping for
-color, ggplot automatically provided a legend for us. It took care of assigning
-different colors to each of our unique values of the `continent` variable. (Note
-that when we mapped the x and y values, those drew the actual axis labels, so in
-a way the axes are like the legends for the x and y values). The colors that
-ggplot uses are determined by the color "scale". Each aesthetic value we can
-supply (x, y, color, etc) has a corresponding scale. Let's change the colors to
-make them a bit prettier.
-
-
-~~~
-ggplot(data = gapminder_1997) +
-  aes(x = gdpPercap) +
-  labs(x = "GDP Per Capita") +
-  aes(y = lifeExp) +
-  labs(y = "Life Expectancy") +
-  geom_point() +
-  labs(title = "Do people in wealthy countries live longer?") +
-  aes(color = continent) +
-  scale_color_brewer(palette = "Set1")
-~~~
-{: .language-r}
-
-<img src="../fig/rmd-01-FirstPlotAddColorScale-1.png" title="plot of chunk FirstPlotAddColorScale" alt="plot of chunk FirstPlotAddColorScale" width="612" style="display: block; margin: auto;" />
-
-The `scale_color_brewer()` function is just one of many you can use to change
-colors. There are bunch of "palettes" that are build in. You can view them all
-by running `RColorBrewer::display.brewer.all()` or check out the [Color Brewer
-website](https://colorbrewer2.org/) for more info about choosing plot colors.
-
-There are also lots of other fun options:
-
-- [Viridis](https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html)
-- [National parks](https://github.com/katiejolly/nationalparkcolors)
-- [LaCroix](https://github.com/johannesbjork/LaCroixColoR)
-- [Wes Anderson](https://github.com/karthik/wesanderson)
-
-> ## Bonus Exercise: Changing colors
-> Play around with different color palettes. Feel free to install another
-> package and choose one of those if you want. Pick your favorite!
-> {: .source}
->
-> > ## Solution
-> > You can use RColorBrewer::display.brewer.all() to pick a color palette. 
-> > As a bonus, you can also use one of the packages listed above. 
-> > Here's an example:
-> > 
-> > 
-> > ~~~
-> > #install.packages("wesanderson") # install package from GitHub
-> > library(wesanderson)
-> > ~~~
-> > {: .language-r}
-> > 
-> > 
-> > 
-> > ~~~
-> > Error in library(wesanderson): there is no package called 'wesanderson'
-> > ~~~
-> > {: .error}
-> > 
-> > 
-> > 
-> > ~~~
-> > ggplot(data = gapminder_1997) +
-> > aes(x = gdpPercap) +
-> > labs(x = "GDP Per Capita") +
-> > aes(y = lifeExp) +
-> > labs(y = "Life Expectancy") +
-> > geom_point() +
-> > labs(title = "Do people in wealthy countries live longer?") +
-> > aes(color = continent) +
-> > scale_color_manual(values = wes_palette('Cavalcanti1'))
-> > ~~~
-> > {: .language-r}
-> > 
-> > 
-> > 
-> > ~~~
-> > Error in wes_palette("Cavalcanti1"): could not find function "wes_palette"
-> > ~~~
-> > {: .error}
-> > {: .source}
-> {: .solution}
-{: .challenge}
-
-Since we have the data for the population of each country, we might be curious
-what effect population might have on life expectancy and GDP per capita. Do you
-think larger countries will have a longer or shorter life expectancy? Let's find
-out by mapping the population of each country to the size of our points.
-
-
-~~~
-ggplot(data = gapminder_1997) +
-  aes(x = gdpPercap) +
-  labs(x = "GDP Per Capita") +
-  aes(y = lifeExp) +
-  labs(y = "Life Expectancy") +
-  geom_point() +
-  labs(title = "Do people in wealthy countries live longer?") +
-  aes(color = continent) +
-  scale_color_brewer(palette = "Set1") +
-  aes(size = pop)
-~~~
-{: .language-r}
-
-<img src="../fig/rmd-01-FirstPlotAddSize-1.png" title="plot of chunk FirstPlotAddSize" alt="plot of chunk FirstPlotAddSize" width="612" style="display: block; margin: auto;" />
-
-There doesn't seem to be a very strong association with population size. We can
-see two very large countries with relatively low GDP per capita (but since the
-per capita value is already divided by the total population, there is some
-problems with separating those two values). We got another legend here for size
-which is nice, but the values look a bit ugly in scientific notation. Let's
-divide all the values by 1,000,000 and label our legend "Population (in
-millions)"
-
-
-~~~
-ggplot(data = gapminder_1997) +
-  aes(x = gdpPercap) +
-  labs(x = "GDP Per Capita") +
-  aes(y = lifeExp) +
-  labs(y = "Life Expectancy") +
-  geom_point() +
-  labs(title = "Do people in wealthy countries live longer?") +
-  aes(color = continent) +
-  scale_color_brewer(palette = "Set1") +
-  aes(size = pop/1000000) +
-  labs(size = "Population (in millions)")
-~~~
-{: .language-r}
-
-<img src="../fig/rmd-01-FirstPlotAddPop-1.png" title="plot of chunk FirstPlotAddPop" alt="plot of chunk FirstPlotAddPop" width="612" style="display: block; margin: auto;" />
-
-This works because you can treat the columns in the aesthetic mappings just like
-any other variables and can use functions to transform or change them at plot
-time rather than having to transform your data first.
-
-Good work! Take a moment to appreciate what a cool plot you made with a few
-lines of code. In order to fully view its beauty you can click the "Zoom" button
-in the **Plots** tab - it will break free from the lower right corner and open
-the plot in its own window.
-
-> ## Changing shapes
-> Instead of (or in addition to) color, change the shape of the points so each continent has a different shape. (I'm not saying this is a great thing to do - it's just for practice!) HINT: Is size an aesthetic or a geometry? If you're stuck, feel free to Google it, or look at the help menu.
-> {: .source}
->
-> > ## Solution
-> > You'll want to use the `aes` aesthetic function to change the shape:
-> > 
-> > ~~~
-> > ggplot(data = gapminder_1997) +
-> >   aes(x = gdpPercap) +
-> >   labs(x = "GDP Per Capita") +
-> >   aes(y = lifeExp) +
-> >   labs(y = "Life Expectancy") +
-> >   geom_point() +
-> >   labs(title = "Do people in wealthy countries live longer?") +
-> >   aes(color = continent) +
-> >   scale_color_brewer(palette = "Set1") +
-> >   aes(size = pop/1000000) +
-> >   labs(size = "Population (in millions)") +
-> >   aes(shape = continent)
-> > ~~~
-> > {: .language-r}
-> > 
-> > <img src="../fig/rmd-01-Shape-1.png" title="plot of chunk Shape" alt="plot of chunk Shape" width="612" style="display: block; margin: auto;" />
-> > {: .source}
-> {: .solution}
-{: .challenge}
-
-For our first plot we added each line of code one at a time so you could see the
-exact affect it had on the output. But when you start to make a bunch of plots,
-we can actually combine many of these steps so you don't have to type as much.
-For example, you can collect all the `aes()` statements and all the `labs()`
-together. A more condensed version of the exact same plot would look like this:
-
-
-~~~
-ggplot(data = gapminder_1997) +
-  aes(x = gdpPercap, y = lifeExp, color = continent, size = pop/1000000) +
-  geom_point() +
-  scale_color_brewer(palette = "Set1") +
-  labs(x = "GDP Per Capita", y = "Life Expectancy",
-    title = "Do people in wealthy countries live longer?", size = "Population (in millions)")
-~~~
-{: .language-r}
-
-<img src="../fig/rmd-01-FirstPlotCondensed-1.png" title="plot of chunk FirstPlotCondensed" alt="plot of chunk FirstPlotCondensed" width="612" style="display: block; margin: auto;" />
 
 # Plotting for data exploration
 _[Back to top](#contents)_
 
 Many datasets are much more complex than the example we used for the first plot.
-How can we find meaningful patterns in complex data and create visualizations to
-convey those patterns?
+How can we find meaningful insights in complex data and create visualizations to convey those insights?
 
 ## Importing datasets
 _[Back to top](#contents)_
 
-In the first plot, we looked at a smaller slice of a large dataset. To gain a
-better understanding of the kinds of patterns we might observe in our own data,
-we will now use the full dataset, which is stored in a file called
-"gapminder_data.csv".
+In the first plot, we looked at a smaller slice of a large dataset. 
+To gain a better understanding of the kinds of patterns we might observe in our own data, we will now use the full dataset, which is stored in a file called "gapminder_data.csv".
 
-To start, we will read in the data without using the interactive RStudio file navigation.
+To start, we will read in the data to a pandas DataFrame.
 
 > ## Read in your own data
 >
@@ -1105,86 +1097,121 @@ gapminder_data = pd.read_csv()
 > {: .solution}
 {: .challenge}
 
-Let's take a look at the full dataset. We could use `View()`, the way we did for the smaller dataset, but if your data is too big, it might take too long to load. Luckily, R offers a way to look at parts of the data to get an idea of what your dataset looks like, without having to examine the whole thing. Here are some commands that allow us to get the dimensions of our data and look at a snapshot of the data. Try them out!
-
-
-~~~
-gapminder_data.shape
-~~~
-{: .language-python}
+Let's take a look at the full dataset. 
+Pandas offers a way to select the top few rows of a data frame by applying the `head` method to the data frame. Try it out!
 
 ~~~
 gapminder_data.head()
 ~~~
 {: .language-python}
 
-Notice that this dataset has an additional column `year` compared to the smaller dataset we started with.
+~~~
+       country  year         pop continent  lifeExp   gdpPercap
+0  Afghanistan  1952   8425333.0      Asia   28.801  779.445314
+1  Afghanistan  1957   9240934.0      Asia   30.332  820.853030
+2  Afghanistan  1962  10267083.0      Asia   31.997  853.100710
+3  Afghanistan  1967  11537966.0      Asia   34.020  836.197138
+4  Afghanistan  1972  13079460.0      Asia   36.088  739.981106
+~~~
+{: .output}
+
+
+Notice that this dataset has an additional column "year" compared to the smaller dataset we started with.
 
 > ## Predicting `seaborn` outputs
-> Now that we have the full dataset read into our R session, let's plot the data placing our new `year` variable on the x axis and life expectancy on the y axis. We've provided the code below. Notice that we've collapsed the plotting function options and left off some of the labels so there's not as much code to work with.
+> Now that we have the full dataset read into our Python session, let's plot the data placing our new "year" variable on the x axis and life expectancy on the y axis. 
+> We've provided the code below. Notice that we've left off the labels so there's not as much code to work with.
 > Before running the code, read through it and see if you can predict what the plot output will look like. Then run the code and check to see if you were right!
 >
 > 
 > ~~~
-> (so.Plot(data=gapminder_data, 
->          x="year", 
->          y="lifeExp",
->          color="continent")
->  .add(so.Dot())
+> (
+>     so.Plot(data=gapminder, 
+>             x='year', 
+>             y='lifeExp',
+>             color='continent')
+>     .add(so.Dot())
 > )
 > ~~~
 > {: .language-python}
 > 
-> <img src="../fig/01-plotting-PlotFullGapminder-1.png" title="plot of chunk PlotFullGapminder" alt="plot of chunk PlotFullGapminder" width="612" style="display: block; margin: auto;" />
+> <img src="../fig/python-plotting/01-plotting-PlotFullGapminder-1.png" title="plot of chunk PlotFullGapminder" alt="plot of chunk PlotFullGapminder" width="612" style="display: block; margin: auto;" />
 >
 {: .challenge}
 
-Hmm, the plot we created in the last exercise isn't very clear. What's going on? Since the dataset is more complex, the plotting options we used for the smaller dataset aren't as useful for interpreting these data. Luckily, we can add additional attributes to our plots that will make patterns more apparent. For example, we can generate a different type of plot - perhaps a line plot - and assign attributes for columns where we might expect to see patterns.
+Hmm, the plot we created in the last exercise isn't very clear. 
+What's going on? 
+Since the dataset is more complex, the plotting options we used for the smaller dataset aren't as useful for interpreting these data. 
+Luckily, we can add additional attributes to our plots that will make patterns more apparent. 
+For example, we can generate a different type of plot - perhaps a line plot - and assign attributes for columns where we might expect to see patterns.
 
-Let's review the columns and the types of data stored in our dataset to decide how we should group things together. To get an overview of our data object, we can look at the structure of `gapminder_data` using the `str()` function.
-
+Let's review the columns and the types of data stored in our dataset to decide how we should group things together. 
+We can apply the pandas method `info` to get the summary information of the data frame. 
 ~~~
-gapminder_data.info()
+gapminder.info()
 ~~~
 {: .language-python}
-(You can also review the structure of your data in the **Environment** tab by clicking on the blue circle with the arrow in it next to your data object name.)
 
-So, what do we see? The column names are listed after a `$` symbol, and then we have a `:` followed by a text label. These labels correspond to the type of data stored in each column.
+~~~
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 1704 entries, 0 to 1703
+Data columns (total 6 columns):
+ #   Column     Non-Null Count  Dtype  
+---  ------     --------------  -----  
+ 0   country    1704 non-null   object 
+ 1   year       1704 non-null   int64  
+ 2   pop        1704 non-null   float64
+ 3   continent  1704 non-null   object 
+ 4   lifeExp    1704 non-null   float64
+ 5   gdpPercap  1704 non-null   float64
+dtypes: float64(3), int64(1), object(2)
+memory usage: 80.0+ KB
+~~~
+{: .output}
+
+So, what do we see? 
+The data frame has 1,704 entries (rows) and 6 columns. 
+The "Dtype" shows the data type of each column. 
 
 What kind of data do we see?
-* "int64"= Integer (or whole number)
-* "float64" = Numeric (or non-whole number)
-* "object" = Character (categorical data)
+- "int64": Integer (or whole number)
+- "float64": Numeric (or non-whole number)
+- "object": String or mixed data type
 
-**Note** In anything before R 4.0, categorical variables used to be read in as factors, which are a [special data object](https://www.tutorialspoint.com/r/r_factors.htm) that are used to store categorical data and have limited numbers of unique values. The unique values of a factor are tracked via the "levels" of a factor. A factor will always remember all of its levels even if the values don't actually appear in your data. The factor will also remember the order of the levels and will always print values out in the same order (by default this order is alphabetical).
 
-If your columns are stored as character values but you need factors for plotting, ggplot will convert them to factors for you as needed.
-
-Our plot has a lot of points in columns which makes it hard to see trends over time. A better way to view the data showing changes over time is to use a [line plot](http://www.sthda.com/english/wiki/ggplot2-line-plot-quick-start-guide-r-software-and-data-visualization). Let's try changing the geom to a line and see what happens.
+Our plot has a lot of points in columns which makes it hard to see trends over time. 
+A better way to view the data showing changes over time is to use lines. 
+Let's try changing the mark from dot to line and see what happens.
 
 
 ~~~
-(so.Plot(data=gapminder_data, 
-         x="year", 
-         y="lifeExp",
-         color="continent")
- .add(so.Lines())
+(
+    so.Plot(data=gapminder, 
+            x='year', 
+            y='lifeExp',
+            color='continent')
+    .add(so.Line())
 )
 ~~~
 {: .language-python}
 
 <img src="../fig/01-plotting-GapMinderLinePlotBad-1.png" title="plot of chunk GapMinderLinePlotBad" alt="plot of chunk GapMinderLinePlotBad" width="612" style="display: block; margin: auto;" />
 
-Hmm. This doesn't look right. By setting the color value, we got a line for each continent, but we really wanted a line for each country. We need to tell ggplot that we want to connect the values for each `country` value instead. To do this, we need to use the `group=` aesthetic.
+Hmm. This doesn't look right. 
+By setting the color value, we got a line for each continent, 
+but we really wanted a line for each country. 
+We need to tell seaborn that we want to connect the values for each `country` value instead. 
+To do this, we need to specify the `group` argument of the `Plot` function.
 
 
 ~~~
-(so.Plot(data=gapminder_data, 
-         x="year", 
-         y="lifeExp",
-         group="country",
-         color="continent")
- .add(so.Line())
+(
+    so.Plot(data=gapminder, 
+            x='year', 
+            y='lifeExp',
+            group='country',
+            color='continent')
+    .add(so.Line())
 )
 ~~~
 {: .language-python}
@@ -1199,12 +1226,13 @@ Sometimes plots like this are called "spaghetti plots" because all the lines loo
 > > ## Solution
 > > 
 > > ~~~
-> > (so.Plot(data=gapminder_data, 
-> >          x="pop", 
-> >          y="lifeExp",
-> >          group="country",
-> >          color="continent")
-> >  .add(so.Line())
+> > (
+> >     so.Plot(data=gapminder, 
+> >             x='pop', 
+> >             y='lifeExp',
+> >             group='country',
+> >             color='continent')
+> >     .add(so.Line())
 > > )
 > > ~~~
 > > {: .language-python}
@@ -1214,48 +1242,109 @@ Sometimes plots like this are called "spaghetti plots" because all the lines loo
 > {: .solution}
 {: .challenge}
 
-## Discrete Plots
+## Categorical Plots
 _[Back to top](#contents)_
 
-So far we've looked at two plot types (`geom_point` and `geom_line`) which work when both the x and y values are numeric. But sometimes you may have one of your values be discrete (a factor or character).
+So far we've looked at plots with both the x and y values being numerical values in a continuous scale (e.g., life expectancy, GDP per capita, year, population, etc.)
+But sometimes we may want to visualize categorical data (e.g., continents). 
 
-We've previously used the discrete values of the `continent` column to color in our points and lines. But now let's try moving that variable to the `x` axis. Let's say we are curious about comparing the distribution of the life expectancy values for each of the different continents for the `gapminder_1997` data. We can do so using a box plot. Try this out yourself in the exercise below!
+We've previously used the categorical values of the `continent` column to color in our points and lines. But now let's try moving that variable to the `x` axis. 
+Let's say we are curious about comparing the distribution of the life expectancy values for each of the different continents for the `gapminder_1997` data. 
 
-> ## Box plots
-> Using the `gapminder_1997` data, use ggplot to create a box plot with continent on the x axis and life expectancy on the y axis. You can use the examples from earlier in the lesson as a template to remember how to pass ggplot data and map aesthetics and geometries onto the plot. If you're really stuck, feel free to use the internet as well!
->
-> > ## Solution
-> > 
-> > ~~~
-> > ggplot(data = gapminder_1997) +
-> >  aes(x = continent, y = lifeExp) +
-> >  geom_boxplot()
-> > ~~~
-> > {: .language-r}
-> > 
-> > <img src="../fig/rmd-01-GapBox-1.png" title="plot of chunk GapBox" alt="plot of chunk GapBox" width="612" style="display: block; margin: auto;" />
-> {: .solution}
-{: .challenge}
+Let's map the continent to the x axis and the life expectancy to the y axis. 
+Let's use the dot marks to represent the data. 
 
-This type of visualization makes it easy to compare the range and spread of values across groups. The "middle" 50% of the data is located inside the box and outliers that are far away from the central mass of the data are drawn as points.
+~~~
+(
+    so.Plot(gapminder_1997, 
+            x='continent', 
+            y='lifeExp')
+    .add(so.Dot())
+)
+~~~
+{: .language-python}
 
-> ## Bonus Exercise: Other discrete geoms
-> Take a look a the ggplot [cheat sheet](https://ggplot2.tidyverse.org/). Find all the geoms listed under "Discrete X, Continuous Y". Try replacing `geom_boxplot` with one of these other functions.
+<img src="../fig/python-plotting/01-plotting-gapminder-categorical-1.png" title="plot of chunk GapMinderLinePlot" alt="plot of chunk GapMinderLinePlot" width="612" style="display: block; margin: auto;" />
+
+We see that there are some overplotting as countries from the same continents are aligned vertically like a strip of kebab, making it hard to see the dots in some dense areas. 
+A common treatment is to spread (or "jitter") the dots within each group by adding a little random displacement along the categorical axis. 
+The result is sometimes called a "jitter plot".
+The way to implement this in seaborn is to add the `Jitter` after the `Dot`. 
+
+~~~
+(
+    so.Plot(gapminder_1997, 
+            x='continent', 
+            y='lifeExp')
+    .add(so.Dot(), so.Jitter())
+)
+~~~
+{: .language-python}
+
+
+<img src="../fig/python-plotting/01-plotting-gapminder-categorical-2.png" title="plot of chunk GapMinderLinePlot" alt="plot of chunk GapMinderLinePlot" width="612" style="display: block; margin: auto;" />
+
+
+We can control the amount of jitter by setting the `width` argument. 
+Let's also change the size and opacity of the dots. 
+
+~~~
+(
+    so.Plot(gapminder_1997, 
+            x='continent', 
+            y='lifeExp')
+    .add(so.Dot(pointsize=10, alpha=.5), so.Jitter(width=.8))
+)
+~~~
+{: .language-python}
+
+
+<img src="../fig/python-plotting/01-plotting-gapminder-categorical-3.png" title="plot of chunk GapMinderLinePlot" alt="plot of chunk GapMinderLinePlot" width="612" style="display: block; margin: auto;" />
+
+
+Lastly, let's further map the continents to the color of the dots. 
+
+~~~
+(
+    so.Plot(gapminder_1997, 
+            x='continent', 
+            y='lifeExp', 
+            color='continent')
+    .add(so.Dot(pointsize=10, alpha=.5), so.Jitter(width=.8))
+)
+
+~~~
+{: .language-python}
+
+
+<img src="../fig/python-plotting/01-plotting-gapminder-categorical-4.png" title="plot of chunk GapMinderLinePlot" alt="plot of chunk GapMinderLinePlot" width="612" style="display: block; margin: auto;" />
+
+
+This type of visualization makes it easy to compare the distribution (e.g., range, spread) of values across groups. 
+
+> ## Bonus Exercise: Other categorical plots
+> Let's plot the range of the life expectancy for each continent in terms of its mean plus/minus one standard deviation.
 >
 > > ## Example solution
 > > 
 > > ~~~
-> > ggplot(data = gapminder_1997) +
-> >   aes(x = continent, y = lifeExp) +
-> >   geom_violin()
+> > (
+> >     so.Plot(gapminder_1997, 
+> >             x='continent', 
+> >             y='lifeExp', 
+> >             color='continent')
+> >     .add(so.Range(), so.Est(func='mean', errorbar='sd'))
+> >     .add(so.Dot(), so.Agg())
+> > )
 > > ~~~
-> > {: .language-r}
+> > {: .language-python}
 > > 
-> > <img src="../fig/rmd-01-GapViol-1.png" title="plot of chunk GapViol" alt="plot of chunk GapViol" width="612" style="display: block; margin: auto;" />
+> > <img src="../fig/python-plotting/01-plotting-gapminder-categorical-5.png" title="plot of chunk GapViol" alt="plot of chunk GapViol" width="612" style="display: block; margin: auto;" />
 > {: .solution}
 {: .challenge}
 
-## Layers
+
+<!-- ## Layers
 _[Back to top](#contents)_
 
 So far we've only been adding one geom to each plot, but each plot object can actually contain multiple layers and each layer has it's own geom. Let's start with a basic violin plot:
@@ -1445,84 +1534,191 @@ So "darkolivegreen" maybe wasn't the prettiest color. R knows lots of color name
 > > ## Solution
 > > In this example, you placed the fill inside the `aes()` function. Because you are using an aesthetic mapping, the "scale" for the fill will assign colors to values - in this case, you only have one value: the word "springgreen." Instead, try `geom_violin(fill = "springgreen")`.
 > {: .solution}
-{: .challenge}
+{: .challenge} -->
 
 ## Univariate Plots
 _[Back to top](#contents)_
 
-We jumped right into make plots with multiple columns. But what if we wanted to take a look at just one column? In that case, we only need to specify a mapping for `x` and choose an appropriate geom. Let's start with a [histogram](https://www.thoughtco.com/what-is-a-histogram-3126359) to see the range and spread of the life expectancy values.
-
+We jumped right into make plots with multiple columns. 
+But what if we wanted to take a look at just one column? 
+In that case, we only need to specify a mapping for `x` and choose an appropriate mark. 
+Let's start with a [histogram](https://www.thoughtco.com/what-is-a-histogram-3126359) to see the range and spread of the life expectancy.
 
 ~~~
-(so.Plot(data=gapminder_1997, x="lifeExp")
- .add(so.Bars(), so.Hist())
+(
+    so.Plot(data=gapminder_1997, 
+            x='lifeExp')
+    .add(so.Bars(), so.Hist())
 )
 ~~~
 {: .language-python}
 
-<img src="../fig/01-plotting-GapLifeHist-1.png" title="plot of chunk GapLifeHist" alt="plot of chunk GapLifeHist" width="612" style="display: block; margin: auto;" />
+<img src="../fig/python-plotting/01-plotting-GapLifeHist-1.png" title="plot of chunk GapLifeHist" alt="plot of chunk GapLifeHist" width="612" style="display: block; margin: auto;" />
 
-You should not only see the plot in the plot window, but also a message telling you to choose a better bin value. Histograms can look very different depending on the number of bars you decide to draw. The default is 30. Let's try setting a different value by explicitly passing a `bin=` argument to the `geom_histogram` later.
-
+Histograms can look very different depending on the number of bins you decide to draw. 
+The default is 10. 
+Let's try setting a different value by explicitly passing a `bins` argument to `Hist`.
 
 ~~~
-(so.Plot(data=gapminder_1997, x="lifeExp")
- .add(so.Bars(), so.Hist(bins=20))
+(
+    so.Plot(data=gapminder_1997, 
+            x='lifeExp')
+    .add(so.Bars(), so.Hist(bins=20))
 )
 ~~~
 {: .language-python}
 
-<img src="../fig/01-plotting-GapLifeHistBins-1.png" title="plot of chunk GapLifeHistBins" alt="plot of chunk GapLifeHistBins" width="612" style="display: block; margin: auto;" />
+<img src="../fig/python-plotting/01-plotting-GapLifeHistBins-1.png" title="plot of chunk GapLifeHistBins" alt="plot of chunk GapLifeHistBins" width="612" style="display: block; margin: auto;" />
 
-Try different values like 5 or 50 to see how the plot changes.
+You can try different values like 5 or 50 to see how the plot changes.
 
-
-
-SET BIN END POINTS
-
+Sometimes we don't really care about the total number of bins, but rather the bin width and end points. 
+For example, we may want the bins at 40-45, 45-50, 50-55, and so on.
+In this case, we can set the `binwidth` and `binrange` arguments to the `Hist`.
 
 ~~~
-(so.Plot(data=gapminder_1997, x="lifeExp")
- .add(so.Bars(), 
-      so.Hist(bins=20, binwidth=2, binrange=(0, 100)))
+(
+    so.Plot(data=gapminder_1997, 
+            x='lifeExp')
+    .add(so.Bars(), so.Hist(binwidth=5, binrange=(0, 100)))
 )
 ~~~
 {: .language-python}
 
-<img src="../fig/01-plotting-GapLifeHistBins-2.png" title="plot of chunk GapLifeHistBins" alt="plot of chunk GapLifeHistBins" width="612" style="display: block; margin: auto;" />
+<img src="../fig/python-plotting/01-plotting-GapLifeHistBins-2.png" title="plot of chunk GapLifeHistBins" alt="plot of chunk GapLifeHistBins" width="612" style="display: block; margin: auto;" />
 
 
-SET LAYOUT
-
-
-~~~
-(so.Plot(data=gapminder_1997, x="lifeExp")
- .add(so.Bars(), 
-      so.Hist(bins=20, binwidth=2, binrange=(0, 100)))
- .layout(size=(10,5))
-)
-~~~
-{: .language-python}
-
-<img src="../fig/01-plotting-GapLifeHistBins-3.png" title="plot of chunk GapLifeHistBins" alt="plot of chunk GapLifeHistBins" width="612" style="display: block; margin: auto;" />
-
-
-> ## Bonus Exercise: One variable plots
-> Rather than a histogram, choose one of the other geometries listed under "One Variable" plots on the ggplot [cheat sheet](https://ggplot2.tidyverse.org/). Note that we used `lifeExp` here which has continuous values. If you want to try the discrete options, try mapping `continent` to x instead.
->
-> > ## Example solution
-> > 
+> ## Changing the aggregate statistics
+> By default the y axis shows the number of observations in each bin, that is, `stat='count'`. 
+> Sometimes we are more interested in other aggregate statistic rather than count, such as the *percentage* of the observations in each bin.
+> Check the documentation of `so.Hist` and see what other aggregate statistic are offered, and change the histogram to show the percentages instead. 
+> > ## Solution
 > > ~~~
-> > (so.Plot(data=gapminder_1997, x="lifeExp")
-> >  .add(so.Line(), so.KDE())
+> > (
+> >     so.Plot(data=gapminder_1997, 
+> >             x='lifeExp')
+> >     .add(so.Bars(), so.Hist(stat='percent', binwidth=5, binrange=(0, 100)))
 > > )
 > > ~~~
 > > {: .language-python}
-> > 
-> > <img src="../fig/01-plotting-GapLifeDens1-1.png" title="plot of chunk GapLifeDens1" alt="plot of chunk GapLifeDens1" width="612" style="display: block; margin: auto;" />
+> > <img src="../fig/python-plotting/01-plotting-GapLifeHistBins-3.png" title="plot of chunk GapLifeHistBins" alt="plot of chunk GapLifeHistBins" width="612" style="display: block; margin: auto;" />
 > {: .solution}
 {: .challenge}
 
+
+If we want to see the histogram of life expectance broken down by each continent, we can add the continent to the color property. 
+
+~~~
+(
+    so.Plot(data=gapminder_1997, 
+            x='lifeExp', 
+            color='continent')
+    .add(so.Bars(), so.Hist(stat='percent', binwidth=5, binrange=(0, 100)))
+)
+~~~
+{: .language-python}
+
+<img src="../fig/python-plotting/01-plotting-GapLifeHistBins-4.png" title="plot of chunk GapLifeHistBins" alt="plot of chunk GapLifeHistBins" width="612" style="display: block; margin: auto;" />
+
+Hmm, it looks like the bins for each continents are on top of each other. 
+That's not very easy to see the distributions. 
+We can use `so.Stack` to stack the bins. 
+This type of charts are often called "stacked bar chart".
+
+~~~
+(
+    so.Plot(data=gapminder_1997, 
+            x='lifeExp', 
+            color='continent')
+    .add(so.Bars(), so.Hist(stat='percent', binwidth=5, binrange=(0, 100)), so.Stack())
+)
+~~~
+{: .language-python}
+
+<img src="../fig/python-plotting/01-plotting-GapLifeHistBins-5.png" title="plot of chunk GapLifeHistBins" alt="plot of chunk GapLifeHistBins" width="612" style="display: block; margin: auto;" />
+
+Other than the histogram, we can also use[kernel density estimation](https://en.wikipedia.org/wiki/Kernel_density_estimation), a smoothing technique that captures the general shape of the distribution of a continuous variable. 
+
+We can show the kernel density estimates (`so.KDE`) using a line (`so.Line`). 
+
+~~~
+(
+    so.Plot(data=gapminder_1997, 
+            x='lifeExp')
+    .add(so.Line(), so.KDE())
+)
+~~~
+{: .language-python}
+
+<img src="../fig/python-plotting/01-plotting-kde-1.png" title="plot of chunk GapLifeHistBins" alt="plot of chunk GapLifeHistBins" width="612" style="display: block; margin: auto;" />
+
+We can also show the kernel density estimates (`so.KDE`) using an area (`so.Area`). 
+
+~~~
+(
+    so.Plot(data=gapminder_1997, 
+            x='lifeExp')
+    .add(so.Area(), so.KDE())
+)
+~~~
+{: .language-python}
+
+<img src="../fig/python-plotting/01-plotting-kde-2.png" title="plot of chunk GapLifeHistBins" alt="plot of chunk GapLifeHistBins" width="612" style="display: block; margin: auto;" />
+
+If we want to see the kernel density estimates for each continent, we can map continent to the `color` in the plot function. 
+
+~~~
+(
+    so.Plot(data=gapminder_1997, 
+            x='lifeExp',
+            color='continent')
+    .add(so.Area(), so.KDE())
+)
+~~~
+{: .language-python}
+
+<img src="../fig/python-plotting/01-plotting-kde-3.png" title="plot of chunk GapLifeHistBins" alt="plot of chunk GapLifeHistBins" width="612" style="display: block; margin: auto;" />
+
+
+We can overlay multiple visualization layers to the same plot. 
+Here let's combine the histogram and the kernel density estimate. 
+Note we will need to change the `stat` of the `so.Hist` to `density`, so that the y axis values of the histogram are comparable with the kernel density. 
+
+~~~
+(
+    so.Plot(data=gapminder_1997, 
+            x='lifeExp')
+    .add(so.Bars(), so.Hist(stat='density', binwidth=5, binrange=(0, 100)))
+    .add(so.Line(), so.KDE())
+)
+~~~
+{: .language-python}
+
+<img src="../fig/python-plotting/01-plotting-kde-4.png" title="plot of chunk GapLifeHistBins" alt="plot of chunk GapLifeHistBins" width="612" style="display: block; margin: auto;" />
+
+
+Lastly, we can make a few further improvements to the plot. 
+- Specify the `label` parameter for the two data layer (i.e., the lines starts with `.add()`), so they will show up in a "layer legend". 
+- Change the line color, width, and opacity.
+- Add x and y axis labels.
+- Change the size of the plot by calling the `layout` method.
+
+~~~
+(
+    so.Plot(data=gapminder_1997, 
+            x='lifeExp')
+    .add(so.Bars(), so.Hist(stat='density', binwidth=5, binrange=(0, 100)), label='Histogram')
+    .add(so.Line(color='red', linewidth=4, alpha=.7), so.KDE(), label='Kernal density')
+    .label(x="Life expectency", y="Density")
+    .layout(size=(9, 4))
+)
+~~~
+{: .language-python}
+
+<img src="../fig/python-plotting/01-plotting-kde-5.png" title="plot of chunk GapLifeHistBins" alt="plot of chunk GapLifeHistBins" width="800" style="display: block; margin: auto;" />
+
+
+<!-- 
 
 ## Plot Themes
 _[Back to top](#contents)_
@@ -1595,206 +1791,212 @@ Try out a few other themes, to see which you like: `theme_bw()`, `theme_linedraw
 > > 
 > > <img src="../fig/rmd-01-GapLifeDens2-1.png" title="plot of chunk GapLifeDens2" alt="plot of chunk GapLifeDens2" width="612" style="display: block; margin: auto;" />
 > {: .solution}
-{: .challenge}
+{: .challenge} -->
+
 
 ## Facets
 _[Back to top](#contents)_
 
-If you have a lot of different columns to try to plot or have distinguishable subgroups in your data, a powerful plotting technique called faceting might come in handy. When you facet your plot, you basically make a bunch of smaller plots and combine them together into a single image. Luckily, `ggplot` makes this very easy. Let's start with a simplified version of our first plot
-
-
-
-
-
-
+If you have a lot of different columns to try to plot or have distinguishable subgroups in your data, a powerful plotting technique called faceting might come in handy. 
+When you facet your plot, you basically make a bunch of smaller plots and combine them together into a single image. 
+Luckily, seaborn makes this very easy. 
+Let's start with the "spaghetti plot" that we made earlier. 
 
 ~~~
-(so.Plot(data=gapminder_data, 
-         x="year", 
-         y="lifeExp",
-         group="country",
-         color="continent")
- .add(so.Line())
+(
+    so.Plot(data=gapminder, 
+            x='year', 
+            y='lifeExp',
+            group='country',
+            color='continent')
+    .add(so.Line())
 )
 ~~~
 {: .language-python}
 
-<img src="../fig/01-plotting-GapNoFacet-1.png" title="plot of chunk GapNoFacet" alt="plot of chunk GapNoFacet" width="612" style="display: block; margin: auto;" />
+<img src="../fig/01-plotting-GapMinderLinePlot-1.png" title="plot of chunk GapMinderLinePlot" alt="plot of chunk GapMinderLinePlot" width="612" style="display: block; margin: auto;" />
 
-The first time we made this plot, we colored the points differently for each of the continents. This time let's actually draw a separate box for each continent. We can do this with `facet_wrap()`
 
+Rather than having all the countries in a single plot, this time let's draw a separate box (a "subplot") for countries in each continent. 
+We can do this by apply the `facet` method to the plot.
 
 ~~~
-(so.Plot(data=gapminder_data, 
-         x="year", 
-         y="lifeExp",
-         group="country",
-         color="continent")
- .facet("continent")
- .add(so.Line())
+(
+    so.Plot(data=gapminder, 
+            x='year', 
+            y='lifeExp',
+            group='country',
+            color='continent')
+    .add(so.Line())
+    .facet('continent')
 )
 ~~~
 {: .language-python}
 
-<img src="../fig/01-plotting-GapFacetWrap-1.png" title="plot of chunk GapFacetWrap" alt="plot of chunk GapFacetWrap" width="612" style="display: block; margin: auto;" />
-Note that `facet_wrap` requires this extra helper function called `vars()` in order to pass in the column names. It's a lot like the `aes()` function, but it doesn't require an aesthetic name. We can see in this output that we get a separate box with a label for each continent so that only the points for that continent are in that box.
+<img src="../fig/python-plotting/01-plotting-GapFacetWrap-1.png" title="plot of chunk GapFacetWrap" alt="plot of chunk GapFacetWrap" width="612" style="display: block; margin: auto;" />
 
-The other faceting function ggplot provides is `facet_grid()`. The main difference is that `facet_grid()` will make sure all of your smaller boxes share a common axis. In this example, we will stack all the boxes on top of each other into rows so that their x axes all line up.
+<!-- Note that `facet_wrap` requires this extra helper function called `vars()` in order to pass in the column names. It's a lot like the `aes()` function, but it doesn't require an aesthetic name. We can see in this output that we get a separate box with a label for each continent so that only the points for that continent are in that box.
 
+The other faceting function ggplot provides is `facet_grid()`. The main difference is that `facet_grid()` will make sure all of your smaller boxes share a common axis. In this example, we will stack all the boxes on top of each other into rows so that their x axes all line up. -->
+
+Note now we have a seperate subplot for countries in each continent. 
+This type of faceted plots are sometimes called [small multiples](https://en.wikipedia.org/wiki/Small_multiple).
+
+Note all five subplots are in one row. 
+If we want, we can "wrap" the subplots across a two-dimentional grid. 
+For example, if we want the subplots to have a maxmum of 3 columns, we can do the following. 
 
 ~~~
-(so.Plot(data=gapminder_data, 
-         x="year", 
-         y="lifeExp",
-         group="country",
-         color="continent")
- .facet("continent", wrap=3)
- .add(so.Line())
+    so.Plot(data=gapminder, 
+            x='year', 
+            y='lifeExp',
+            group='country',
+            color='continent')
+    .add(so.Line())
+    .facet('continent', wrap=3)
+~~~
+{: .language-python}
+
+<img src="../fig/python-plotting/01-plotting-GapFacetWrap-2.png" title="plot of chunk GapFacetWrap" alt="plot of chunk GapFacetWrap" width="612" style="display: block; margin: auto;" />
+
+
+By default, the `facet` method will place the subplots along the columns of the grid. 
+If we want to place the subplots along the rows (it's probably not a good idea in this example as we want to compare the life expectancies), we can set `row='continent'` when applying `facet` to the plot.
+
+~~~
+(
+    so.Plot(data=gapminder, 
+            x='year', 
+            y='lifeExp',
+            group='country',
+            color='continent')
+    .add(so.Line())
+    .facet(row='continent')
 )
 ~~~
 {: .language-python}
 
-<img src="../fig/01-plotting-GapFacetWrap-2.png" title="plot of chunk GapFacetWrap" alt="plot of chunk GapFacetWrap" width="612" style="display: block; margin: auto;" />
+<img src="../fig/python-plotting/01-plotting-GapFacetWrap-3.png" title="plot of chunk GapFacetWrap" alt="plot of chunk GapFacetWrap" width="612" style="display: block; margin: auto;" />
 
 
-~~~
-(so.Plot(data=gapminder_data, 
-         x="year", 
-         y="lifeExp",
-         color="continent")
- .facet("continent", wrap=3)
- .add(so.Line(), so.Agg())
-)
-~~~
-{: .language-python}
-
-<img src="../fig/01-plotting-GapFacetWrap-3.png" title="plot of chunk GapFacetWrap" alt="plot of chunk GapFacetWrap" width="612" style="display: block; margin: auto;" />
-
-
-~~~
-(so.Plot(data=gapminder_data, 
-         x="year", 
-         y="lifeExp",
-         color="continent")
- .facet("continent", wrap=3)
- .add(so.Line(linewidth=3), so.Agg())
- .add(so.Line(alpha=.3), so.Agg(), col=None)
-)
-~~~
-{: .language-python}
-
-<img src="../fig/01-plotting-GapFacetWrap-4.png" title="plot of chunk GapFacetWrap" alt="plot of chunk GapFacetWrap" width="612" style="display: block; margin: auto;" />
-
-
-
-Unlike the `facet_wrap` output where each box got its own x and y axis, with `facet_grid()`, there is only one x axis along the bottom.
 
 ## Saving plots
 _[Back to top](#contents)_
 
-We've made a bunch of plots today, but we never talked about how to share them with your friends who aren't running R! It's wise to keep all the code you used to draw the plot, but sometimes you need to make a PNG or PDF version of the plot so you can share it with your PI or post it to your Instagram story.
+We've made a bunch of plots today, but we never talked about how to share them with our friends who aren't running Python! 
+It's wise to keep all the code we used to draw the plot, but sometimes we need to make a PNG or PDF version of the plot so we can share it with our colleagues or post it to our Instagram story.
 
-One that's easy if you are working in RStudio interactively is to use "Export" menu on the **Plots** tab. Clicking that button gives you three options "Save as Image", "Save as PDF", and "Copy To Clipboard". These options will bring up a window that will let you resize and name the plot however you like.
+<!-- One that's easy if you are working in RStudio interactively is to use "Export" menu on the **Plots** tab. Clicking that button gives you three options "Save as Image", "Save as PDF", and "Copy To Clipboard". These options will bring up a window that will let you resize and name the plot however you like.
 
-A better option if you will be running your code as a script from the command line or just need your code to be more reproducible is to use the `ggsave()` function. When you call this function, it will write the last plot printed to a file in your local directory. It will determine the file type based on the name you provide. So if you call `ggsave("plot.png")` you'll get a PNG file or if you call `ggsave("plot.pdf")` you'll get a PDF file. By default the size will match the size of the **Plots** tab. To change that you can also supply `width=` and `height=` arguments. By default these values are interpreted as inches. So if you want a wide 4x6 image you could do something like:
+A better option if you will be running your code as a script from the command line or just need your code to be more reproducible is to use the `ggsave()` function. When you call this function, it will write the last plot printed to a file in your local directory. It will determine the file type based on the name you provide. So if you call `ggsave("plot.png")` you'll get a PNG file or if you call `ggsave("plot.pdf")` you'll get a PDF file. By default the size will match the size of the **Plots** tab. To change that you can also supply `width=` and `height=` arguments. By default these values are interpreted as inches. So if you want a wide 4x6 image you could do something like: -->
 
+
+We can save a plot by applying the `save` method to the plot. 
 
 ~~~
-(so.Plot(data=gapminder_data, 
-         x="year", 
-         y="lifeExp",
-         color="continent")
- .facet("continent", wrap=3)
- .add(so.Line(linewidth=3), so.Agg())
- .add(so.Line(alpha=.3), so.Agg(), col=None)
- .save("awesome_plot.png", bbox_inches='tight', dpi=200)
+(
+    so.Plot(data=gapminder, 
+            x='year', 
+            y='lifeExp',
+            group='country',
+            color='continent')
+    .add(so.Line())
+    .facet('continent', wrap=3)
+    .save("awesome_plot.png", bbox_inches='tight', dpi=200)
 )
 ~~~
 {: .language-python}
 
 > ## Saving a plot
 >
-> Try rerunning one of your plots and then saving it using `save()`. Find and open the plot to see if it worked!
+> Try rerunning one of your plots and then saving it using `save`. 
+> Find and open the plot to see if it worked!
 >
 > > ## Example solution
 > > 
 > > ~~~
-> > (so.Plot(data=gapminder_1997, x="lifeExp")
-> >  .add(so.Bars(), 
-> >       so.Hist(bins=20, binwidth=2, binrange=(0, 100)))
-> >  .save("awesome_histogram.png")
+> > (
+> >     so.Plot(data=gapminder_1997, 
+> >             x='lifeExp')
+> >     .add(so.Bars(), so.Hist(stat='density', binwidth=5, binrange=(0, 100)), label='Histogram')
+> >     .add(so.Line(color='red', linewidth=4, alpha=.7), so.KDE(), label='Kernal density')
+> >     .label(x="Life expectency", y="Density")
+> >     .layout(size=(9, 4))
+> >     .save("another_awesome_plot.png", bbox_inches='tight', dpi=200)
 > > )
 > > ~~~
 > > {: .language-python}
 > > 
-> > <img src="../fig/01-plotting-savingPlotExercise-1.png" title="plot of chunk savingPlotExercise" alt="plot of chunk savingPlotExercise" width="612" style="display: block; margin: auto;" />
 > > 
 > >
 > > Check your current working directory to find the plot!
 > {: .solution}
 {: .challenge}
 
-You also might want to just temporarily save a plot while you're using R, so that you can come back to it later. Luckily, a plot is just an object, like any other object we've been working with! Let's try storing our violin plot from earlier in an object called `violin_plot`:
+
+We also might want to just temporarily save a plot while we're using Python, so that you can come back to it later. 
+Luckily, a plot is just an object, like any other object we've been working with! 
+Let's try storing our histogram from earlier in an object called `hist_plot`.
 
 
 ~~~
-violin_plot <- ggplot(data = gapminder_1997) +
-                  aes(x = continent, y = lifeExp) +
-                  geom_violin(aes(fill=continent))
+hist_plot = (
+    so.Plot(data=gapminder_1997, 
+            x='lifeExp')
+    .add(so.Bars(), so.Hist(stat='density', binwidth=5, binrange=(0, 100)))
+)
 ~~~
-{: .language-r}
+{: .language-python}
 
 Now if we want to see our plot again, we can just run:
 
-
 ~~~
-violin_plot
+hist_plot
 ~~~
-{: .language-r}
+{: .language-python}
 
-<img src="../fig/rmd-01-outputViolinPlot-1.png" title="plot of chunk outputViolinPlot" alt="plot of chunk outputViolinPlot" width="612" style="display: block; margin: auto;" />
+<img src="../fig/python-plotting/01-plotting-hist-object-1.png" title="plot of chunk outputViolinPlot" alt="plot of chunk outputViolinPlot" width="612" style="display: block; margin: auto;" />
 
-We can also add changes to the plot. Let's say we want our violin plot to have the black-and-white theme:
-
-
-~~~
-violin_plot + theme_bw()
-~~~
-{: .language-r}
-
-<img src="../fig/rmd-01-violinPlotBWTheme-1.png" title="plot of chunk violinPlotBWTheme" alt="plot of chunk violinPlotBWTheme" width="612" style="display: block; margin: auto;" />
-
-Watch out! Adding the theme does not change the `violin_plot` object! If we want to change the object, we need to store our changes:
+We can also add changes to the plot. 
+Let's say we want to add another layer of the kernel density estimation. 
 
 
 ~~~
-violin_plot <- violin_plot + theme_bw()
+hist_plot.add(so.Line(color='red'), so.KDE())
 ~~~
-{: .language-r}
+{: .language-python}
 
-We can also save any plot object we have named, even if they were not the plot that we ran most recently. We just have to tell `ggsave()` which plot we want to save:
+<img src="../fig/python-plotting/01-plotting-hist-object-2.png" title="plot of chunk violinPlotBWTheme" alt="plot of chunk violinPlotBWTheme" width="612" style="display: block; margin: auto;" />
+
+Watch out! Adding the theme does not change the `hist_plot` object! 
+If we want to change the object, we need to store our changes:
 
 
 ~~~
-ggsave("awesome_violin_plot.jpg", plot = violin_plot, width=6, height=4)
+hist_plot = hist_plot.add(so.Line(color='red'), so.KDE())
 ~~~
-{: .language-r}
+{: .language-python}
+
 
 > ## Bonus Exercise: Create and save a plot
-> Now try it yourself! Create your own plot using `ggplot()`, store it in an object named `my_plot`, and save the plot using `ggsave()`.
+> Now try it yourself! Create your own plot using `so.Plot`, store it in an object named `my_plot`, and save the plot using the `save` method.
 >
 > > ## Example solution
 > > 
 > > ~~~
-> > my_plot <- ggplot(data = gapminder_1997)+
-> >   aes(x = continent, y = gdpPercap)+
-> >   geom_boxplot(fill = "orange")+
-> >   theme_bw()+
-> >   labs(x = "Continent", y = "GDP Per Capita")
-> > 
-> > ggsave("my_awesome_plot.jpg", plot = my_plot, width=6, height=4)
+> > (
+> >     so.Plot(gapminder_1997, 
+> >             x='gdpPercap', 
+> >             y='lifeExp', 
+> >             color='continent')
+> >     .add(so.Dot())
+> >     .label(x="GDP Per Capita", 
+> >            y="Life Expectancy", 
+> >            title = "Do people in wealthy countries live longer?")
+> >     .save("my_awesome_plot.png", bbox_inches='tight', dpi=200)
+> > )
 > > ~~~
-> > {: .language-r}
+> > {: .language-python}
 > {: .solution}
 {: .challenge}
 
@@ -1807,99 +2009,29 @@ ggsave("awesome_violin_plot.jpg", plot = violin_plot, width=6, height=4)
 ### Animated plots
 _[Back to bonus](#bonus)_
 
-Sometimes it can be cool (and useful) to create animated graphs, like [this
-famous one](https://www.youtube.com/watch?v=FTu4dDHpfdU&feature=youtu.be) by
-Hans Rosling using the Gapminder dataset that plots GDP vs. Life Expectancy over
-time. Let's try to recreate this plot!
+Sometimes it can be cool (and useful) to create animated graphs, like [this famous one](https://youtu.be/hVimVzgtD6w?feature=shared&t=202) by Hans Rosling using the Gapminder dataset that plots GDP vs. Life Expectancy over time. Let's try to recreate this plot!
 
-First, we need to install and load the `gganimate` package, which allows us to
-use ggplot to create animated visuals:
+The seaborn library that we used so far does not support annimated plots. 
+We will use a different visualization library in Python called [Plotly](https://plotly.com/python/) - a popular library for making *interactive* visualizations. 
 
-
-~~~
-install.packages(c("gganimate", "gifski"))
-library(gganimate)
-library(gifski)
-~~~
-{: .language-r}
-
-
-> ## Reviewing how to create a scatter plot
-> **Part 1:**
-> Let's start by creating a static plot using `ggplot()`, as we've been doing so
-> far. This time, lets put `log(gdpPercap)` on the x-axis, to help spread out our
-> data points, and life expectancy on our y-axis. Also map the point size to the
-> population of the country, and the color of the points to the continent.
->
-> > ## Solution
-> >
-> > 
-> > ~~~
-> > ggplot(data = gapminder_data)+
-> >  aes(x = log(gdpPercap), y = lifeExp, size = pop, color = continent)+
-> >  geom_point()
-> > ~~~
-> > {: .language-r}
-> > 
-> > <img src="../fig/rmd-01-hansGraphStaticSolution-1.png" title="plot of chunk hansGraphStaticSolution" alt="plot of chunk hansGraphStaticSolution" width="612" style="display: block; margin: auto;" />
->{: .solution}
-
-> **Part 2:**
-> Before we start to animate our plot, let's make sure it looks pretty. Add some better axis and legend labels, change the plot theme, and otherwise fix up the plot so it looks nice. Then save the plot into an object called `staticHansPlot`. When you're ready, check out how we've edited our plot, below.
->
-> > ## A pretty plot (yours may look different)
-> > 
-> > ~~~
-> > staticHansPlot <- ggplot(data = gapminder_data)+
-> >  aes(x = log(gdpPercap), y = lifeExp, size = pop/1000000, color = continent)+
-> >  geom_point(alpha = 0.5) + # we made our points slightly transparent, because it makes it easier to see overlapping points
-> >  scale_color_brewer(palette = "Set1") +
-> >  labs(x = "GDP Per Capita", y = "Life Expectancy", color= "Continent", size="Population (in millions)")+
-> > theme_classic()
-> > 
-> > staticHansPlot
-> > ~~~
-> > {: .language-r}
-> > 
-> > <img src="../fig/rmd-01-hansGraphStaticPrettySolution-1.png" title="plot of chunk hansGraphStaticPrettySolution" alt="plot of chunk hansGraphStaticPrettySolution" width="612" style="display: block; margin: auto;" />
-> {: .solution}
-{: .challenge}
-
-
-~~~
- staticHansPlot <- ggplot(data = gapminder_data)+
-  aes(x = log(gdpPercap), y = lifeExp, size = pop/1000000, color = continent)+
-  geom_point(alpha = 0.5) + # we made our points slightly transparent, because it makes it easier to see overlapping points
-  scale_color_brewer(palette = "Set1") +
-  labs(x = "GDP Per Capita", y = "Life Expectancy", color= "Continent", size="Population (in millions)")+
- theme_classic()
-
- staticHansPlot
-~~~
-{: .language-r}
-
-<img src="../fig/rmd-01-hansGraphStatic-1.png" title="plot of chunk hansGraphStatic" alt="plot of chunk hansGraphStatic" width="612" style="display: block; margin: auto;" />
-
-Ok, now we're getting somewhere! But right now we're plotting all of the years
-of our dataset on one plot - now we want to animate the plot so each year shows
-up on its own. This is where `gganimate` comes in! We want to add the
-`transition_states()` function to our plot. (Note that this might not show up as
-animated here on the website.) <!-- TODO: see if it works or not. -->
+Plotly is already pre-installed with Anaconda. 
+All we need to do is to import the library.
 
 
 ~~~
 import plotly.express as px
 
-px.scatter(data_frame=gapminder_data, 
-           x="gdpPercap", 
-           y="lifeExp", 
-           size="pop", 
-           animation_frame="year", 
-           hover_name="country", 
-           color="continent", 
-           height=600, 
-           size_max=80
-           )
+(
+    px.scatter(data_frame=gapminder, 
+               x='gdpPercap',
+               y='lifeExp', 
+               size='pop', 
+               animation_frame='year', 
+               hover_name='country', 
+               color='continent', 
+               height=600, 
+               size_max=80)
+)
 ~~~
 {: .language-python}
 
@@ -1909,68 +2041,61 @@ px.scatter(data_frame=gapminder_data,
 
 Awesome! This is looking sweet! Let's make sure we understand the code above:
 
-1. The first argument of the `transition_states()` function tells `ggplot()`
-which variable should be different in each frame of our animation: in this case,
-we want each frame to be a different `year`.
-1. The `transition_length` and `state_length` arguments are just some of the
-`gganimate` arguments you can use to adjust how the animation progresses from
-one frame to the next. Feel free to play around with those parameters, to see
-how they affect the animation (or check out more `gganmiate` options
-[here](https://gganimate.com/articles/gganimate.html)!).
-1. Finally, we want the title of our plot to tell us which year our animation is
-currently showing. Using "{closest_state}" as our title allows the title of our
-plot to show which `year` is currently being plotted.
+1. The `animation_frame` argument of the plotting function tells it which variable should be different in each frame of our animation: in this case, we want each frame to be a different year.
+1. There are quite a few more parameters that we have control over the plot. Feel free to check out more options from [the documentation of the `px.scatter` function](https://plotly.com/python-api-reference/generated/plotly.express.scatter.html).
 
-So we've made this cool animated plot - how do we save it? For `gganimate`
-objects, we can use the `anim_save()` function. It works just like `ggsave()`,
-but for animated objects.
+So we've made this cool animated plot - how do we save it? 
+We can apply the `write_html` method to save the plot to a standalone HTML file. 
 
 <!-- TODO: mention renderer / save_animation options -->
 
 ~~~
-fig = px.scatter(data_frame=gapminder_data, 
-           x="gdpPercap", 
-           y="lifeExp", 
-           size="pop", 
-           animation_frame="year", 
-           hover_name="country", 
-           color="continent", 
-           height=600, 
-           size_max=80
-           )
-
-fig.write_html("hansAnimatedPlot.html")
+(
+    px.scatter(data_frame=gapminder, 
+               x='gdpPercap',
+               y='lifeExp', 
+               size='pop', 
+               animation_frame='year', 
+               hover_name='country', 
+               color='continent', 
+               height=600, 
+               size_max=80)
+    .write_html("./hansAnimatedPlot.html")
+)
 ~~~
 {: .language-python}
 
 ### Map plots
 _[Back to bonus](#bonus)_
 
-The `ggplot` library also has useful functions to draw your data on a map. There
-are lots of different ways to draw maps but here's a quick example using the
-gampminder data. Here we will plot each country with a color indicating the life
-expectancy in 1997.
+The plotly library also has useful functions to draw your data on a map. 
+There are lots of different ways to draw maps but here's a quick example of making a [choropleth map](https://en.wikipedia.org/wiki/Choropleth_map) using the gampminder data. 
+Here we will plot each country with a color indicating the life expectancy in 1997.
 
+In order for the map function `px.choropleth` to understand the countries in the gapminder data, 
+we need to first convert the country names to standard [3-letter country codes](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3#Officially_assigned_code_elements).
+
+NOTE: we haven't learned how to modify the data in this way yet, but we'll learn about that in the next lesson. Just take for granted that it works for now :)
 
 ~~~
-# make sure names of countries match between the map info and the data
-# NOTE: we haven't learned how to modify the data in this way yet, but we'll learn about that in the next lesson. Just take for granted that it works for now :)
-mapdata <- map_data("world") %>%
-  mutate(region = recode(region,
-                         USA="United States",
-                         UK="United Kingdom"))
-
-#install.packages("mapproj")
-gapminder_1997 %>%
-  ggplot() +
-  geom_map(aes(map_id=country, fill=lifeExp), map=mapdata) +
-  expand_limits(x = mapdata$long, y = mapdata$lat) +
-  coord_map(projection = "mollweide", xlim = c(-180, 180)) +
-  ggthemes::theme_map()
+(
+    gapminder_1997
+    .replace({'country' : {'United States' : 'United States of America',
+                           'United Kingdom' : 'United Kingdom of Great Britain and Northern Ireland',
+                          }})
+    .merge(pd.read_csv("./data/country-iso.csv")
+           .rename(columns={'name' : 'country'}),
+           on='country', how='inner')
+    .pipe(px.choropleth, 
+          locations='alpha-3',
+          color='lifeExp',
+          hover_name='country',
+          hover_data=['lifeExp', 'pop'])
+)
 ~~~
-{: .language-r}
+{: .language-python}
 
-<img src="../fig/rmd-01-mapPlots-1.png" title="plot of chunk mapPlots" alt="plot of chunk mapPlots" width="612" style="display: block; margin: auto;" />
+<img src="../fig/python-plotting/rmd-01-mapPlots-1.png" title="plot of chunk mapPlots" alt="plot of chunk mapPlots" width="612" style="display: block; margin: auto;" />
 
 Notice that this map helps to show that we actually have some gaps in the data.
 We are missing observations for counties like Russia and many countries in
@@ -1980,12 +2105,8 @@ we see in the data might not apply to those regions.
 # Glossary of terms
 _[Back to top](#contents)_
 
-- Aesthetic: a visual property of the objects (geoms) drawn in your plot (like x position, y position, color, size, etc)
-- Aesthetic mapping (aes): This is how we connect a visual property of the plot to a column of our data
-- Comments: lines of text in our code after a `#` that are ignored (not evaluated) by R
-- Geometry (geom): this describes the things that are actually drawn on the plot (like points or lines)
+- Comments: lines of text in our code after a `#` that are ignored (not evaluated) by Python
+- Mark: this describes the things that are actually drawn on the plot, such as dots, bars, and lines.
 - Facets: Dividing your data into non-overlapping groups and making a small plot for each subgroup
-- Layer: Each ggplot is made up of one or more layers. Each layer contains one geometry and may also contain custom aesthetic mappings and private data
-- Factor: a way of storing data to let R know the values are discrete so they get special treatment
-
-
+- Layer: Each plot is made up of one or more layers. Each layer contains one mark.
+- Scale: specifying mappings from data units to visual properties.

@@ -252,41 +252,45 @@ max    2007.00000  1.318683e+09    82.603000  113523.132900
 
 The output above shows the summary (or descriptive) statistics for the four numerical columns in our data.
 
-If we are interested in specific columns with specific statistics, we can also select the columns of interest and apply specific methods for statistics.
+If we are interested in specific columns with specific statistics, we can also appy the `agg` method to aggregate a column based on some aggregation functions.
 
 Let's say we would like to know what is the mean life expectancy in the dataset. 
 
 ~~~
 (
-    gapminder['lifeExp']
-    .mean()
+    gapminder
+    .agg({'lifeExp' : 'mean'})
 )
 ~~~
 {: .language-python}
 
 ~~~
-59.474439366197174
+lifeExp    59.474439
+dtype: float64
 ~~~
 {: .output}
 
-We can also get the 5th and 95% percentile of the life expectancy by applying the `quantile` method. 
+Other aggregation functions for common descriptive statistics include `median`, `min`, `max`, `std` (for standard deviation), and `var` (for variance). 
+
+If we are interested in getting the 5th and 95th percentile of the life expectancy, we can use the `quantile` method.
+In this case because we need to pass some arguments to the method (i.e., the specific percentiles we are interested), we can use a lambda function.
 
 ~~~
 (
-    gapminder['lifeExp']
-    .quantile([0.05, 0.95])
+    gapminder
+    .agg({'lifeExp' : lambda x: x.quantile([0.05, 0.95])})
 )
 ~~~
 {: .language-python}
 
 ~~~
-0.05    38.4924
-0.95    77.4370
-Name: lifeExp, dtype: float64
+      lifeExp
+0.05  38.4924
+0.95  77.4370
 ~~~
 {: .output}
 
-Other methods for common descriptive statistics include `median`, `min`, `max`, `std` (for standard deviation), and `var` (for variance). 
+
 
 
 <!-- When we call `summarize()`, we can use any of the column names of our data object as values to pass to other functions. `summarize()` will return a new data object and our value will be returned as a column.
@@ -411,8 +415,7 @@ To do that, we will apply the `query` method to only use the rows for that year 
 (
     gapminder
     .query("year == 2007")
-    ['lifeExp']
-    .mean()
+    .agg({'lifeExp' : 'mean'})
 )
 ~~~
 {: .language-python}
@@ -420,7 +423,8 @@ To do that, we will apply the `query` method to only use the rows for that year 
 
 
 ~~~
-67.00742253521126
+lifeExp    67.007423
+dtype: float64
 ~~~
 {: .output}
 
@@ -431,13 +435,13 @@ To do that, we will apply the `query` method to only use the rows for that year 
 >
 > > ## Solution
 > >
-> > Identify the earliest year in our dataset by applying the `min` method.
+> > Identify the earliest year in our dataset by applying the `agg` method.
 > >
 > > 
 > > ~~~
 > > (
-> >     gapminder['year']
-> >     .min()
+> >     gapminder
+> >     .agg({'year' : 'min'})
 > > )
 > > ~~~
 > > {: .language-python}
@@ -445,19 +449,20 @@ To do that, we will apply the `query` method to only use the rows for that year 
 > > 
 > > 
 > > ~~~
-> > 1952
+> > year    1952
+> > dtype: int64
 > > ~~~
 > > {: .output}
 > >
-> > We see here that the first year in the dataset is 1952. Query the data to only include year 1952, and determine the mean GDP per capita.
+> > We see here that the first year in the dataset is 1952. 
+> > Query the data to only include year 1952, and determine the mean GDP per capita.
 > >
 > > 
 > > ~~~
 > > (
 > >     gapminder
 > >     .query("year == 1952")
-> >     ['gdpPercap']
-> >     .mean()
+> >     .agg({'gdpPercap' : 'mean'})
 > > )
 > > ~~~
 > > {: .language-python}
@@ -465,11 +470,12 @@ To do that, we will apply the `query` method to only use the rows for that year 
 > > 
 > > 
 > > ~~~
-> > 3725.2760457992963
+> > gdpPercap    3725.276046
+> > dtype: float64
 > > ~~~
 > > {: .output}
 > > {: .source}
-> > By chaining the two methods `query` and `mean` we were able to calculate the mean GDP per capita in the year 1952.
+> > By chaining the two methods `query` and `agg` we were able to calculate the mean GDP per capita in the year 1952.
 > {: .solution}
 {: .challenge}
 
@@ -520,7 +526,7 @@ For example, the code below returns all the rows from the United States.
 
 > **Note:** In a `query` expression, any string values (e.g., *United States* in the code above) need to be wrapped with quotation marks.
 
-> **Note:** In a `query` expression, any column names that does not include any special characters (e.g., a white space) do not need to be wrapped with anything. However, if a column name does include special characters, the name needs be wrapped with a pair of backticks (the key above the <kdb>Tab</kdb> key on your keyboard).
+> **Note:** In a `query` expression, any column names that does not include any special characters (e.g., a white space) do not need to be wrapped with anything. However, if a column name does include special characters, the name needs be wrapped with a pair of backticks (the key above the <kbd>Tab</kbd> key on your keyboard).
 
 
 <!-- Similarly, we can use the operator `not in` to evaluate if a value is *not* in a list.  -->
@@ -664,27 +670,27 @@ This method allows us to tell the code to treat the rows in logical groups, so r
 ~~~
 (
     gapminder
-    .groupby('year')['lifeExp']
-    .mean()
+    .groupby('year')
+    .agg({'lifeExp' : 'mean'})
 )
 ~~~
 {: .language-python}
 
 ~~~
-year
-1952    49.057620
-1957    51.507401
-1962    53.609249
-1967    55.678290
-1972    57.647386
-1977    59.570157
-1982    61.533197
-1987    63.212613
-1992    64.160338
-1997    65.014676
-2002    65.694923
-2007    67.007423
-Name: lifeExp, dtype: float64
+        lifeExp
+year           
+1952  49.057620
+1957  51.507401
+1962  53.609249
+1967  55.678290
+1972  57.647386
+1977  59.570157
+1982  61.533197
+1987  63.212613
+1992  64.160338
+1997  65.014676
+2002  65.694923
+2007  67.007423
 ~~~
 {: .output}
 
@@ -702,8 +708,8 @@ The `groupby` method expects you to pass in the name of a column (or a list of c
 > > ~~~
 > > (
 > >     gapminder
-> >     .groupby('continent')['lifeExp']
-> >     .mean()
+> >     .groupby('continent')
+> >     .agg({'lifeExp' : 'mean'})
 > > )
 > > ~~~
 > > {: .language-python}
@@ -711,18 +717,18 @@ The `groupby` method expects you to pass in the name of a column (or a list of c
 > > 
 > > 
 > > ~~~
-> > continent
-> > Africa      48.865330
-> > Americas    64.658737
-> > Asia        60.064903
-> > Europe      71.903686
-> > Oceania     74.326208
-> > Name: lifeExp, dtype: float64
+> >              lifeExp
+> > continent           
+> > Africa     48.865330
+> > Americas   64.658737
+> > Asia       60.064903
+> > Europe     71.903686
+> > Oceania    74.326208
 > > ~~~
 > > {: .output}
 > > {: .source}
 > >
-> > By chaining the two methods `groupby` and `mean` we are able to calculate the mean life expectancy by continent.
+> > By chaining the two methods `groupby` and `agg` we are able to calculate the mean life expectancy by continent.
 > {: .solution}
 {: .challenge}
 
@@ -733,13 +739,14 @@ To do so, we can use the aggregation method called `agg` and pass it a list of a
 ~~~
 (
     gapminder
-    .groupby('continent')['lifeExp']
-    .agg(['mean', 'min'])
+    .groupby('continent')
+    .agg({'lifeExp' : ['mean', 'min']})
 )
 ~~~
 {: .language-python}
 
 ~~~
+             lifeExp        
                 mean     min
 continent                   
 Africa     48.865330  23.599
@@ -803,9 +810,8 @@ We use the column names as if they were regular values that we want to perform m
 > > (
 > >     gapminder
 > >     .assign(gdp=lambda df: df['pop'] * df['gdpPercap'],
-> >             popInMillions=lambda df: df['pop'] / 1_000_000,
-> >            )
-)
+> >             popInMillions=lambda df: df['pop'] / 1_000_000)
+> > )
 > > ~~~
 > > {: .language-python}
 > > 
@@ -836,20 +842,37 @@ We use the column names as if they were regular values that we want to perform m
 
 [*Back to top*](#contents)
 
-We can apply the `query` method to choose a subset of the rows from our data, 
-but when we want to choose a subset of columns from our data we can pass a list of column names into (another) pair of square brackets. 
-For example, if we only wanted to see the population ("pop") and year values, we can do:
-
+Sometimes we may want to select a subset of columns from our data based on the column names. 
+If we want to select a single column, we can use the square bracket `[]` notation. 
+For example, if we want to select the population column from our data, we can do:
 
 ~~~
-(
-    gapminder
-    [['pop', 'year']]
-)
+gapminder['pop']
 ~~~
 {: .language-python}
 
+~~~
+0        8425333.0
+1        9240934.0
+2       10267083.0
+3       11537966.0
+4       13079460.0
+           ...    
+1699     9216418.0
+1700    10704340.0
+1701    11404948.0
+1702    11926563.0
+1703    12311143.0
+Name: pop, Length: 1704, dtype: float64
+~~~
+{: .output}
 
+If we want to select multiple columns, we can pass a list of column names into (another) pair of square brackets. 
+
+~~~
+gapminder[['pop', 'year']]
+~~~
+{: .language-python}
 
 ~~~
              pop  year
@@ -869,7 +892,23 @@ For example, if we only wanted to see the population ("pop") and year values, we
 ~~~
 {: .output}
 
-> **Note:** There are two nested pairs of square bracket in the code above. The outer square brackets is the notation for selecting columns from a data frame by name. The inner square brackets define a Python list that contains the column names. Try removing one pair of bracket and see what happens. 
+> **Note:** There are two nested pairs of square bracket in the code above. 
+> The outer square brackets is the notation for selecting columns from a data frame by name. 
+> The inner square brackets define a Python list that contains the column names. 
+> Try removing one pair of bracket and see what happens. 
+
+
+Another way to select columns is to use the `filter` method. 
+The code below gives the same output as the above. 
+
+~~~
+(
+    gapminder
+    .filter(['pop', 'year'])
+)
+~~~
+{: .language-python}
+
 
 
 We can also apply the `drop` method to drop/remove particular columns. 
@@ -914,7 +953,7 @@ For example, if we want everything but the continent and population columns, we 
 > > ~~~
 > > (
 > >     gapminder
-> >     [['country', 'continent', 'year', 'lifeExp']]
+> >     .filter(['country', 'continent', 'year', 'lifeExp'])
 > > )
 > > ~~~
 > > {: .language-python}
@@ -970,7 +1009,7 @@ For example, if we want everything but the continent and population columns, we 
 {: .challenge}
 
 
-> ## Bonus: Using the `filter` method
+> ## Bonus: Additional features of the `filter` method
 >
 > The `filter` method can be used to filter columns by their names. It may become handy if you are working with a dataset that has a lot of columns. For example, let's say we wanted to select the year column and all the columns that contain the letter "e". You can do that with:
 > 
@@ -1099,11 +1138,10 @@ The pandas methods `pivot` and `melt` make it easy to switch between the two for
 ~~~
 (
     gapminder
-    [['country', 'continent', 'year', 'lifeExp']]
+    .filter(['country', 'continent', 'year', 'lifeExp'])
     .pivot(columns='year', 
            index=['country', 'continent'], 
-           values='lifeExp',
-          )
+           values='lifeExp')
 )
 ~~~
 {: .language-python}
@@ -1139,15 +1177,13 @@ The code below convert our wide table back to the long format.
 ~~~
 (
     gapminder
-    [['country', 'continent', 'year', 'lifeExp']]
+    .filter(['country', 'continent', 'year', 'lifeExp'])
     .pivot(columns='year', 
            index=['country', 'continent'], 
-           values='lifeExp',
-          )
+           values='lifeExp')
     .reset_index()
     .melt(id_vars=['country', 'continent'],
-          value_name='lifeExp',
-         )
+          value_name='lifeExp')
 )
 ~~~
 {: .language-python}
@@ -1384,8 +1420,7 @@ Let's also save this data frame to `co2_emissions_dirty` so that we don't have t
 ~~~
 co2_emissions_dirty = (
     pd.read_csv("./data/co2-un-data.csv", skiprows=2,
-                names=['region', 'country', 'year', 'series', 'value', 'footnotes', 'source'],
-               )
+                names=['region', 'country', 'year', 'series', 'value', 'footnotes', 'source'])
 )
 ~~~
 {: .language-python}
@@ -1491,7 +1526,7 @@ There are a lot of columns with extraneous information in this dataset, let's su
 > > ~~~
 > > (
 > >     co2_emissions_dirty
-> >     [['country', 'year', 'series', 'value']]
+> >     .filter(['country', 'year', 'series', 'value'])
 > > )
 > > ~~~
 > > {: .language-python}
@@ -1527,7 +1562,8 @@ When using the `replace` method we need to tell it which column we want to repla
 
 ~~~
 (
-    co2_emissions_dirty[['country', 'year', 'series', 'value']]
+    co2_emissions_dirty
+    .filter(['country', 'year', 'series', 'value'])
     .replace({'series': {"Emissions (thousand metric tons of carbon dioxide)":"emissions_total",
                          "Emissions per capita (metric tons of carbon dioxide)":"emissions_percap"}, 
              })
@@ -1562,7 +1598,8 @@ The columns we want to spread out are "series" (i.e. the `columns` argument) and
 
 ~~~
 (
-    co2_emissions_dirty[['country', 'year', 'series', 'value']]
+    co2_emissions_dirty
+    .filter(['country', 'year', 'series', 'value'])
     .replace({'series': {"Emissions (thousand metric tons of carbon dioxide)":"emissions_total",
                          "Emissions per capita (metric tons of carbon dioxide)":"emissions_percap"}, 
              })
@@ -1602,14 +1639,14 @@ For the sake of time, we'll just tell you that we want data from 2005.
 > 
 > ~~~
 > (
->     co2_emissions_dirty[['country', 'year', 'series', 'value']]
->     .replace({'series': {"Emissions (thousand metric tons of carbon dioxide)":"emissions_total",
->                          "Emissions per capita (metric tons of carbon dioxide)":"emissions_percap"}, 
+>     co2_emissions_dirty
+>     .filter(['country', 'year', 'series', 'value'])
+>     .replace({'series': {"Emissions (thousand metric tons of carbon dioxide)> ":"emissions_total",
+>                          "Emissions per capita (metric tons of carbon dioxide)> ":"emissions_percap"}, 
 >              })
 >     .pivot(index=['country', 'year'], columns='series', values='value')
 >     .reset_index()
->     ['year']
->     .value_counts()
+>     .value_counts(['year'])
 >     .sort_index()
 > )
 > ~~~
@@ -1642,9 +1679,10 @@ For the sake of time, we'll just tell you that we want data from 2005.
 > > 
 > > ~~~
 > > (
-> >     co2_emissions_dirty[['country', 'year', 'series', 'value']]
-> >     .replace({'series': {"Emissions (thousand metric tons of carbon dioxide)":"emissions_total",
-> >                          "Emissions per capita (metric tons of carbon dioxide)":"emissions_percap"}, 
+> >     co2_emissions_dirty
+> >     .filter(['country', 'year', 'series', 'value'])
+> >     .replace({'series': {"Emissions (thousand metric tons of carbon dioxide)> > ":"emissions_total",
+> >                          "Emissions per capita (metric tons of carbon dioxide)> > ":"emissions_percap"}, 
 > >              })
 > >     .pivot(index=['country', 'year'], columns='series', values='value')
 > >     .reset_index()
@@ -1680,7 +1718,8 @@ Finally, let's go ahead and assign the output of this code chunk, which is the c
 
 ~~~
 co2_emissions = (
-    co2_emissions_dirty[['country', 'year', 'series', 'value']]
+    co2_emissions_dirty
+    .filter(['country', 'year', 'series', 'value'])
     .replace({'series': {'Emissions (thousand metric tons of carbon dioxide)':'emissions_total',
                          'Emissions per capita (metric tons of carbon dioxide)':'emissions_percap'}, 
              })
@@ -2130,7 +2169,7 @@ import seaborn.objects as so
 ~~~
 {: .language-python}
 
-<img src="../fig/05-PlotPercapCO2vsGDP-1.png" title="plot of chunk PlotPercapCO2vsGDP" alt="plot of chunk PlotPercapCO2vsGDP" width="612" style="display: block; margin: auto;" />
+<img src="../fig/python-data-analysis/05-PlotPercapCO2vsGDP-1.png" title="plot of chunk PlotPercapCO2vsGDP" alt="plot of chunk PlotPercapCO2vsGDP" width="612" style="display: block; margin: auto;" />
 
 *Tip:* Notice we used the `\n` in our title to get a new line to prevent it from getting cut off.
 
@@ -2149,7 +2188,7 @@ To help clarify the association, we can add a fitted line representing a 3rd ord
 ~~~
 {: .language-python}
 
-<img src="../fig/05-PlotPercapCO2vsGDPSmooth-1.png" title="plot of chunk PlotPercapCO2vsGDPSmooth" alt="plot of chunk PlotPercapCO2vsGDPSmooth" width="612" style="display: block; margin: auto;" />
+<img src="../fig/python-data-analysis/05-PlotPercapCO2vsGDPSmooth-1.png" title="plot of chunk PlotPercapCO2vsGDPSmooth" alt="plot of chunk PlotPercapCO2vsGDPSmooth" width="612" style="display: block; margin: auto;" />
 
 We can force the line to be straight using `order=1` as an argument to `so.PolyFit`.
 
@@ -2167,7 +2206,7 @@ We can force the line to be straight using `order=1` as an argument to `so.PolyF
 {: .language-python}
 
 
-<img src="../fig/05-PlotPercapCO2vsGDP1SmoothLm-1.png" title="plot of chunk PlotPercapCO2vsGDP1SmoothLm" alt="plot of chunk PlotPercapCO2vsGDP1SmoothLm" width="612" style="display: block; margin: auto;" />
+<img src="../fig/python-data-analysis/05-PlotPercapCO2vsGDP1SmoothLm-1.png" title="plot of chunk PlotPercapCO2vsGDP1SmoothLm" alt="plot of chunk PlotPercapCO2vsGDP1SmoothLm" width="612" style="display: block; margin: auto;" />
 
 In addition, we see that only two or three countries have very high GDP/emissions, while the rest of the countries are cluttered in the lower ranges of the axes. 
 To make it easier to see the relationship we can set the x and y axis to a logarithmic scale.
@@ -2177,7 +2216,7 @@ Lastly, we can also add a text layer that displays the country names next to the
 (
     so.Plot(gapminder_co2, x='gdpPercap', y='emissions_percap', text='country')
     .add(so.Dot(alpha=.8, pointsize=8))
-    .add(so.Text(color='gray', valign='bottom', fontsize=11))
+    .add(so.Text(color='gray', valign='bottom', fontsize=10))
     .scale(x='log', y='log')
     .label(x="GDP (per capita)",
            y="CO2 emitted (per capita)",
@@ -2187,7 +2226,7 @@ Lastly, we can also add a text layer that displays the country names next to the
 ~~~
 {: .language-python}
 
-<img src="../fig/05-PlotPercapCO2vsGDP-log.png" title="plot of chunk PlotPercapCO2vsGDP1SmoothLm" alt="plot of chunk PlotPercapCO2vsGDP1SmoothLm" width="612" style="display: block; margin: auto;" />
+<img src="../fig/python-data-analysis/05-PlotPercapCO2vsGDP-log.png" title="plot of chunk PlotPercapCO2vsGDP1SmoothLm" alt="plot of chunk PlotPercapCO2vsGDP1SmoothLm" width="612" style="display: block; margin: auto;" />
 
 
 To answer our first question, as the title of our plot indicates there is indeed a strong association between a nation's GDP and the amount of CO2 it produces.
@@ -2310,15 +2349,15 @@ Let's use the full gapminder data.
 We will take the mean value for each continent in 2007 and then sort it so the continents with the longest life expectancy are on top. 
 Which continent might you guess has be highest life expectancy before running the code?
 
-The helper function `ends_with()` can help us here.
+<!-- The helper function `ends_with()` can help us here. -->
 
 ~~~
 (
     gapminder
     .query("year == 2007")
-    .groupby('continent')['lifeExp']
-    .mean()
-    .sort_values(ascending=False)
+    .groupby('continent')
+    .agg({'lifeExp' : 'mean'})
+    .sort_values('lifeExp', ascending=False)
 )
 ~~~
 {: .language-python}
@@ -2326,13 +2365,13 @@ The helper function `ends_with()` can help us here.
 
 
 ~~~
-continent
-Oceania     80.719500
-Europe      77.648600
-Americas    73.608120
-Asia        70.728485
-Africa      54.806038
-Name: lifeExp, dtype: float64
+             lifeExp
+continent           
+Oceania    80.719500
+Europe     77.648600
+Americas   73.608120
+Asia       70.728485
+Africa     54.806038
 ~~~
 {: .output}
 
@@ -2397,12 +2436,12 @@ The default is to put the smallest values on top.
 > > ~~~
 > > (
 > >     gapminder_co2
-> >     .assign(region=lambda df: np.where(df['country'].isin(['Canada', 'United States', 'Mexico']), 'north', 'south'), 
-> >             emissions_total_perc=lambda df: df['emissions_total']/df['emissions_total'].sum()*100,
-> >             pop_perc=lambda df: df['pop']/df['pop'].sum()*100,
-> >            )
-> >     .groupby('region')[['emissions_total_perc', 'pop_perc']]
-> >     .sum()
+> >     .assign(region=lambda df: np.where(df['country'].isin(['Canada', 'United > > States', 'Mexico']), 'north', 'south'), 
+> >             emissions_total_perc=lambda df: df['emissions_total']/df> > ['emissions_total'].sum()*100,
+> >             pop_perc=lambda df: df['pop']/df['pop'].sum()*100)
+> >     .groupby('region')
+> >     .agg({'emissions_total_perc' : 'sum', 
+> >           'pop_perc' : 'sum'})
 > > )
 > > ~~~
 > > {: .language-python}
@@ -2428,11 +2467,11 @@ The default is to put the smallest values on top.
 > > 
 > > ~~~
 > > (
-> >     so.Plot(gapminder_co2
-> >             .assign(region=lambda df: np.where(df['country'].isin(['Canada', 'United States', 'Mexico']), 'north', 'south'), 
-> >                     emissions_total_perc=lambda df: df['emissions_total']/df['emissions_total'].sum()*100,
-> >                     pop_perc=lambda df: df['pop']/df['pop'].sum()*100,),
-> >             x='country', y='emissions_total_perc', color='region')
+> >     gapminder_co2
+> >     .assign(region=lambda df: np.where(df['country'].isin(['Canada', 'United > > States', 'Mexico']), 'north', 'south'), 
+> >             emissions_total_perc=lambda df: df['emissions_total']/df> > ['emissions_total'].sum()*100,
+> >             pop_perc=lambda df: df['pop']/df['pop'].sum()*100)
+> >     .pipe(so.Plot, x='country', y='emissions_total_perc', color='region')
 > >     .add(so.Bar())
 > > )
 > > ~~~
@@ -2441,7 +2480,7 @@ The default is to put the smallest values on top.
 > > 
 > > 
 > > 
-> > <img src="../fig/05-unnamed-chunk-3-1.png" title="plot of chunk unnamed-chunk-3" alt="plot of chunk unnamed-chunk-3" width="612" style="display: block; margin: auto;" />
+> > <img src="../fig/python-data-analysis/05-unnamed-chunk-3-1.png" title="plot of chunk unnamed-chunk-3" alt="plot of chunk unnamed-chunk-3" width="612" style="display: block; margin: auto;" />
 > {: .solution}
 > 
 > Now switch the x and y axis to make the country names more readable.   
@@ -2450,11 +2489,11 @@ The default is to put the smallest values on top.
 > > 
 > > ~~~
 > > (
-> >     so.Plot(gapminder_co2
-> >             .assign(region=lambda df: np.where(df['country'].isin(['Canada', 'United States', 'Mexico']), 'north', 'south'), 
-> >                     emissions_total_perc=lambda df: df['emissions_total']/df['emissions_total'].sum()*100,
-> >                     pop_perc=lambda df: df['pop']/df['pop'].sum()*100,),
-> >             x='emissions_total_perc', y='country', color='region')
+> >     gapminder_co2
+> >     .assign(region=lambda df: np.where(df['country'].isin(['Canada', 'United > > States', 'Mexico']), 'north', 'south'), 
+> >             emissions_total_perc=lambda df: df['emissions_total']/df> > ['emissions_total'].sum()*100,
+> >             pop_perc=lambda df: df['pop']/df['pop'].sum()*100)
+> >     .pipe(so.Plot, x='emissions_total_perc', y='country', color='region')
 > >     .add(so.Bar())
 > > )
 > > ~~~
@@ -2463,7 +2502,7 @@ The default is to put the smallest values on top.
 > > 
 > > 
 > > 
-> > <img src="../fig/05-unnamed-chunk-4-1.png" title="plot of chunk unnamed-chunk-4" alt="plot of chunk unnamed-chunk-4" width="612" style="display: block; margin: auto;" />
+> > <img src="../fig/python-data-analysis/05-unnamed-chunk-4-1.png" title="plot of chunk unnamed-chunk-4" alt="plot of chunk unnamed-chunk-4" width="612" style="display: block; margin: auto;" />
 > {: .solution}
 > 
 > Reorder the bars in descending order. **Hint:** what method we used earlier to sort data values?
@@ -2471,12 +2510,12 @@ The default is to put the smallest values on top.
 > > 
 > > ~~~
 > > (
-> >     so.Plot(gapminder_co2
-> >             .assign(region=lambda df: np.where(df['country'].isin(['Canada', 'United States', 'Mexico']), 'north', 'south'), 
-> >                     emissions_total_perc=lambda df: df['emissions_total']/df['emissions_total'].sum()*100,
-> >                     pop_perc=lambda df: df['pop']/df['pop'].sum()*100,)
-> >             .sort_values('emissions_total_perc', ascending=False),
-> >             x='emissions_total_perc', y='country', color='region')
+> >     gapminder_co2
+> >     .assign(region=lambda df: np.where(df['country'].isin(['Canada', 'United > > States', 'Mexico']), 'north', 'south'), 
+> >             emissions_total_perc=lambda df: df['emissions_total']/df> > ['emissions_total'].sum()*100,
+> >             pop_perc=lambda df: df['pop']/df['pop'].sum()*100)
+> >     .sort_values('emissions_total_perc', ascending=False)
+> >     .pipe(so.Plot, x='emissions_total_perc', y='country', color='region')
 > >     .add(so.Bar())
 > > )
 > > ~~~
@@ -2485,7 +2524,7 @@ The default is to put the smallest values on top.
 > > 
 > > 
 > > 
-> > <img src="../fig/05-unnamed-chunk-5-1.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
+> > <img src="../fig/python-data-analysis/05-unnamed-chunk-5-1.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
 > {: .solution}
 > 
 > Practice making it look pretty! 
@@ -2525,12 +2564,12 @@ The default is to put the smallest values on top.
 > > 
 > > ~~~
 > > (
-> >     so.Plot(gapminder_co2
-> >             .assign(region=lambda df: np.where(df['country'].isin(['Canada', 'United States', 'Mexico']), 'north', 'south'), 
-> >                     emissions_total_perc=lambda df: df['emissions_total']/df['emissions_total'].sum()*100,
-> >                     pop_perc=lambda df: df['pop']/df['pop'].sum()*100,)
-> >             .query("country in ['Haiti', 'Paraguay', 'Nicaragua']"),
-> >             x='country', y='emissions_percap')
+> >     gapminder_co2
+> >     .assign(region=lambda df: np.where(df['country'].isin(['Canada', 'United States', 'Mexico']), 'north', 'south'), 
+> >             emissions_total_perc=lambda df: df['emissions_total']/df['emissions_total'].sum()*100,
+> >             pop_perc=lambda df: df['pop']/df['pop'].sum()*100,)
+> >     .query("country in ['Haiti', 'Paraguay', 'Nicaragua']")
+> >     .pipe(so.Plot, x='country', y='emissions_percap')
 > >     .add(so.Bar())
 > > )
 > > ~~~
@@ -2539,7 +2578,7 @@ The default is to put the smallest values on top.
 > > 
 > > 
 > > 
-> > <img src="../fig/05-unnamed-chunk-7-1.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" width="612" style="display: block; margin: auto;" />
+> > <img src="../fig/python-data-analysis/05-unnamed-chunk-7-1.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" width="612" style="display: block; margin: auto;" />
 > {: .solution}
 > 
 > Reorder them in descending order.
@@ -2547,13 +2586,13 @@ The default is to put the smallest values on top.
 > > 
 > > ~~~
 > > (
-> >     so.Plot(gapminder_co2
-> >             .assign(region=lambda df: np.where(df['country'].isin(['Canada', 'United States', 'Mexico']), 'north', 'south'), 
-> >                     emissions_total_perc=lambda df: df['emissions_total']/df['emissions_total'].sum()*100,
-> >                     pop_perc=lambda df: df['pop']/df['pop'].sum()*100,)
-> >             .query("country in ['Haiti', 'Paraguay', 'Nicaragua']")
-> >             .sort_values('emissions_percap', ascending=False),
-> >             x='country', y='emissions_percap')
+> >     gapminder_co2
+> >     .assign(region=lambda df: np.where(df['country'].isin(['Canada', 'United States', 'Mexico']), 'north', 'south'), 
+> >             emissions_total_perc=lambda df: df['emissions_total']/df['emissions_total'].sum()*100,
+> >             pop_perc=lambda df: df['pop']/df['pop'].sum()*100)
+> >     .query("country in ['Haiti', 'Paraguay', 'Nicaragua']")
+> >     .sort_values('emissions_percap', ascending=False)
+> >     .pipe(so.Plot, x='country', y='emissions_percap')
 > >     .add(so.Bar())
 > > )
 > > ~~~
@@ -2562,6 +2601,6 @@ The default is to put the smallest values on top.
 > > 
 > > 
 > > 
-> > <img src="../fig/05-unnamed-chunk-8-1.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" width="612" style="display: block; margin: auto;" />
+> > <img src="../fig/python-data-analysis/05-unnamed-chunk-8-1.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" width="612" style="display: block; margin: auto;" />
 > {: .solution}
 {: .challenge}

@@ -75,7 +75,7 @@ generated the results discussed within them.
 
 The programs to be introduced are:
 
-1. [_Python, JupyterLab_]({{ page.root }}/01-python-plotting), and [_Markdown_]({{ page.root }}/05-python-markdown): a general purpose analysis and data management program, a graphical interface to it, and a formatting syntax for writing reproducible reports. 
+1. [_Python, JupyterLab_]({{ page.root }}/01-python-plotting): a general purpose program and a interface to it. 
 We'll use these tools to manage data and make pretty plots!
 1. [_Git_]({{ page.root }}/03-intro-git-github): a program to help you keep track of changes to your programs over time.
 1. [_GitHub_]({{ page.root }}/03-intro-git-github/index.html#intro-to-github): a web application that makes sharing your programs and working on them with others much easier. It can also be used to generate a citable reference to your computer code.

@@ -5,7 +5,7 @@ title: Setup
 ## Pre-workshop setup steps
 
 1. Install the following software (<a href="#install">all instructions are below</a>).
-    - Zoom (make sure you have the latest version)
+    - Zoom for online workshop (make sure you have the latest version)
     - A Unix shell (e.g. bash, zsh)
     - [git](https://git-scm.com/)
     - [Anaconda](https://docs.anaconda.org/free/anaconda/install/) which is a Python distribution, package manager, and comes with popular tools such as JupyterLab.
