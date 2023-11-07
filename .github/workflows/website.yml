@@ -46,11 +46,11 @@ jobs:
         run: |
           echo "::set-output name=count::$(shopt -s nullglob; files=($(find . -iname '*.Rmd')); echo ${#files[@]})"
 
-      - name: Set up R
-        if: steps.check-rmd.outputs.count != 0
-        uses: r-lib/actions/setup-r@master
-        with:
-          r-version: 'release'
+      # - name: Set up R
+      #   if: steps.check-rmd.outputs.count != 0
+      #   uses: r-lib/actions/setup-r@master
+      #   with:
+      #     r-version: 'release'
 
       - name: Restore R Cache
         if: steps.check-rmd.outputs.count != 0

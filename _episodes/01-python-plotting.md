@@ -2218,7 +2218,7 @@ We can apply the `write_html()` method to save the plot to a standalone HTML fil
 # Glossary of terms
 _[Back to top](#contents)_
 
-- Mark: an object that graphically represents data values. Examples of a mark include dots, bars, lines, areas, band, and paths. Each mark has a number of properties (e.g., color, size, opacity) that can be set to change its appearance.
-- Facets: Dividing your data into non-overlapping groups and making a subplot for each subset of the data.
+- Mark: an object that is used to graphically represents data values. Examples include dots, bars, lines, areas, band, and paths. Each mark has a number of properties (e.g., color, size, opacity) that can be set to change its appearance.
+- Facets: Dividing your data into groups and making a subplot for each.
 - Layer: Each plot is made up of one or more layers. Each layer contains one mark.
 - Scale: specifying mappings from data units to visual properties.
