@@ -4,7 +4,7 @@
 title: "Python for Data Analysis"
 source: Rmd
 teaching: 150
-exercises: 15
+exercises: 30
 questions:
 - "How can I summarize my data in Python?"
 - "How can Python help make my research more reproducible?"
@@ -30,10 +30,10 @@ keypoints:
 1.  [Getting started](#getting-started)
     -   [Reading in the data](#reading-in-the-data)
 2.  [An introduction to data analysis with pandas](#intro-data-analysis)
-    -   [Get stats fast with `describe`](#get-stats-fast-with-describe)
-    -   [Narrow down rows with `query`](#narrow-down-rows-with-query)
-    -   [Grouping rows using `groupby`](#grouping-rows-using-groupby)
-    -   [Make new variables with `assign`](#make-new-variables-with-assign)
+    -   [Get stats fast with `describe()`](#get-stats-fast-with-describe)
+    -   [Narrow down rows with `query()`](#narrow-down-rows-with-query)
+    -   [Grouping rows using `groupby()`](#grouping-rows-using-groupby)
+    -   [Make new variables with `assign()`](#make-new-variables-with-assign)
     -   [Subset columns](#subset-columns)
     -   [Changing the shape of the data](#changing-the-shape-of-the-data)
 3.  [Cleaning up data](#cleaning-up-data)
@@ -60,7 +60,7 @@ jupyter lab
 - Create a new Jupyter notebook file for our work. 
     - Make sure you are at the `un-reports` home directory.
     - On the Launcher tab (the main window on the right) click "Python 3" under the Notebook category. 
-- Then you should see a new file named `Untitled.ipynb` been created on the File Browser. Left-click the file on the File Browser and rename it to `un_data_analysis.ipynb`.
+- Then you should see a new file named `Untitled.ipynb` been created on the File Browser. Left-click the file on the File Browser and rename it to `gapminder_data_analysis.ipynb`.
 
 ### Reading in the data
 
@@ -73,11 +73,11 @@ Let's type the code into a cell: `gapminder = pd.read_csv("./data/gapminder_data
 >
 > > ## Solution
 > >
-> > What this means is that Python did not recognize the `pd` part of the code and thus cannot find the `read_csv` function we are trying to call. The reason for this usually is that we are trying to run a function from a library that we have not yet imported. This is a very common error message that you will probably see again when using Python. It's important to remember that you will need to import any libraries you want to use into Python each time you start a new notebook. The `read_csv` function comes from the pandas library so we will just import the pandas library and run the code again.
+> > What this means is that Python did not recognize the `pd` part of the code and thus cannot find the `read_csv()` function we are trying to call. The reason for this usually is that we are trying to run a function from a library that we have not yet imported. This is a very common error message that you will probably see again when using Python. It's important to remember that you will need to import any libraries you want to use into Python each time you start a new notebook. The `read_csv` function comes from the pandas library so we will just import the pandas library and run the code again.
 > {: .solution}
 {: .challenge}
 
-Now that we know what's wrong, We will use the `read_csv` function from the pandas library. 
+Now that we know what's wrong, We will use the `read_csv()` function from the pandas library. 
 Import the pandas library (along with another common library numpy) and read in the gapminder dataset using the code below.
 
 
@@ -111,10 +111,10 @@ gapminder     # this line is just to show the data in the Jupyter notebook outpu
 The output above gives us an overview of the data with its first and last few rows, the names of the columns, and the numbers of rows and columns.
 
 
-If we want more information, we can apply the `info` method to a data frame to print some basic information about it.
+If we want more information, we can apply the `info()` method to a data frame to print some basic information about it.
 In Python we use the dot notation to apply a method to an object.
 
-> **Note:** When applying a method, we always need to follow the method name by a pair of parenthesis, even if we are not passing any arguments to the method. 
+> **Note:** When applying a method, we always need to follow the method name by a pair of parentheses, even if we are not passing any arguments to the method. 
 
 ~~~
 gapminder.info()
@@ -141,7 +141,7 @@ memory usage: 80.0+ KB
 - The first line in the output indicates `gapminder`, the output from the `pd.read_csv()` function that we called earlier, is a pandas DataFrame.
 A pandas DataFrame is a two-dimensional rectangular table of data with rows and columns.
 It is the main data structure that we will be dealing with when working with pandas.
-- The information also shows the data type ("Dtype") of each columns. 
+- The information also shows the data type ("Dtype") of each column. 
   - Not surprisingly, the `year` column has an integer data type ("int64").
   - A few other columns have the data type of floating number ("float64"). 
   - The `country` column has a data type of "object", indicating the data is a string or mixed type.
@@ -180,7 +180,7 @@ gapminder.head()
 ~~~
 {: .output}
 
-By default, the `head` method selects the first 5 rows of the data frame. You can change the number of rows by passing a number as an argument to the method. 
+By default, the `head()` method selects the first 5 rows of the data frame. You can change the number of rows by passing a number as an argument to the method. 
 For example, we can use the code below to select the first 3 rows.
 
 ~~~
@@ -196,7 +196,7 @@ gapminder.head(3)
 ~~~
 {: .output}
 
-Similarly, we can apply the `tail` method to select the *last* few rows of a data frame. 
+Similarly, we can apply the `tail()` method to select the *last* few rows of a data frame. 
 
 ~~~
 gapminder.tail()
@@ -224,12 +224,12 @@ Now we have the tools necessary to work through this lesson.
 
 # An introduction to data analysis with pandas {#intro-data-analysis}
 
-## Get stats fast with `describe` {#get-stats-fast-with-describe}
+## Get stats fast with `describe()` {#get-stats-fast-with-describe}
 
 [*Back to top*](#contents)
 
 
-Pandas has a handy method `describe` that will generate the summary statistics of the data.
+Pandas has a handy method `describe()` that will generate the summary statistics of the data.
 <!-- We can apply that function to our lifeExp column using the `summarize()` function. Here's what that looks like: -->
 
 ~~~
@@ -252,7 +252,7 @@ max    2007.00000  1.318683e+09    82.603000  113523.132900
 
 The output above shows the summary (or descriptive) statistics for the four numerical columns in our data.
 
-If we are interested in specific columns with specific statistics, we can also appy the `agg` method to aggregate a column based on some aggregation functions.
+If we are interested in specific columns with specific statistics, we can also apply the `agg()` method to aggregate a column based on some aggregation functions.
 
 Let's say we would like to know what is the mean life expectancy in the dataset. 
 
@@ -272,7 +272,7 @@ dtype: float64
 
 Other aggregation functions for common descriptive statistics include `median`, `min`, `max`, `std` (for standard deviation), and `var` (for variance). 
 
-If we are interested in getting the 5th and 95th percentile of the life expectancy, we can use the `quantile` method.
+<!-- If we are interested in getting the 5th and 95th percentile of the life expectancy, we can use the `quantile` method.
 In this case because we need to pass some arguments to the method (i.e., the specific percentiles we are interested), we can use a lambda function.
 
 ~~~
@@ -288,7 +288,7 @@ In this case because we need to pass some arguments to the method (i.e., the spe
 0.05  38.4924
 0.95  77.4370
 ~~~
-{: .output}
+{: .output} -->
 
 
 
@@ -371,7 +371,7 @@ Since we use the pipe operator so often, there is a keyboard shortcut for it in 
 > 
 {: .callout} -->
 
-## Narrow down rows with `query` {#narrow-down-rows-with-query}
+## Narrow down rows with `query()` {#narrow-down-rows-with-query}
 
 [*Back to top*](#contents)
 
@@ -379,7 +379,7 @@ Let's take a look at the value we just calculated, which tells us the mean life 
 
 Well, remember the dataset contains rows from many different years and many different countries. It's likely that life expectancy has increased overtime, so it may not make sense to average over all the years at the same time.
 
-Use the `max` method to find the most recent year in the data set.
+Use the `max()` method to find the most recent year in the data set.
 
 > ## Practice getting descriptive statistics
 >
@@ -408,7 +408,7 @@ Use the `max` method to find the most recent year in the data set.
 
 So we see that the most recent year in the dataset is 2007. 
 Let's calculate the life expectancy for all countries for only that year. 
-To do that, we will apply the `query` method to only use the rows for that year before calculating the mean life expectancy.
+To do that, we will apply the `query()` method to only use the rows for that year before calculating the mean life expectancy.
 
 
 ~~~
@@ -475,13 +475,13 @@ dtype: float64
 > > ~~~
 > > {: .output}
 > > {: .source}
-> > By chaining the two methods `query` and `agg` we were able to calculate the mean GDP per capita in the year 1952.
+> > By chaining the two methods `query()` and `agg()` we were able to calculate the mean GDP per capita in the year 1952.
 > {: .solution}
 {: .challenge}
 
 Notice how the method chaining allows us to combine these two simple steps into a more complicated data extraction?
 We took the data, queried the `year` column, selected the `gdpPercap` columns, then took its mean value. 
-The string argument we passed to `query` needs to be an expression that will return TRUE or FALSE for each row. 
+The string argument we passed to `query()` needs to be an expression that will return TRUE or FALSE for each row. 
 We use `==` (double equals) when evaluating if two values are equal, and we use `=` (single equal) when assigning values. 
 Try changing the code above to use `query("year = 2007")` and see what happens.
 
@@ -524,16 +524,16 @@ For example, the code below returns all the rows from the United States.
 {: .output}
 
 
-> **Note:** In a `query` expression, any string values (e.g., *United States* in the code above) need to be wrapped with quotation marks.
+> **Note:** In a `query()` expression, any string values (e.g., *United States* in the code above) need to be wrapped with quotation marks.
 
-> **Note:** In a `query` expression, any column names that does not include any special characters (e.g., a white space) do not need to be wrapped with anything. However, if a column name does include special characters, the name needs be wrapped with a pair of backticks (the key above the <kbd>Tab</kbd> key on your keyboard).
+> **Note:** In a `query()` expression, any column names that does not include any special characters (e.g., a white space) do not need to be wrapped with anything. However, if a column name does include special characters, the name needs to be wrapped with a pair of backticks ``` `` ``` (the key above the <kbd>Tab</kbd> key on your keyboard).
 
 
 <!-- Similarly, we can use the operator `not in` to evaluate if a value is *not* in a list.  -->
 
-Often times we may wish to query the data based on more than a single criterion. 
-In a `query` expression we can combine multiple criteria with Python logical operators `and` or `or`. 
-For example, the code below returns all the rows that from the United States *and* after year 2000.
+Oftentimes we may wish to query the data based on more than a single criterion. 
+In a `query()` expression we can combine multiple criteria with Python logical operators `and` or `or`. 
+For example, the code below returns all the rows that are from the United States *and* after 2000.
 
 ~~~
 (
@@ -550,7 +550,7 @@ For example, the code below returns all the rows that from the United States *an
 ~~~
 {: .output}
 
-Note the if the logical operators are all `and`, we can also separate them by chaining multiple `query` methods. 
+Note if the logical operators are all `and`, we can also separate them by chaining multiple `query()` methods. 
 The code below generates the same results as above. 
 
 ~~~
@@ -563,7 +563,7 @@ The code below generates the same results as above.
 {: .language-python}
 
 Sometimes we may wish to query the data based on whether a value is from a list or not. 
-In a `query` expression we can use the Python membership operator `in` to achieve that. 
+In a `query()` expression we can use the Python membership operator `in` to achieve that. 
 For example, the code below returns all the rows from a list of countries (the United States and Canada).
 
 ~~~
@@ -603,7 +603,7 @@ For example, the code below returns all the rows from a list of countries (the U
 ~~~
 {: .output}
  
-In a `query` expression we can refer to variables in the environment by prefixing them with an ‘@’ character. For example, the code below generates the same results as above.
+In a `query()` expression we can refer to variables in the environment by prefixing them with an ‘@’ character. For example, the code below generates the same results as above.
 
 ~~~
 country_list = ['United States', 'Canada']
@@ -616,7 +616,7 @@ country_list = ['United States', 'Canada']
 {: .language-python}
 
 Lastly, we can use the `not in` operator to evaluate if a value is *not* in a list. 
-For example, the code below returns all the rows for 2007 in Americas except for the United States and Canada. 
+For example, the code below returns all the rows for 2007 in the Americas except for the United States and Canada. 
 
 ~~~
 (
@@ -657,14 +657,14 @@ For example, the code below returns all the rows for 2007 in Americas except for
 {: .output}
 
 
-## Grouping rows using `groupby` {#grouping-rows-using-groupby}
+## Grouping rows using `groupby()` {#grouping-rows-using-groupby}
 
 [*Back to top*](#contents)
 
 We see that the life expectancy in 2007 is much larger than the value we got using all of the rows. 
 It seems life expectancy is increasing which is good news. 
 But now we might be interested in calculating the mean for each year. 
-Rather than doing a bunch of different `query`'s for each year, we can instead use the `groupby` method. 
+Rather than doing a bunch of different `query()`'s for each year, we can instead use the `groupby()` method. 
 This method allows us to tell the code to treat the rows in logical groups, so rather than aggregating over all the rows, we will get one summary value for each group. Here's what that will look like:
 
 ~~~
@@ -694,7 +694,7 @@ year
 ~~~
 {: .output}
 
-The `groupby` method expects you to pass in the name of a column (or a list of columns) in your data. 
+The `groupby()` method expects you to pass in the name of a column (or a list of columns) in your data. 
 
 <!-- Note that you might get a message about the summarize function regrouping the output by 'year'. This simply indicates what the function is grouping by.  -->
 
@@ -728,13 +728,13 @@ The `groupby` method expects you to pass in the name of a column (or a list of c
 > > {: .output}
 > > {: .source}
 > >
-> > By chaining the two methods `groupby` and `agg` we are able to calculate the mean life expectancy by continent.
+> > By chaining the two methods `groupby()` and `agg()` we are able to calculate the mean life expectancy by continent.
 > {: .solution}
 {: .challenge}
 
 Sometimes we may wish to apply more than one aggregation method. 
 For example, we may want to know the mean and minimum life expectancy by continents.
-To do so, we can use the aggregation method called `agg` and pass it a list of aggregation methods. 
+To do so, we can use the aggregation method called `agg()` and pass it a list of aggregation methods. 
 
 ~~~
 (
@@ -758,17 +758,53 @@ Oceania    74.326208  69.120
 {: .output}
 
 
-## Make new variables with `assign` {#make-new-variables-with-assign}
+### Sort data with `sort_values()`
+
+The `sort_values()` method allows us to sort our data by some value. 
+Let's use the full gapminder data. 
+We will take the mean value for each continent in 2007 and then sort it so the continents with the longest life expectancy are on top. 
+Which continent might you guess has be the highest life expectancy before running the code?
+
+~~~
+(
+    gapminder
+    .query("year == 2007")
+    .groupby('continent')
+    .agg({'lifeExp' : 'mean'})
+    .sort_values('lifeExp', ascending=False)
+)
+~~~
+{: .language-python}
+
+
+
+~~~
+             lifeExp
+continent           
+Oceania    80.719500
+Europe     77.648600
+Americas   73.608120
+Asia       70.728485
+Africa     54.806038
+~~~
+{: .output}
+
+Notice we passed the argument `ascending=False` to the `sort_values()` method to sort the values in a descending order so the largest values are on top. 
+The default is to put the smallest values on top.
+
+
+## Make new variables with `assign()` {#make-new-variables-with-assign}
 
 [*Back to top*](#contents)
 
 Sometimes we want to create a new column in our data.
-We can use the pandas `assign` method to assign new columns to a data frame.
+We can use the pandas `assign()` method to assign new columns to a data frame.
 
 We have a column for the population and the GDP per capita. 
 If we wanted to get the total GDP, we could multiply the per capita GDP values by the total population. 
 Below is what the code would look like:
 
+Here we use the [`lambda`](https://docs.python.org/3/tutorial/controlflow.html#lambda-expressions) function.
 
 ~~~
 (
@@ -892,13 +928,13 @@ gapminder[['pop', 'year']]
 ~~~
 {: .output}
 
-> **Note:** There are two nested pairs of square bracket in the code above. 
+> **Note:** There are two nested pairs of square brackets in the code above. 
 > The outer square brackets is the notation for selecting columns from a data frame by name. 
 > The inner square brackets define a Python list that contains the column names. 
-> Try removing one pair of bracket and see what happens. 
+> Try removing one pair of brackets and see what happens. 
 
 
-Another way to select columns is to use the `filter` method. 
+Another way to select columns is to use the `filter()` method. 
 The code below gives the same output as the above. 
 
 ~~~
@@ -911,7 +947,7 @@ The code below gives the same output as the above.
 
 
 
-We can also apply the `drop` method to drop/remove particular columns. 
+We can also apply the `drop()` method to drop/remove particular columns. 
 For example, if we want everything but the continent and population columns, we can do:
 
 
@@ -1009,9 +1045,9 @@ For example, if we want everything but the continent and population columns, we 
 {: .challenge}
 
 
-> ## Bonus: Additional features of the `filter` method
+> ## Bonus: Additional features of the `filter()` method
 >
-> The `filter` method can be used to filter columns by their names. It may become handy if you are working with a dataset that has a lot of columns. For example, let's say we wanted to select the year column and all the columns that contain the letter "e". You can do that with:
+> The `filter()` method can be used to filter columns by their names. It may become handy if you are working with a dataset that has a lot of columns. For example, let's say we wanted to select the year column and all the columns that contain the letter "e". You can do that with:
 > 
 > 
 > ~~~
@@ -1043,9 +1079,9 @@ For example, if we want everything but the continent and population columns, we 
 > {: .output}
 > This returns the four columns we are interested in. 
 >
-> > ## Applying `filter` with regular expression
+> > ## Applying `filter()` with regular expression
 > >
-> > For those of you who know regular expression (pattern matching in text), the `filter` method also supports it. For example, let’s say we want to select all the columns that start with the letter “c”. We can do that with:
+> > For those of you who know regular expression (pattern matching in text), the `filter()` method also supports it. For example, let’s say we want to select all the columns that start with the letter “c”. We can do that with:
 > >
 > > > ## Solution
 > > >
@@ -1132,7 +1168,7 @@ As tidy as it may be, sometimes we may want our data in a "wide" format.
 Typically in "wide" format each row represents a group of observations and each value is placed in a different column rather than a different row. 
 For example maybe we want only one row per country and want to spread the life expectancy values into different columns (one for each year).
 
-The pandas methods `pivot` and `melt` make it easy to switch between the two formats.
+The pandas methods `pivot()` and `melt()` make it easy to switch between the two formats.
 
 
 ~~~
@@ -1167,12 +1203,12 @@ Zimbabwe           Africa     48.451  50.469  52.358  53.995  55.635  57.674  60
 ~~~
 {: .output}
 
-Notice here that we tell `pivot` which columns to pull the names we wish our new columns to be named from the year variable, 
+Notice here that we tell `pivot()` which columns to pull the names we wish our new columns to be named from the year variable, 
 and the values to populate those columns from the lifeExp variable. 
 We see that the resulting table has new columns by year, and the values populate it with country and continent dictating the rows.
 
-The pandas `melt` method allows us to "melt" a table from wide format to long format. 
-The code below convert our wide table back to the long format. 
+The pandas `melt()` method allows us to "melt" a table from wide format to long format. 
+The code below converts our wide table back to the long format. 
 
 ~~~
 (
@@ -1270,7 +1306,7 @@ Now that we have our gapminder data prepared, let's use what we learned about gi
 
 Open Terminal/Git Bash, if you do not have it open already. First we'll need to navigate to our un-report directory.
 
-Let's start by print our current working directory and listing the items in the directory, to see where we are. 
+Let's start by printing our current working directory and listing the items in the directory, to see where we are. 
 ``` 
 pwd
 ls
@@ -1295,7 +1331,7 @@ Not let's add and commit our changes.
 ```
 git status
 git add
-git status "un_data_analysis.ipynb"  
+git status "gapminder_data_analysis.ipynb"  
 git commit -m "Create data analysis file"  
 ```
 {: .language-bash}
@@ -1322,7 +1358,7 @@ It's always good to go into data cleaning with a clear goal in mind.
 Here, we'd like to prepare the CO2 UN data to be compatible with our gapminder data so we can directly compare GDP to CO2 emissions. 
 To make this work, we'd like a data frame that contains a column with the country name, and columns for different ways of measuring CO2 emissions. 
 We will also want the data to be collected as close to 2007 as possible (the last year we have data for in gapminder). 
-Let's start with reading the data in using pandas's `read_csv` function.
+Let's start with reading the data using pandas's `read_csv()` function.
 
 
 ~~~
@@ -1366,7 +1402,7 @@ pd.read_csv("./data/co2-un-data.csv")
 
 Looking at the table that is outputted above we can see that there appear to be two rows at the top of the file that contain information about the data in the table. 
 The first is a header that tells us the table number and its name. 
-Ideally, we'd skip that. We can do this using the `skiprows` argument in `read_csv` by giving it a number of rows to skip.
+Ideally, we'd skip that. We can do this using the `skiprows` argument in `read_csv()` by giving it a number of rows to skip.
 
 ~~~
 pd.read_csv("./data/co2-un-data.csv", skiprows=1)
@@ -1406,15 +1442,15 @@ pd.read_csv("./data/co2-un-data.csv", skiprows=1)
 ~~~
 {: .output}
 
-Now the outputted table looks better.
+Now the output table looks better.
 
 <!-- > ## Warnings and Errors
 > It's important to differentiate between Warnings and Errors in R. A warning tells us, "you might want to know about this issue, but R still did what you asked". An error tells us, "there's something wrong with your code or your data and R didn't do what you asked". You need to fix any errors that arise. Warnings, are probably best to resolve or at least understand why they are coming up.
 {.callout} -->
 
-Another thing we can do is to tell the `read_csv` function what the column names should be with the `names` argument where we give it the column names we want as a Python list.
+Another thing we can do is to tell the `read_csv()` function what the column names should be with the `names` argument where we give it the column names we want as a Python list.
 If we do this, then we need to skip 2 rows including the original column headings. 
-Let's also save this data frame to `co2_emissions_dirty` so that we don't have to read it in every time we want to clean it even more.
+Let's also save this data frame to `co2_emissions_dirty` so that we don't have to read it every time we want to clean it even more.
 
 
 ~~~
@@ -1468,7 +1504,7 @@ co2_emissions_dirty
 
 > ## Bonus: Another way to deal with the column names
 > 
-> Many data analysts prefer to have their column names be in all lower case. We can apply the `rename` method to set all of the column names to lower case.
+> Many data analysts prefer to have their column names be in all lower case. We can apply the `rename()` method to set all of the column names to lower case.
 > 
 > 
 > ~~~
@@ -1556,8 +1592,8 @@ There are a lot of columns with extraneous information in this dataset, let's su
 The series column has two methods of quantifying CO2 emissions - "Emissions (thousand metric tons of carbon dioxide)" and "Emissions per capita (metric tons of carbon dioxide)". 
 Those are long titles that we'd like to shorten to make them easier to work with. 
 We can shorten them to "emissions_total" and "emissions_percap" using the recode function. 
-We can achieve this by applying the pandas `replace` method to replace the values. 
-When using the `replace` method we need to tell it which column we want to replace values and then what the old value (e.g. "Emissions (thousand metric tons of carbon dioxide)") and new values (e.g. "emissions_total").
+We can achieve this by applying the pandas `replace()` method to replace the values. 
+When using the `replace()` method we need to tell it which column we want to replace values with and then what is the old value (e.g. "Emissions (thousand metric tons of carbon dioxide)") and new values (e.g. "emissions_total").
 
 
 ~~~
@@ -1634,7 +1670,7 @@ For the sake of time, we'll just tell you that we want data from 2005.
 
 > ## Bonus: How did we determine that 2005 is the closest year to 2007? 
 > 
-> We want to make sure we pick a year that is close to 2005, but also a year that has a decent amount of data to work with. One useful tool is the `value_counts` method, which will tell us how many times a value is repeated in a column of a data frame. Let's use this function on the year column to see which years we have data for and to tell us whether we have a good number of countries represented in that year.
+> We want to make sure we pick a year that is close to 2005, but also a year that has a decent amount of data to work with. One useful tool is the `value_counts()` method, which will tell us how many times a value is repeated in a column of a data frame. Let's use this function on the year column to see which years we have data for and to tell us whether we have a good number of countries represented in that year.
 > 
 > 
 > ~~~
@@ -1781,7 +1817,7 @@ This is a very commonly used join.
 > ![]({{ page.root }}/fig/r-data-analysis/join-outer.png)
 {: .solution}
 
-Let's give the `merge` method a try.
+Let's give the `merge()` method a try.
 
 ~~~
 (
@@ -1853,7 +1889,7 @@ Then we can do a query to show the data for the keys on the left that are missin
 We can see that the CO2 emission data were missing for Bolivia, Puerto Rico, United States, and Venezuela. 
 
 
-We can query the CO2 emission data to check if there are records contain these names. 
+We can query the CO2 emission data to check if there are records containing these names. 
 
 Note we can split a long string by adding a backslash `\` (it's called a line continuation character) at the end of each line.
 The string will continue on the next line as if it were a single line.
@@ -1878,9 +1914,9 @@ series                     country  emissions_percap  emissions_total
 ~~~
 {: .output}
 
-From the outputs above we can see that Bolivia, United States, and Venezuela are called different things in the CO2 emission data. 
+From the outputs above we can see that Bolivia, the United States, and Venezuela are called different things in the CO2 emission data. 
 Puerto Rico isn't a country; it's part of the United States. 
-We can apply the `replace` method to these country names in the CO2 emission data so that the country names for Bolivia, United States, and Venezuela, match those in the gapminder data.
+We can apply the `replace()` method to these country names in the CO2 emission data so that the country names for Bolivia, United States, and Venezuela, match those in the gapminder data.
 
 ~~~
 (
@@ -1934,10 +1970,10 @@ series    country  emissions_percap  emissions_total
 {: .output}
 
 Now we see that the replacement of the country names enabled the join for all countries in the gapminder, and we are left with Puerto Rico. 
-In the next exercise, let's replace the name Puerto Rico to United States in the gapminder data and then use the `groupby` method to aggregate the data.
+In the next exercise, let's replace the name Puerto Rico to the United States in the gapminder data and then use the `groupby()` method to aggregate the data.
 We'll use the population data to weight the life expectancy and GDP values.
 
-In the gapminder data, let's first replace the name Puerto Rico to United States. 
+In the gapminder data, let's first replace the name Puerto Rico to the United States. 
 
 ~~~
 (
@@ -2081,7 +2117,7 @@ gapminder_co2 = (
 
 One last thing! What if we're interested in distinguishing between countries in North America and South America? We want to create two groups - Canada, the United States, and Mexico in one and the other countries in another.  
 
-We can apply the `assign` method to add a new column and use the numpy function `np.where` to help us define the region.
+We can apply the `assign()` method to add a new column and use the numpy function `np.where()` to help us define the region.
  
 
 ~~~
@@ -2273,7 +2309,7 @@ For the second question, we want to create two groups - Canada, the United State
 ~~~
 {: .output}
 
-Now we can use this column to repeat our `groupby` method.
+Now we can use this column to repeat our `groupby()` method.
 
 
 ~~~
@@ -2297,6 +2333,43 @@ south        889331.721  451697714.0
 {: .output}
 
 We see that although Canada, the United States, and Mexico account for close to half the population of the Americas, they account for 88% of the CO2 emitted. We just did this math quickly by plugging the numbers from our table into the console to get the percentages. Can we make that a little more reproducible by calculating percentages for population and total emissions into our data before summarizing?
+
+
+#### Map plots
+
+The plotly library also has useful functions to draw your data on a map. 
+There are lots of different ways to draw maps but here's a quick example of making a [choropleth map](https://en.wikipedia.org/wiki/Choropleth_map) using the gapminder data. 
+Here we will plot each country with a color indicating the life expectancy in 1997.
+
+In order for the map function `px.choropleth()` to understand the countries in the gapminder data, 
+we need to first convert the country names to standard [3-letter country codes](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3#Officially_assigned_code_elements).
+
+NOTE: we haven't learned how to modify the data in this way yet, but we'll learn about that in the next lesson. Just take for granted that it works for now :)
+
+~~~
+(
+    gapminder_1997
+    .replace({'country' : {'United States' : 'United States of America',
+                           'United Kingdom' : 'United Kingdom of Great Britain and Northern Ireland',
+                          }})
+    .merge(pd.read_csv("./data/country-iso.csv")
+           .rename(columns={'name' : 'country'}),
+           on='country', how='inner')
+    .pipe(px.choropleth, 
+          locations='alpha-3',
+          color='lifeExp',
+          hover_name='country',
+          hover_data=['lifeExp', 'pop'])
+)
+~~~
+{: .language-python}
+
+<img src="../fig/python-data-analysis/05-choropleth.png" title="plot of chunk mapPlots" alt="plot of chunk mapPlots" width="612" style="display: block; margin: auto;" />
+
+Notice that this map helps to show that we actually have some gaps in the data.
+We are missing observations for countries like Russia and many countries in
+central Africa. Thus, it's important to acknowledge that any patterns or trends
+we see in the data might not apply to those regions.
 
 
 ## Finishing with Git and GitHub {#finishing-with-git-and-github}
@@ -2325,7 +2398,7 @@ Awesome work! Let's make sure it doesn't go to waste. Time to add, commit, and p
 > > git status 
 > > git pull
 > > git status 
-> > git add "data-analysis.ipynb"  
+> > git add "gapminder_data_analysis.ipynb"  
 > > git status 
 > > git commit -m "Create data analysis file"  
 > > git status 
@@ -2338,45 +2411,15 @@ Awesome work! Let's make sure it doesn't go to waste. Time to add, commit, and p
 {: .challenge}
 
 
-# Bonus 
+# Bonus
 
-## Bonus content
+## Bonus contents
 
-### Sort data with `sort_values`
+### Introduction to Markdown
 
-The `sort_values` method allows us to sort our data by some value. 
-Let's use the full gapminder data. 
-We will take the mean value for each continent in 2007 and then sort it so the continents with the longest life expectancy are on top. 
-Which continent might you guess has be highest life expectancy before running the code?
-
-<!-- The helper function `ends_with()` can help us here. -->
-
-~~~
-(
-    gapminder
-    .query("year == 2007")
-    .groupby('continent')
-    .agg({'lifeExp' : 'mean'})
-    .sort_values('lifeExp', ascending=False)
-)
-~~~
-{: .language-python}
-
-
-
-~~~
-             lifeExp
-continent           
-Oceania    80.719500
-Europe     77.648600
-Americas   73.608120
-Asia       70.728485
-Africa     54.806038
-~~~
-{: .output}
-
-Notice we passed the argument `ascending=False` to the `sort_values` method to sort the values in a descending order so the largest values are on top. 
-The default is to put the smallest values on top.
+By default a Jupyter notebook cell is a "Code" cell where you can write codes. 
+You can change a selected cell to a Markdown cell using the dropdown menu located at the top of the notebook.
+Markdown is a 
 
 ## Bonus exercises
 
@@ -2386,7 +2429,7 @@ The default is to put the smallest values on top.
 >
 > > ## Solution
 > >
-> > Create a new variable using `assign` that calculates percentages for the pop and total variables.
+> > Create a new variable using `assign()` that calculates percentages for the pop and total variables.
 > >
 > > 
 > > ~~~

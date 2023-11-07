@@ -9,12 +9,10 @@ https://jupyterlab.readthedocs.io/en/stable/getting_started/installation.html#su
   <h3>Python</h3>
 
   <p>
-    <a href="https://python.org">Python</a> is a popular language for
-    research computing, and great for general-purpose programming as
-    well.  Installing all of its research packages individually can be
-    a bit difficult, so we recommend
-    <a href="https://docs.anaconda.org/free/anaconda/install/">Anaconda</a>,
-    an all-in-one installer.
+    <a href="https://python.org">Python</a> is a popular general-purpose programming language. 
+    Installing Python, its scientific packages, and JupyterLab individually can be a bit difficult, so we recommend
+    <a href="https://www.anaconda.com/download">Anaconda</a>,
+    a Python distribution bundled with other popular tools, including common scientific packages and JupyterLab that we will be using in this workshop.
   </p>
 
   {% comment %}
@@ -23,11 +21,18 @@ https://jupyterlab.readthedocs.io/en/stable/getting_started/installation.html#su
   if you do not plan to use JupyterLab environment.
   {% endcomment %}
   <p>
-    We will teach Python using the <a href="https://jupyter.org/">JupyterLab</a>,
-    a programming environment that runs in a web browser (JupyterLab will be installed by Anaconda). For this to work you will need a reasonably
-    up-to-date browser. The current versions of the Chrome, Safari and
-    Firefox browsers are all
+    We will teach Python using <a href="https://jupyter.org/">JupyterLab</a>,
+    a programming environment that runs in a web browser. For this to work you will need a reasonably
+    up-to-date browser. The latest versions of the Chrome, Safari and Firefox browsers are all
     <a href="https://jupyterlab.readthedocs.io/en/stable/getting_started/installation.html#supported-browsers">supported</a>.
+    Note you do not need to install JupyterLab separately as it will come pre-installed with Anaconda.
+  </p>
+
+  <p>
+    Note if you have already installed Anaconda previously, you don't need to install it again for this workshop. 
+    You do need to make sure your libraries meet the version requirements for this workshop by running the provided `check_setup.ipynb` file. 
+    If your libraries do not meet a version requirement, 
+    you can run <code>pip install LIBRARY_NAME --upgrade</code> in your command window (i.e., Anaconda Prompt for windows and Terminal for MacOS/Linux) to upgrade the library.
   </p>
 
   <div>
@@ -40,9 +45,9 @@ https://jupyterlab.readthedocs.io/en/stable/getting_started/installation.html#su
     <div class="tab-content">
       <article role="tabpanel" class="tab-pane active" id="python-windows">
         <ol>
-          <li>Open <a href="https://docs.anaconda.org/free/anaconda/install/">https://docs.anaconda.org/free/anaconda/install/</a> with your web browser.</li>
-          <li>Download the Anaconda for Windows installer with Python 3. (If you are not sure which version to choose, you probably want the 64-bit Graphical Installer <em>Anaconda3-...-Windows-x86_64.exe</em>)</li>
-          <li>Install Python 3 by running the Anaconda Installer, using all of the defaults for installation <em>except</em> make sure to check <strong>Add Anaconda to my PATH environment variable</strong>.</li>
+          <li>Open <a href="https://www.anaconda.com/download">https://www.anaconda.com/download</a> with your web browser.</li>
+          <li>Download the Anaconda for Windows installer. </li>
+          <li>Run the Anaconda Installer, using all of the defaults for installation <em>except</em> make sure to check <strong>Add Anaconda to my PATH environment variable</strong>.</li>
         </ol>
         <h4>Video Tutorial</h4>
         <div class="yt-wrapper2">
@@ -53,9 +58,9 @@ https://jupyterlab.readthedocs.io/en/stable/getting_started/installation.html#su
       </article>
       <article role="tabpanel" class="tab-pane" id="python-macos">
         <ol>
-          <li>Open <a href="https://docs.anaconda.org/free/anaconda/install/">https://docs.anaconda.org/free/anaconda/install/</a> with your web browser.</li>
-          <li>Download the Anaconda Installer with Python 3 for macOS (you can either use the Graphical or the Command Line Installer).</li>
-          <li>Install Python 3 by running the Anaconda Installer using all of the defaults for installation.</li>
+          <li>Open <a href="https://www.anaconda.com/download">https://www.anaconda.com/download</a> with your web browser.</li>
+          <li>Download the Anaconda Installer for macOS. You may need to choose an installer between an Intel-chip Mac and Apple silicon (e.g., M1/M2) Mac.</li>
+          <li>Run the Anaconda Installer using all of the defaults for installation.</li>
         </ol>
         <h4>Video Tutorial</h4>
         <div class="yt-wrapper2">
@@ -66,8 +71,8 @@ https://jupyterlab.readthedocs.io/en/stable/getting_started/installation.html#su
       </article>
       <article role="tabpanel" class="tab-pane" id="python-linux">
         <ol>
-          <li>Open <a href="https://docs.anaconda.org/free/anaconda/install/">https://docs.anaconda.org/free/anaconda/install/</a> with your web browser.</li>
-          <li>Download the Anaconda Installer with Python 3 for Linux.<br>
+          <li>Open <a href="https://www.anaconda.com/download">https://www.anaconda.com/download</a> with your web browser.</li>
+          <li>Download the Anaconda Installer for Linux.<br>
             (The installation requires using the shell. If you aren't
             comfortable doing the installation yourself
             stop here and request help at the workshop.)

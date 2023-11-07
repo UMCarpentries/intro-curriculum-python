@@ -1,7 +1,7 @@
 ---
 title: "The Unix Shell"
 teaching: 60
-exercises: 15
+exercises: 30
 questions:
 - "What is a command shell and why would I use one?"
 - "How can I move around on my computer?"
@@ -104,7 +104,7 @@ The shell folder (directory) structure is the same file structure as you're used
 We call the way that different directories are nested the "directory tree".
 You start at the root directory (`/`) and you can move "up" and "down" the tree. Here's an example:
 
-![Directory Tree]({{ page.root }}/fig/unix-shell/directory_tree_blank.png)
+<img src="../fig/unix-shell/directory_tree_blank.png" width="700" style="display: block; margin: auto;" />
 
 Now that we understand directory trees a bit, let's check it out from the command line.
 We can see where we are by using the command `pwd` which stands for "print working directory", or the directory we are currently in:
@@ -165,7 +165,9 @@ learn more about a specific command.
 Some commands have additional information that can be found by using the `-h` or `--help`
 flags. This will print brief documentation for the command:
 
-![]({{ page.root }}/fig/unix-shell/man_ls.png)
+<img src="../fig/unix-shell/man_ls.png" width="700" style="display: block; margin: auto;" />
+
+
 
 ```
 man -h
@@ -173,7 +175,7 @@ man --help
 ```
 {: .language-bash}
 
-![]({{ page.root }}/fig/unix-shell/man_help.png)
+<img src="../fig/unix-shell/man_help.png" width="700" style="display: block; margin: auto;" />
 
 Other commands, such as `ls`, don't have help flags, but have manual pages with more information. We can navigate 
 the manual page using the `man` command to view the description of a command and its options. For example, 
@@ -277,8 +279,8 @@ ls
 {: .language-bash}
 
 ```
-awesome_plot.jpg
-awesome_violin_plot.jpg
+awesome_plot.png
+awesome_hist_plot.png
 gapminder_1997.csv
 gapminder_data.csv
 gdp_population.ipynb
@@ -321,8 +323,8 @@ ls un-report
 {: .language-bash}
 
 ```
-awesome_plot.jpg
-awesome_violin_plot.jpg
+awesome_plot.png
+awesome_hist_plot.png
 gapminder_1997.csv
 gapminder_data.csv
 gdp_population.ipynb
@@ -445,8 +447,8 @@ ls
 ```
 {: .language-bash}
 ```
-awesome_plot.jpg
-awesome_violin_plot.jpg
+awesome_plot.png
+awesome_hist_plot.png
 gapminder_1997.csv
 gapminder_data.csv
 gdp_population.ipynb
@@ -471,16 +473,16 @@ One way is the following:
 │   ├── gapminder_1997.csv
     └── gapminder_data.csv
 └── figures
-    ├── awesome_plot.jpg
-    └── awesome_violin_plot.jpg
+    ├── awesome_plot.png
+    └── awesome_hist_plot.png
 ```
-{: .language-bash}
+{: .output}
 
-The IPython notebook goes in the code directory, the gapminder datasets go in the data directory, and the figures go in the figures directory.
+The Jupyter notebook goes in the code directory, the gapminder datasets go in the data directory, and the figures go in the figures directory.
 This way, all of the files are organized into a clearer overall structure.
 
 A few notes about naming files and directories:
-- Don’t use whitespaces because they’re used to break arguments on the command line, so it makes things like moving and viewing files more complicated.
+- Don’t use white spaces because they’re used to break arguments on the command line, so it makes things like moving and viewing files more complicated.
 Instead you can use a dash (`-`) or an underscore (`_`).
 - Don’t start names with a dash (`-`) because the shell will interpret it incorrectly.
 - Stick with letters, numbers, periods, dashes, and underscores, because other symbols (e.g. `^`, `&`) have special meanings.
@@ -503,8 +505,8 @@ ls
 ```
 {: .language-bash}
 ```
-awesome_plot.jpg
-awesome_violin_plot.jpg
+awesome_plot.png
+awesome_hist_plot.png
 code
 gapminder_1997.csv
 gapminder_data.csv
@@ -525,7 +527,7 @@ ls code
 
 Nothing in there yet, which is expected since we just made the directory.
 
-The next step is to move the `.ipynb` file into the code directory. To do this, we use the `mv` command. The first argument after `mv` is the file you want to move, and the second argument is the place you want to move it:
+The next step is to move the `gdp_population.ipynb` file into the code directory. To do this, we use the `mv` command. The first argument after `mv` is the file you want to move, and the second argument is the place you want to move it:
 
 ```
 mv gdp_population.ipynb code
@@ -539,8 +541,8 @@ ls
 ```
 {: .language-bash}
 ```
-awesome_plot.jpg
-awesome_violin_plot.jpg
+awesome_plot.png
+awesome_hist_plot.png
 code
 gapminder_1997.csv
 gapminder_data.csv
@@ -586,22 +588,22 @@ Next, we have to move the figures. But we have so many figures! It’d be annoyi
 
 One example of a wildcard is the asterisk, `*`. This special character is interpreted as "multiple characters of any kind".
 
-Let’s see how we can use a wildcard to list only files with the extension `.jpg`:
+Let’s see how we can use a wildcard to list only files with the extension `.png`:
 
 ```
-ls *jpg
+ls *png
 ```
 {: .language-bash}
 ```
-awesome_plot.jpg
-awesome_violin_plot.jpg
+awesome_plot.png
+awesome_hist_plot.png
 ```
 {: .output}
 
-See how only the files ending in `.jpg` were listed? The shell expands the wildcard to create a list of matching file names before running the commands. Can you guess how we move all of these files at once to the figures directory?
+See how only the files ending in `.png` were listed? The shell expands the wildcard to create a list of matching file names before running the commands. Can you guess how we move all of these files at once to the figures directory?
 
 ```
-mv *jpg figures
+mv *png figures
 ```
 {: .language-bash}
 
@@ -619,7 +621,7 @@ data:
 gapminder_1997.csv  gapminder_data.csv
 
 figures:
-awesome_plot.jpg    awesome_violin_plot.jpg
+awesome_plot.png    awesome_hist_plot.png
 ```
 {: .output}
 
@@ -665,9 +667,9 @@ For instance, we can run the command `less` on our `gapminder_data.csv` file:
 less data/gapminder_data.csv
 ```
 
-![]({{ page.root }}/fig/unix-shell/less_example.png)
+<img src="../fig/unix-shell/less_example.png" width="700" style="display: block; margin: auto;" />
 
-To navigate, press `spacebar` to scroll to the next page and `b` to scroll up to the previous page. You can also use the up and down arrows to scroll line-by-line. Note that `less` defaults to line wrapping, meaning that any lines longer than the width of the screen will be wrapped to the next line. To exit less, press the letter `q`.
+To navigate, press <kbd>spacebar</kbd> to scroll to the next page and `b` to scroll up to the previous page. You can also use the up and down arrows to scroll line-by-line. Note that `less` defaults to line wrapping, meaning that any lines longer than the width of the screen will be wrapped to the next line. To exit less, press the letter `q`.
 
 One particularly useful flag for `less` is `-S` which cuts off really long lines (rather than having the text wrap around):
 
@@ -675,22 +677,24 @@ One particularly useful flag for `less` is `-S` which cuts off really long lines
 less -S data/gapminder_data.csv
 ```
 
-To navigate, press `spacebar` to scroll to the next page and `b` to scroll up to the previous page. You can also use the up and down arrows to scroll line-by-line. Note that `less` defaults to line wrapping, meaning that any lines longer than the width of the screen will be wrapped to the next line, (to disable this use the option `-S` when running `less`, ex `less -S file.txt`). To exit less, press the letter `q`.
+To navigate, press <kbd>spacebar</kbd> to scroll to the next page and `b` to scroll up to the previous page. You can also use the up and down arrows to scroll line-by-line. Note that `less` defaults to line wrapping, meaning that any lines longer than the width of the screen will be wrapped to the next line, (to disable this use the option `-S` when running `less`, ex `less -S file.txt`). To exit less, press the letter `q`.
 
 Note that not all file types can be viewed with `less`. While we can open PDFs and excel spreadsheets easily with programs on our computer, `less` doesn't render them well on the command line. For example, if we try to less a .pdf file we will see a warning.
 
 ```
-less figures/awesome_plot.jpg
+less figures/awesome_plot.png
 ```
 
 ```
-figures/awesome_plot.jpg may be a binary file.  See it anyway?
+figures/awesome_plot.png may be a binary file.  See it anyway?
 ```
 {: .output}
 
 If we say "yes", less will render the file but it will appear as a seemingly random display of characters that won't make much sense to us.
 
-![]({{ page.root }}/fig/unix-shell/less_pdf_example.png)
+<!-- ![]({{ page.root }}/fig/unix-shell/less_pdf_example.png) -->
+
+<img src="../fig/unix-shell/less_pdf_example.png" width="700" style="display: block; margin: auto;" />
 
 # Glossary of terms
 _[Back to top](#contents)_

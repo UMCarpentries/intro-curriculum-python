@@ -1,7 +1,7 @@
 ---
 title: "Intro to Git & GitHub"
 teaching: 90
-exercises: 30
+exercises: 60
 questions:
 - "What is version control and why should I use it?"
 - "How do I get set up to use Git?"
