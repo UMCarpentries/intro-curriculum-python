@@ -1,13 +1,10 @@
 # U-M Carpentries Python Curriculum
 
 [![website](https://github.com/UMCarpentries/intro-curriculum-python/actions/workflows/website.yml/badge.svg)](https://github.com/UMCarpentries/intro-curriculum-python/actions/workflows/website.yml)
-<!-- [![check-links](https://github.com/UMCarpentries/intro-curriculum-python/actions/workflows/check-links.yml/badge.svg)](https://github.com/UMCarpentries/intro-curriculum-python/actions/workflows/check-links.yml) -->
 [![License](https://img.shields.io/badge/License-MIT%2BCC--BY-blue)](LICENSE.md)
 
-This is the custom curriculum developed by the University of Michigan Software
-Carpentry instance.
-It is in the `beta` stage of development; we are continuing to host workshops to
-gather feedback and polish the curriculum.
+This is the custom curriculum developed by the University of Michigan Software Carpentry instance.
+It is in the `beta` stage of development; we are continuing to host workshops to gather feedback and polish the curriculum.
 
 The rendered website can be found at [https://umcarpentries.org/intro-curriculum-python/](https://umcarpentries.org/intro-curriculum-python/).
 
@@ -23,13 +20,14 @@ The rendered website can be found at [https://umcarpentries.org/intro-curriculum
 
 1. Lesson episodes
 
-    - `_episodes/` - Source files in Markdown. Episode order is determined by the filename. Currently the lessons are directly written in Markdown inside this folder. 
+    - `_episodes/` - Source files in Markdown. Episode order is determined by the filename. Currently the lessons are directly written in the Markdown files inside this folder. 
+    - `_episodes_ipynb/` - Source files in Jupyter Notebook. 
     <!-- - `_episodes_rmd/` - Source files in R Markdown. A lesson should be written in one or the other markdown style, not both. To convert R Markdown files to markdown episodes, run `make lesson-rmd`. -->
     
     <!-- Run `make lesson-check` at any time -->
     <!-- to check that the lesson files follow the formatting rules -->
 
-1. Figures are stored in `fig/`, data sets in `data/`, source notebooks in `_episodes_ipynb/`, and miscellaneous files in `files/`.
+1. Figures are stored in `fig/`, data sets in `data/`, and miscellaneous files in `files/`.
 
 1. `_extras/`
 
@@ -86,7 +84,7 @@ For a typical 2-day workshop. Can be modified for different workshop formats.
 
 <!-- - How to format lesson files: https://carpentries.github.io/lesson-example/04-formatting/index.html -->
 <!-- - Additional instructions for formatting R Markdown lesson files: https://carpentries.github.io/lesson-example/05-rmarkdown-example/index.html -->
-- The Carpentries lesson example repo (source files for the above two links): https://github.com/carpentries/lesson-example
+- The Carpentries lesson example repo: https://github.com/carpentries/lesson-example
 - Already-established SWC curricula: https://github.com/swcarpentry/swcarpentry#lesson-repositories
 - Lesson style guide: https://carpentries.github.io/lesson-example/06-style-guide/index.html
 - Guide to contributing with git and GitHub: https://github.com/dmgt/swc_github_flow/blob/master/for_novice_contributors.md#
