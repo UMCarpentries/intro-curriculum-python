@@ -40,6 +40,7 @@ keypoints:
 4.  [Joining data frames](#joining-data-frames)
 5.  [Analyzing combined data](#analyzing-combined-data)
 6.  [Finishing with Git and GitHub](#finishing-with-git-and-github)
+7.  [Bonus exercises](#bonus-exercises)
 
 # Getting Started
 
@@ -665,7 +666,98 @@ We see that the life expectancy in 2007 is much larger than the value we got usi
 It seems life expectancy is increasing which is good news. 
 But now we might be interested in calculating the mean for each year. 
 Rather than doing a bunch of different `query()`'s for each year, we can instead use the `groupby()` method. 
-This method allows us to tell the code to treat the rows in logical groups, so rather than aggregating over all the rows, we will get one summary value for each group. Here's what that will look like:
+This method allows us to tell the code to treat the rows in logical groups, so rather than aggregating over all the rows, we will get one summary value for each group. 
+"Group by" is often often referred to as [split-apply-combine](https://pandas.pydata.org/docs/user_guide/groupby.html). 
+
+~~~
+(
+    gapminder
+    .groupby('year')
+)
+~~~
+{: .language-python}
+
+~~~
+<pandas.core.groupby.generic.DataFrameGroupBy object at 0x157f8d2b0>
+~~~
+{: .output}
+
+If we just apply the `groupby()` method to our data frame, we would only get a data object called "DataFrameGroupBy". 
+This is because this method only group the data based on our specification, in this case, by year. 
+We have not specify what kind of the aggregation functions that we wish to apply to each of the groups. 
+
+We can take a closer look at the data object after the `groupby()` by its `indices` property. 
+
+~~~
+(
+    gapminder
+    .groupby('year')
+    .indices
+)
+~~~
+{: .language-python}
+
+~~~
+{1952: array([   0,   12,   24,   36,   48,   60,   72,   84,   96,  108,  120,
+         132,  144,  156,  168,  180,  192,  204,  216,  228,  240,  252,
+         264,  276,  288,  300,  312,  324,  336,  348,  360,  372,  384,
+         396,  408,  420,  432,  444,  456,  468,  480,  492,  504,  516,
+         528,  540,  552,  564,  576,  588,  600,  612,  624,  636,  648,
+         660,  672,  684,  696,  708,  720,  732,  744,  756,  768,  780,
+         792,  804,  816,  828,  840,  852,  864,  876,  888,  900,  912,
+         924,  936,  948,  960,  972,  984,  996, 1008, 1020, 1032, 1044,
+        1056, 1068, 1080, 1092, 1104, 1116, 1128, 1140, 1152, 1164, 1176,
+        1188, 1200, 1212, 1224, 1236, 1248, 1260, 1272, 1284, 1296, 1308,
+        1320, 1332, 1344, 1356, 1368, 1380, 1392, 1404, 1416, 1428, 1440,
+        1452, 1464, 1476, 1488, 1500, 1512, 1524, 1536, 1548, 1560, 1572,
+        1584, 1596, 1608, 1620, 1632, 1644, 1656, 1668, 1680, 1692]),
+...
+2007: array([  11,   23,   35,   47,   59,   71,   83,   95,  107,  119,  131,
+         143,  155,  167,  179,  191,  203,  215,  227,  239,  251,  263,
+         275,  287,  299,  311,  323,  335,  347,  359,  371,  383,  395,
+         407,  419,  431,  443,  455,  467,  479,  491,  503,  515,  527,
+         539,  551,  563,  575,  587,  599,  611,  623,  635,  647,  659,
+         671,  683,  695,  707,  719,  731,  743,  755,  767,  779,  791,
+         803,  815,  827,  839,  851,  863,  875,  887,  899,  911,  923,
+         935,  947,  959,  971,  983,  995, 1007, 1019, 1031, 1043, 1055,
+        1067, 1079, 1091, 1103, 1115, 1127, 1139, 1151, 1163, 1175, 1187,
+        1199, 1211, 1223, 1235, 1247, 1259, 1271, 1283, 1295, 1307, 1319,
+        1331, 1343, 1355, 1367, 1379, 1391, 1403, 1415, 1427, 1439, 1451,
+        1463, 1475, 1487, 1499, 1511, 1523, 1535, 1547, 1559, 1571, 1583,
+        1595, 1607, 1619, 1631, 1643, 1655, 1667, 1679, 1691, 1703])}
+~~~
+{: .output}
+
+It shows the indices of each group (i.e., each year in this case).
+
+We can double-check the indices of the first group by manually querying the data for year 1952.
+The first column in the output shows the indices. 
+
+~~~
+(
+    gapminder
+    .query("year == 1952")
+)
+~~~
+{: .language-python}
+
+~~~
+                 country  year         pop continent  lifeExp    gdpPercap
+0            Afghanistan  1952   8425333.0      Asia   28.801   779.445314
+12               Albania  1952   1282697.0    Europe   55.230  1601.056136
+24               Algeria  1952   9279525.0    Africa   43.077  2449.008185
+36                Angola  1952   4232095.0    Africa   30.015  3520.610273
+48             Argentina  1952  17876956.0  Americas   62.485  5911.315053
+...                  ...   ...         ...       ...      ...          ...
+1644             Vietnam  1952  26246839.0      Asia   40.412   605.066492
+1656  West Bank and Gaza  1952   1030585.0      Asia   43.160  1515.592329
+1668          Yemen Rep.  1952   4963829.0      Asia   32.548   781.717576
+1680              Zambia  1952   2672000.0    Africa   42.038  1147.388831
+1692            Zimbabwe  1952   3080907.0    Africa   48.451   406.884115
+~~~
+{: .output}
+
+In practice, we will just trust the `groupby()` method will do its job, and just apply aggregation functions of our interest by calling the aggregation method `agg()` after the `groupby()`.
 
 ~~~
 (
@@ -2373,6 +2465,7 @@ we see in the data might not apply to those regions.
 
 
 ## Finishing with Git and GitHub {#finishing-with-git-and-github}
+[*Back to top*](#contents)
 
 Awesome work! Let's make sure it doesn't go to waste. Time to add, commit, and push our changes to GitHub again - do you remember how?
 
@@ -2411,17 +2504,9 @@ Awesome work! Let's make sure it doesn't go to waste. Time to add, commit, and p
 {: .challenge}
 
 
-# Bonus
+# Bonus exercises
 
-## Bonus contents
-
-### Introduction to Markdown
-
-By default a Jupyter notebook cell is a "Code" cell where you can write codes. 
-You can change a selected cell to a Markdown cell using the dropdown menu located at the top of the notebook.
-Markdown is a 
-
-## Bonus exercises
+[*Back to top*](#contents)
 
 > ## Calculating percent
 >
