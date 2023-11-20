@@ -10,9 +10,9 @@ https://jupyterlab.readthedocs.io/en/stable/getting_started/installation.html#su
 
   <p>
     <a href="https://python.org">Python</a> is a popular general-purpose programming language. 
-    Installing Python, its scientific packages, and JupyterLab individually can be a bit difficult, so we recommend
+    Installing Python and its scientific packages individually can be a bit difficult, so we recommend
     <a href="https://www.anaconda.com/download">Anaconda</a>,
-    a Python distribution bundled with other popular tools, including common scientific packages and JupyterLab that we will be using in this workshop.
+    a Python distribution bundled with common scientific packages and other popular tools.
   </p>
 
   {% comment %}
@@ -23,16 +23,16 @@ https://jupyterlab.readthedocs.io/en/stable/getting_started/installation.html#su
   <p>
     We will teach Python using <a href="https://jupyter.org/">JupyterLab</a>,
     a programming environment that runs in a web browser. For this to work you will need a reasonably
-    up-to-date browser. The latest versions of the Chrome, Safari and Firefox browsers are all
+    up-to-date web browser. The latest versions of the Chrome, Safari and Firefox browsers are all
     <a href="https://jupyterlab.readthedocs.io/en/stable/getting_started/installation.html#supported-browsers">supported</a>.
-    Note you do not need to install JupyterLab separately as it will come pre-installed with Anaconda.
+    Note you do not need to install JupyterLab separately as it comes pre-installed with Anaconda.
   </p>
 
   <p>
     Note if you have already installed Anaconda previously, you don't need to install it again for this workshop. 
-    You do need to make sure your libraries meet the version requirements for this workshop by running the provided `check_setup.ipynb` file. 
-    If your libraries do not meet a version requirement, 
-    you can run <code>pip install LIBRARY_NAME --upgrade</code> in your command window (i.e., Anaconda Prompt for windows and Terminal for MacOS/Linux) to upgrade the library.
+    However, you do need to make sure your Python libraries meet the version requirements for this workshop by running the provided <code>check_setup.ipynb</code> file. 
+    If a library does not meet a version requirement, 
+    you can run <code>pip install library_name --upgrade</code> in your command window (i.e., Anaconda Prompt for windows and Terminal for MacOS/Linux) to upgrade the library.
   </p>
 
   <div>
@@ -44,32 +44,53 @@ https://jupyterlab.readthedocs.io/en/stable/getting_started/installation.html#su
 
     <div class="tab-content">
       <article role="tabpanel" class="tab-pane active" id="python-windows">
+        Install Anaconda
         <ol>
           <li>Open <a href="https://www.anaconda.com/download">https://www.anaconda.com/download</a> with your web browser.</li>
           <li>Download the Anaconda for Windows installer. </li>
-          <li>Run the Anaconda Installer, using all of the defaults for installation <em>except</em> make sure to check <strong>Add Anaconda to my PATH environment variable</strong>.</li>
+          <li>Run the Anaconda Installer, using all of the defaults for installation <em>except</em> make sure to check <strong>Make Anaconda the default Python</strong>.</li>
+          <li>Once Anaconda is installed, launch the Anaconda Prompt by going to the Windows search bar, type in <code>anaconda prompt</code>, and press <kbd>Enter</kbd>.</li>
+          <li>In the Anaconda Prompt type <code>jupyter lab</code> and press <kbd>Enter</kbd>. This will open JupyterLab in your browser.</li>
+          <!-- <li>To keep the JupyterLab running, do not close the command line window (you can minimize it), as it works as JupterLab's "local host server".</li> -->
         </ol>
-        <h4>Video Tutorial</h4>
+        Launch JupyterLab
+        <ol>
+          <li>Once Anaconda is installed, launch the Anaconda Prompt by going to the Windows search bar, type in <code>anaconda prompt</code>, and press <kbd>Enter</kbd>.</li>
+          <li>In the Anaconda Prompt type <code>jupyter lab</code> and press <kbd>Enter</kbd>. This will launch JupyterLab in your browser.</li>
+          <li>Note to keep the JupyterLab running, do not close the command line window (you can minimize it), as it works as JupterLab's "local host server".</li>
+        </ol>
+        
+        <!-- <h4>Video Tutorial</h4>
         <div class="yt-wrapper2">
         <div class="yt-wrapper">
         <iframe type="text/html" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" src="https://www.youtube-nocookie.com/embed/xxQ0mzZ8UvA?modestbranding=1&playsinline=1&iv_load_policy=3&rel=0" class="yt-frame" allowfullscreen></iframe>
         </div>
-        </div>
+        </div> -->
       </article>
       <article role="tabpanel" class="tab-pane" id="python-macos">
+        Install Anaconda
         <ol>
           <li>Open <a href="https://www.anaconda.com/download">https://www.anaconda.com/download</a> with your web browser.</li>
           <li>Download the Anaconda Installer for macOS. You may need to choose an installer between an Intel-chip Mac and Apple silicon (e.g., M1/M2) Mac.</li>
-          <li>Run the Anaconda Installer using all of the defaults for installation.</li>
+          <li>Run the Anaconda Installer, using all of the defaults for installation <em>except</em> make sure to check <strong>Make Anaconda the default Python</strong>.</li>
+          <li>Once Anaconda is installed, type <code>jupyter lab</code> in your Terminal and press <kbd>Return</kbd>. This will launch JupyterLab in your browser.</li>
+          <!-- <li>To keep the JupyterLab running, do not close the Terminal window (you can minimize it), as it works as JupterLab's "local host server".</li> -->
         </ol>
-        <h4>Video Tutorial</h4>
+        Launch JupyterLab
+        <ol>
+          <li>Once Anaconda is installed, launch the Terminal window, type in <code>jupyter lab</code>, and press <kbd>Return</kbd>. This will launch JupyterLab in your browser.</li>
+          <li>Note to keep the JupyterLab running, do not close the Terminal window (you can minimize it), as it works as JupterLab's "local host server".</li>
+        </ol>
+        <!-- Note: To keep the JupyterLab running, do not close the command line window (you can minimize it), as it works as JupterLab's "local host server". -->
+        <!-- <h4>Video Tutorial</h4>
         <div class="yt-wrapper2">
         <div class="yt-wrapper">
         <iframe type="text/html" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" src="https://www.youtube-nocookie.com/embed/TcSAln46u9U?modestbranding=1&playsinline=1&iv_load_policy=3&rel=0" class="yt-frame" allowfullscreen></iframe>
         </div>
-        </div>
+        </div> -->
       </article>
       <article role="tabpanel" class="tab-pane" id="python-linux">
+        Install Anaconda
         <ol>
           <li>Open <a href="https://www.anaconda.com/download">https://www.anaconda.com/download</a> with your web browser.</li>
           <li>Download the Anaconda Installer for Linux.<br>
@@ -82,7 +103,7 @@ https://jupyterlab.readthedocs.io/en/stable/getting_started/installation.html#su
             the executable is downloaded (e.g., `cd ~/Downloads`).
           </li>
           <li>
-            Type <pre>bash Anaconda3-</pre> and then press
+            Type <code>bash Anaconda3-</code> and then press
             <kbd>Tab</kbd> to autocomplete the full file name. The name of
             file you just downloaded should appear.
           </li>
@@ -100,9 +121,13 @@ https://jupyterlab.readthedocs.io/en/stable/getting_started/installation.html#su
             to prepend Anaconda to your <code>PATH</code>
             (this makes the Anaconda distribution the default Python).
           </li>
-          <li>
-            Close the terminal window.
-          </li>
+          <li>Once Anaconda is installed, type <code>jupyter lab</code> in your Terminal and press <kbd>Return</kbd>. This will launch JupyterLab in your browser.</li>
+          <!-- <li>To keep the JupyterLab running, do not close the Terminal window (you can minimize it), as it works as JupterLab's "local host server".</li> -->
+        </ol>
+        Launch JupyterLab
+        <ol>
+          <li>Once Anaconda is installed, launch the Terminal window, type in <code>jupyter lab</code>, and press <kbd>Return</kbd>. This will launch JupyterLab in your browser.</li>
+          <li>Note to keep the JupyterLab running, do not close the Terminal window (you can minimize it), as it works as JupterLab's "local host server".</li>
         </ol>
       </article>
     </div>

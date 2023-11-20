@@ -1,12 +1,8 @@
-{% comment %}
-From: https://github.com/carpentries/workshop-template/blob/gh-pages/_includes/install_instructions/shell.html
-{% endcomment %}
-
 <div id="shell">
-  <h3>The Bash Shell</h3>
+  <h3>The Unix Shell</h3>
   <p>
-    Bash is a commonly-used shell that gives you the power to do
-    tasks more quickly.
+    The <a href="https://en.wikipedia.org/wiki/Unix_shell">Unix shell</a> is a <a href="https://en.wikipedia.org/wiki/Command-line_interface">command-line interface</a> that gives you the power to do
+    tasks more quickly and reproducibly.
   </p>
 
   <div>
@@ -30,7 +26,7 @@ From: https://github.com/carpentries/workshop-template/blob/gh-pages/_includes/i
               </li>
               <li>
                 <strong>
-                  From the dropdown menu select "Use the Nano editor by default" (NOTE: you will need to scroll <emph>up</emph> to find it) and click on "Next".
+                  From the dropdown menu, "Choosing the default editor used by Git", select "Use the Nano editor by default" (NOTE: you will need to scroll <emph>up</emph> to find it) and click on "Next".
                 </strong>
               </li>
               {% comment %} Adjusting the name of the initial branch in new repositories {% endcomment %}
@@ -50,6 +46,9 @@ From: https://github.com/carpentries/workshop-template/blob/gh-pages/_includes/i
                 command line and also from 3rd-party software" option.)
               </li>
               {% comment %} Choosing the SSH executable {% endcomment %}
+ 	      <li>
+	      Select "Use bundled OpenSSH".
+	      </li>
               {% comment %} Choosing HTTPS transport backend {% endcomment %}
               <li>
 		Ensure that "Use the native Windows Secure Channel Library" is selected and click on "Next".
@@ -71,7 +70,7 @@ From: https://github.com/carpentries/workshop-template/blob/gh-pages/_includes/i
 		Ensure that "Default (fast-forward or merge) is selected and click "Next"
               </li>
               <li>
-		Ensure that "Git Credential Manager <strong>Core</strong>" is selected and click on "Next".
+		Ensure that "Git Credential Manager" is selected and click on "Next".
               </li>
               <li>
 		Ensure that "Enable file system caching" is selected and click on "Next".
@@ -107,23 +106,22 @@ From: https://github.com/carpentries/workshop-template/blob/gh-pages/_includes/i
       </article>
       <article role="tabpanel" class="tab-pane" id="shell-macos">
         <p>
-          The default shell in some versions of macOS is Bash, and
-	  Bash is available in all versions, so no need to install anything.
-	  You access Bash from the Terminal (found in
-	  <code>/Applications/Utilities</code>).
+          The default shell in newer versions of macOS is Z shell, also known as zsh, and
+	  it comes pre-installed with your MacOS.
+	  You access shell from the Terminal, which can be launched with a Spotlight Search by typing "terminal" or in <code>/Applications/Utilities</code>.
           See the Git installation <a href="#shell-macos-video-tutorial">video tutorial</a>
-          for an example on how to open the Terminal.
+          for an example on how to launch the Terminal.
           You may want to keep Terminal in your dock for this workshop.
         </p>
-        <p>
+        <!-- <p>
             To see if your default shell is Bash type <code>echo $SHELL</code>
             in Terminal and press the <kbd>Return</kbd> key. If the message
             printed does not end with '/bash' then your default is something
             else and you can run Bash by typing <code>bash</code>
-        </p>
+        </p> -->
         <p>
-          If you want to change your default shell, see <a href="https://support.apple.com/en-au/HT208050" rel="noopener">
-          this Apple Support article</a> and follow the instructions on "How to change your default shell".
+          If you use an earlier version of MacOS with a different shell, see <a href="https://support.apple.com/en-au/HT208050" rel="noopener">
+          this Apple Support article</a> and follow the instructions on how to make zsh the default shell.
         </p>
         <h4 id="shell-macos-video-tutorial">Video Tutorial</h4>
         <div class="yt-wrapper2">
@@ -147,4 +145,3 @@ From: https://github.com/carpentries/workshop-template/blob/gh-pages/_includes/i
     </div>
   </div>
 </div>
-
