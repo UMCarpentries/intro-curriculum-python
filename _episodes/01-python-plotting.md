@@ -861,49 +861,77 @@ In pandas terms, `gapminder_1997` is a named [**DataFrame**](https://pandas.pyda
 # Creating our first plot
 _[Back to top](#contents)_
 
-We will mostly use the [seaborn](https://seaborn.pydata.org/index.html) library to make our plots. 
-Seaborn is a popular Python data visualization library. 
-We will use the [seaborn objects interface](https://seaborn.pydata.org/tutorial/objects_interface.html). 
+We will mostly use the [Vega-Altair](https://altair-viz.github.io) (Altair for short), a popular Python data visualization library, to make our charts.  
 
-We first import the seaborn module.
-
-All plots start by calling the `Plot()` function.
+We first import the Altair module.
+All charts start by calling the Altair's `Chart()` function.
 In a Jupyter notebook cell type the following:
 
-Note we use the parenthesis so that we can improve the code readability by vertically aligning the methods that we will apply to the plot later. 
-The parenthesis makes sure the code does not break when we use new lines for each method. 
+~~~
+import altair as alt
+
+alt.Chart(gapminder_1997)
+~~~
+{: .language-python}
+
+When we run it, we will see the following error message
 
 ~~~
-import seaborn.objects as so
+SchemaValidationError: '{'data': {'name': 'data-86c7d3f994999d48e1df64fba25df47d'}}' is an invalid value.
 
-(
-    so.Plot(gapminder_1997)
-)
+'mark' is a required property
+~~~
+{: .error}
+
+What we've done is to call the `Chart()` function to instantiate a [`Chart`](https://altair-viz.github.io/user_guide/generated/toplevel/altair.Chart.html) object and told it we will be using the data from the `gapminder_1997`, the DataFrame that we loaded from the CSV file.
+
+So we've made a Chart object, now we need to start telling it what we actually want to draw in this chart.
+The geometric objects in a chart, such as bars, lines, points, are called marks in Altair. 
+For those of you who used `ggplot` in R, it's the "geoms". 
+Now we need to specify the marks in the chart. 
+
+We will talk about a few different marks today, 
+but for our first plot, let's draw our data using the "circle" mark for each value in the data set. 
+To do this, we apply the `mark_circle()` method to the chart.
+
+<!-- Note we use the parenthesis so that we can improve the code readability by vertically aligning the methods that we will apply to the plot later. 
+The parenthesis makes sure the code does not break when we use new lines for each method.  -->
+
+~~~
+
+alt.Chart(gapminder_1997).mark_circle()
 ~~~
 {: .language-python}
 
 
-<img src="../fig/python-plotting/01-plotting-blank.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
+<img src="../fig/python-plotting/01-plotting-blank.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="50" style="display: block; margin: auto;" />
 
-What we've done is to call the `Plot()` function to instantiate a [`Plot`](https://seaborn.pydata.org/generated/seaborn.objects.Plot.html#seaborn.objects.Plot) object and told it we will be using the data from the `gapminder_1997`, the DataFrame that we loaded from the CSV file. 
+The geometric objects of a chart, such as circles, bars, have a bunch of visual properties such as an x and y position, size, color, etc. 
+When creating a data visualization, we map a variable in our dataset to a visual property in our chart. 
 
-So we've made a plot object, now we need to start telling it what we actually
-want to draw in this plot. 
-The elements of a plot have a bunch of visual properties such as an x and y position, a point size, a color, etc. 
-When creating a data visualization, we map a variable in our dataset to a visual property in our plot. 
-
-To create our plot, we need to map variables from our data `gapminder_1997` to
-the visual properties using the `Plot()` function. 
-Since we have already told `Plot` that we are using the data in the `gapminder_1997`, we can access the columns of `gapminder_1997` using the data frame's column names.
-(Remember, Python is case-sensitive, so we have to be careful to match the column
-names exactly!)
+To create our chart, we need to map variables from our data `gapminder_1997` to
+the visual properties using the `Chart()` function. 
+Since we have already told `Chart` that we are using the data in the `gapminder_1997`, we can access the columns of `gapminder_1997` using the data frame's column names.
+(Remember, Python is case-sensitive, so we have to be careful to match the column names exactly!)
 
 We are interested in whether there is a relationship between GDP and life expectancy, 
-so let's start by telling our plot object that we want to map the GDP values to the x axis, and the life expectancy to the y axis of the plot. 
+so let's start by telling our plot object that we want to map the GDP values to the x axis.
+~~~
+alt.Chart(gapminder_1997).mark_point().encode(
+    x='gdpPercap',
+)
+~~~
+{: .language-python}
+
+<img src="../fig/python-plotting/01-plotting-x-only.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
+
+We see a sometimes called dot plot, where the GDP values are encoded on the x axis. 
+Now let's add the life expectancy to the y axis of the plot. 
 
 ~~~
-(
-    so.Plot(gapminder_1997, x='gdpPercap', y='lifeExp')
+alt.Chart(gapminder_1997).mark_circle().encode(
+    x='gdpPercap',
+    y='lifeExp',
 )
 ~~~
 {: .language-python}
@@ -913,35 +941,27 @@ so let's start by telling our plot object that we want to map the GDP values to 
 
 Excellent. We've now told our plot where the x and y values are coming from and what they stand for. But we haven't told our plot how we want it to draw the data. 
 
-There are different types of marks, for example, dots, bars, lines, areas, and band. 
-We tell our plot what to draw by adding a layer of the visualization in terms of mark.
-We will talk about many different marks today, 
-but for our first plot, let's draw our data using the "dot" mark for each value in the data set. 
-To do this, we apply the `add()` method to our plot and put inside `so.Dot()` as the mark.
 
-~~~
-(
-    so.Plot(gapminder_1997, x='gdpPercap', y='lifeExp')
-    .add(so.Dot())
-)
-~~~
-{: .language-python}
+
 
 <img src="../fig/python-plotting/01-plotting-x-y-dot.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
 
+What we just did is to pass the name of the two columns to the `x` and `y` inside the `encode` method. 
+This offers a quick and concise way to generate a chart if we just want to quickly explore the data and don't mind using the default settings. 
+For example, you may notice the labels of the x and y axis are using the column names from the dataframe.
+If we want to customize the chart, for example, using a different axis label or axis range, Altair offers a different way to specify the channel encoding options. 
 
 We can add labels for the axes and title by applying the `label()` method to our plot. 
 
 ~~~
-(
-    so.Plot(gapminder_1997, x='gdpPercap', y='lifeExp')
-    .add(so.Dot())
-    .label(x="GDP Per Capita")
+alt.Chart(gapminder_1997).mark_circle().encode(
+    x=alt.X('gdpPercap', title='GDP Per Capita'),
+    y='lifeExp',
 )
 ~~~
 {: .language-python}
 
-<img src="../fig/python-plotting/01-plotting-x-y-dot-xlabel.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
+<img src="../fig/python-plotting/01-plotting-x-y-xlabel.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
 
 
 
@@ -952,16 +972,14 @@ We can add labels for the axes and title by applying the `label()` method to our
 > > ## Solution
 > > 
 > > ~~~
-> > (
-> >     so.Plot(gapminder_1997, x='gdpPercap', y='lifeExp')
-> >     .add(so.Dot())
-> >     .label(x="GDP Per Capita", 
-> >            y="Life Expectancy")
+> > alt.Chart(gapminder_1997).mark_circle().encode(
+> >     x=alt.X('gdpPercap', title='GDP Per Capita'),
+> >     y=alt.Y('lifeExp', title='Life Expectancy'),
 > > )
 > > ~~~
 > > {: .language-python}
 > > 
-> > <img src="../fig/python-plotting/01-plotting-x-y-dot-xylabels.png" title="plot of chunk FirstPlotAddY" alt="plot of chunk FirstPlotAddY" width="612" style="display: block; margin: auto;" />
+> > <img src="../fig/python-plotting/01-plotting-x-y-xylabels.png" title="plot of chunk FirstPlotAddY" alt="plot of chunk FirstPlotAddY" width="612" style="display: block; margin: auto;" />
 > > {: .source}
 > {: .solution}
 {: .challenge}
@@ -974,17 +992,16 @@ Let's add a title to our plot to make that clearer.
 We can specify that using the same `label()` method, but this time we will use the `title` argument.
 
 ~~~
-(
-    so.Plot(gapminder_1997, x='gdpPercap', y='lifeExp')
-    .add(so.Dot())
-    .label(x="GDP Per Capita", 
-           y="Life Expectancy", 
-           title="Do people in wealthy countries live longer?")
+alt.Chart(gapminder_1997).mark_circle().encode(
+    x=alt.X('gdpPercap', title='GDP Per Capita'),
+    y=alt.Y('lifeExp', title='Life Expectancy'),
+).properties(
+    title='Do people in wealthy countries live longer?',
 )
 ~~~
 {: .language-python}
 
-<img src="../fig/python-plotting/01-plotting-x-y-dot-xylabels-title.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
+<img src="../fig/python-plotting/01-plotting-x-y-xylabels-title.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
 
 
 
@@ -996,219 +1013,104 @@ One thing we could do is use a different color for each of the continents.
 It is possible to map data values to various graphical properties. 
 In this case let's map the continent to the color property. 
 
+The quickest way to do this is to set `color='continent'` inside the `encode`.
+
 ~~~
-(
-    so.Plot(gapminder_1997, 
-            x='gdpPercap', 
-            y='lifeExp', 
-            color='continent')
-    .add(so.Dot())
-    .label(x="GDP Per Capita", 
-           y="Life Expectancy", 
-           title = "Do people in wealthy countries live longer?")
+alt.Chart(gapminder_1997).mark_circle().encode(
+    x=alt.X('gdpPercap', title='GDP Per Capita'),
+    y=alt.Y('lifeExp', title='Life Expectancy'),
+    color='continent',
+).properties(
+    title='Do people in wealthy countries live longer?',
 )
 ~~~
 {: .language-python}
 
-<img src="../fig/python-plotting/01-plotting-x-y-color-dot.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
+<img src="../fig/python-plotting/01-plotting-x-y-color.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
+
+But here we wish to customize this chart later. 
+So let's use the syntax that allow us to customize the settings later. 
+
+~~~
+alt.Chart(gapminder_1997).mark_circle().encode(
+    x=alt.X('gdpPercap', title='GDP Per Capita'),
+    y=alt.Y('lifeExp', title='Life Expectancy'),
+    color=alt.Color('continent'),
+).properties(
+    title='Do people in wealthy countries live longer?',
+)
+~~~
+{: .language-python}
 
 Here we can see that in 1997 the African countries had much lower life expectancy than many other continents. 
-Notice that when we add a mapping for color, seaborn automatically provides a legend for us. 
+Notice that when we add a mapping for color, Altair automatically provides a legend for us. 
 It took care of assigning different colors to each of our unique values of the `continent` variable. 
-The colors that seaborn uses are determined by the color "palette". 
-If needed, we can change the default color palette. 
+The colors that Altair uses are determined by the color scheme. 
+If needed, we can change the default color scheme. 
 Let's change the colors to make them a bit prettier.
 
 The code below allows us to select a color palette. 
-Seaborn is built based on Matplotlib and supports all the color palettes from the [matplot colormaps](https://matplotlib.org/stable/users/explain/colors/colormaps.html). 
-You can also learn more about the seaborn color palettes [from here](https://seaborn.pydata.org/tutorial/color_palettes.html). 
+Altair is built based on the vega project and supports all the color schemes from the [vega color schemes](https://vega.github.io/vega/docs/schemes/). 
+
+
+We can change the color scheme by applying the `scale()` method to the to the color schema wrapper `alt.Color`. 
+The `scale()` method specifies how the data should be mapped to visual properties, and in this case, how the categorical variable "continent" should be mapped to different colors of the point marks. 
 
 ~~~
-import seaborn as sns
-sns.color_palette()
-
-sns.color_palette('flare')
-sns.color_palette('Reds')
-sns.color_palette('Set1')
-~~~
-{: .language-python}
-
-We can change the color palettes by applying the `scale()` method to the plot. 
-The `scale()` method specifies how the data should be mapped to visual properties, and in this case, how the categorical variable "continent" should be mapped to different colors of the dot marks. 
-
-~~~
-(
-    so.Plot(gapminder_1997, 
-            x='gdpPercap', 
-            y='lifeExp', 
-            color='continent')
-    .add(so.Dot())
-    .label(x="GDP Per Capita", 
-           y="Life Expectancy", 
-           title="Do people in wealthy countries live longer?")
-    .scale(color='Set1')
+alt.Chart(gapminder_1997).mark_circle().encode(
+    x=alt.X('gdpPercap', title='GDP Per Capita'),
+    y=alt.Y('lifeExp', title='Life Expectancy'),
+    color=alt.Color('continent').scale(scheme='set1'),
+).properties(
+    title='Do people in wealthy countries live longer?',
 )
 ~~~
 {: .language-python}
 
-<img src="../fig/python-plotting/01-plotting-x-y-color-dot-colorpalette.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
-
-
-Seaborn also supports passing a list of custom colors to the `color` argument of the `scale()` method. 
-For example, we can use the [color brewer](https://colorbrewer2.org/) to pick a list of colors of our choice, and pass it to the `scale()` method. 
-
-~~~
-(
-    so.Plot(gapminder_1997, 
-            x='gdpPercap', 
-            y='lifeExp', 
-            color='continent')
-    .add(so.Dot())
-    .label(x="GDP Per Capita", 
-           y="Life Expectancy", 
-           title="Do people in wealthy countries live longer?")
-    .scale(color=['#1b9e77','#d95f02','#7570b3','#e7298a','#66a61e'])
-)
-~~~
-{: .language-python}
-
-<img src="../fig/python-plotting/01-plotting-x-y-color-dot-colorbrewer.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
-
+<img src="../fig/python-plotting/01-plotting-x-y-color-colorscheme.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
 
 Since we have the data for the population of each country, we might be curious what effect population might have on life expectancy and GDP per capita. 
 Do you think larger countries will have a longer or shorter life expectancy? 
-Let's find out by mapping the population of each country to another visual property: the size of the dot marks.
+Let's find out by mapping the population of each country to another visual property: the size of the point marks.
+Again, for a quick plot, we can just add `size='pop'` to the encoding. 
+But we will use the syntax that supports customization, and add a title to it, so it shows the word "Population" rather than the column name "pop" in the legend.
 
 ~~~
-(
-    so.Plot(gapminder_1997, 
-            x='gdpPercap', 
-            y='lifeExp', 
-            color='continent',
-            pointsize='pop')
-    .add(so.Dot())
-    .label(x="GDP Per Capita", 
-           y="Life Expectancy", 
-           title="Do people in wealthy countries live longer?")
-    .scale(color='Set1')
+alt.Chart(gapminder_1997).mark_circle().encode(
+    x=alt.X('gdpPercap', title='GDP Per Capita'),
+    y=alt.Y('lifeExp', title='Life Expectancy'),
+    color=alt.Color('continent').scale(scheme='set1'),
+    size=alt.Size('pop', title='Population'),
+).properties(
+    title='Do people in wealthy countries live longer?',
 )
 ~~~
 {: .language-python}
 
-<img src="../fig/python-plotting/01-plotting-x-y-color-size-dot.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
+<img src="../fig/python-plotting/01-plotting-x-y-color-size.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
 
 
 We got another legend here for size which is nice, but the values look a bit ugly with very long digits. 
 Let's assign a new column in our data called `pop_million` by dividing the population by 1,000,000 and label it "Population (in millions)"
 
 Note for large numbers such as `1000000`, it's easy to mis-count the number of digits when typing or reading it. 
-One cool thing in Python is we can use the underscore `_` as a separator to make large numbers easier to read. For example: `1_000_000`.
+Another way to write it is `1e6` which means 10 raised to the 6th power. 
 
 ~~~
-(
-    so.Plot(gapminder_1997.assign(pop_million=gapminder_1997['pop']/1_000_000), 
-            x='gdpPercap', 
-            y='lifeExp', 
-            color='continent',
-            pointsize='pop_million')
-    .add(so.Dot())
-    .label(x="GDP Per Capita", 
-           y="Life Expectancy", 
-           title="Do people in wealthy countries live longer?",
-           pointsize='Population (in millions)'
-          )
-    .scale(color='Set1')
+alt.Chart(gapminder_1997).mark_circle().encode(
+    x=alt.X('gdpPercap', title='GDP Per Capita'),
+    y=alt.Y('lifeExp', title='Life Expectancy'),
+    color=alt.Color('continent').scale(scheme='set1'),
+    size=alt.Size('pop', title='Population (in millions)'),
+).transform_calculate(
+    pop='datum.pop/1000000'
+).properties(
+    title='Do people in wealthy countries live longer?',
 )
 ~~~
 {: .language-python}
 
-<img src="../fig/python-plotting/01-plotting-x-y-color-size-dot-2.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
-
-
-We can further fine-tune how the population should be mapped to the point size using the `scale()` method. 
-In this case, let's set the output range of the point size to 2-20.
-
-As you can see, some of the marks are on top of each other, making it hard to see some of them (This is called "overplotting" in data visualization.) 
-Let's also reduce the opacity of the dots by setting the `alpha` property of the `Dot` mark. 
-
-~~~
-(
-    so.Plot(gapminder_1997.assign(pop_million=gapminder_1997['pop']/1_000_000), 
-            x='gdpPercap', 
-            y='lifeExp', 
-            color='continent',
-            pointsize='pop_million')
-    .add(so.Dot(alpha=.5))
-    .label(x="GDP Per Capita", 
-           y="Life Expectancy", 
-           title="Do people in wealthy countries live longer?",
-           pointsize='Population (in millions)'
-          )
-    .scale(color='Set1', pointsize=(2, 18))
-)
-~~~
-{: .language-python}
-
-<img src="../fig/python-plotting/01-plotting-x-y-color-size-dot-3.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
-
-
-In addition to colors, we can also use different markers to represent the continents. 
-
-~~~
-(
-    so.Plot(gapminder_1997.assign(pop_million=gapminder_1997['pop']/1_000_000), 
-            x='gdpPercap', 
-            y='lifeExp', 
-            color='continent',
-            marker='continent',
-            pointsize='pop_million')
-    .add(so.Dot(alpha=.5))
-    .label(x="GDP Per Capita", 
-           y="Life Expectancy", 
-           title="Do people in wealthy countries live longer?",
-           pointsize='Population (in millions)'
-          )
-    .scale(color='Set1', pointsize=(2, 18))
-)
-~~~
-{: .language-python}
-
-<img src="../fig/python-plotting/01-plotting-x-y-color-size-dot-shape.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
-
-
-> ## Changing marker type
-> Instead of (or in addition to) color, change the shape of the points so each continent has a different marker type. 
-> (I'm not saying this is a great thing to do - it's just for practice!) 
-> Feel free to check the documentation of the `Plot()` function.
-> {: .source}
->
-> > ## Solution
-> > You'll want to specify the `marker` argument in the `Plot()` function:
-> > 
-> > ~~~
-> > (
-> >     so.Plot(gapminder_1997.assign(pop_million=gapminder_1997['pop']/1_000_000), 
-> >             x='gdpPercap', 
-> >             y='lifeExp', 
-> >             color='continent',
-> >             marker='continent',
-> >             pointsize='pop_million')
-> >     .add(so.Dot(alpha=.5))
-> >     .label(x="GDP Per Capita", 
-> >            y="Life Expectancy", 
-> >            title="Do people in wealthy countries live longer?",
-> >            pointsize='Population (in millions)'
-> >           )
-> >     .scale(color='Set1', pointsize=(2, 18))
-> > )
-> > ~~~
-> > {: .language-python}
-> > 
-> > <img src="../fig/python-plotting/01-plotting-x-y-color-size-dot-shape.png" title="plot of chunk Shape" alt="plot of chunk Shape" width="612" style="display: block; margin: auto;" />
-> > {: .source}
-> {: .solution}
-{: .challenge}
-
+<img src="../fig/python-plotting/01-plotting-x-y-color-size-2.png" title="plot of chunk DataOnly" alt="plot of chunk DataOnly" width="612" style="display: block; margin: auto;" />
 
 # Plotting for data exploration
 _[Back to top](#contents)_
@@ -1265,19 +1167,17 @@ gapminder_data.head()
 
 Notice that this dataset has an additional column "year" compared to the smaller dataset we started with.
 
-> ## Predicting seaborn outputs
+> ## Predicting Altair outputs
 > Now that we have the full dataset read into our Python session, let's plot the data placing our new "year" variable on the x axis and life expectancy on the y axis. 
 > We've provided the code below. Notice that we've left off the labels so there's not as much code to work with.
 > Before running the code, read through it and see if you can predict what the plot output will look like. Then run the code and check to see if you were right!
 >
 > 
 > ~~~
-> (
->     so.Plot(data=gapminder, 
->             x='year', 
->             y='lifeExp',
->             color='continent')
->     .add(so.Dot())
+> alt.Chart(gapminder).mark_circle().encode(
+>     x='year:O',
+>     y='lifeExp',
+>     color='continent',
 > )
 > ~~~
 > {: .language-python}
@@ -1332,12 +1232,10 @@ Let's try changing the mark from dot to line and see what happens.
 
 
 ~~~
-(
-    so.Plot(data=gapminder, 
-            x='year', 
-            y='lifeExp',
-            color='continent')
-    .add(so.Line())
+alt.Chart(gapminder).mark_line().encode(
+    x='year:O',
+    y='lifeExp',
+    color='continent',
 )
 ~~~
 {: .language-python}
@@ -1347,18 +1245,16 @@ Let's try changing the mark from dot to line and see what happens.
 Hmm. This doesn't look right. 
 By setting the color value, we got a line for each continent, 
 but we really wanted a line for each country. 
-We need to tell seaborn that we want to connect the values for each `country` value instead. 
-To do this, we need to specify the `group` argument of the `Plot()` function.
+We need to tell Altair that we want to connect the values for each `country` value instead. 
+To do this, we need to specify the `detail` argument of the `encode` method.
 
 
 ~~~
-(
-    so.Plot(data=gapminder, 
-            x='year', 
-            y='lifeExp',
-            group='country',
-            color='continent')
-    .add(so.Line())
+alt.Chart(gapminder).mark_line().encode(
+    x='year:O',
+    y='lifeExp',
+    color='continent',
+    detail='country',
 )
 ~~~
 {: .language-python}
@@ -1373,13 +1269,11 @@ Sometimes plots like this are called "spaghetti plots" because all the lines loo
 > > ## Solution
 > > 
 > > ~~~
-> > (
-> >     so.Plot(data=gapminder, 
-> >             x='pop', 
-> >             y='lifeExp',
-> >             group='country',
-> >             color='continent')
-> >     .add(so.Line())
+> > alt.Chart(gapminder).mark_line().encode(
+> >     x='pop',
+> >     y='lifeExp',
+> >     color='continent',
+> >     detail='country',
 > > )
 > > ~~~
 > > {: .language-python}
